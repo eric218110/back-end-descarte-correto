@@ -3,7 +3,7 @@ import { MissingParamsError, InvalidParamError, ServerError } from '../errors'
 import { IEmailValidator } from '../protocols'
 
 interface ISutTypes {
-  sut: SignUpController,
+  sut: SignUpController
   emailValidatorStub: IEmailValidator
 }
 
