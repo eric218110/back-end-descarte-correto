@@ -1,19 +1,14 @@
 import { IHttpRequest, IHttpResponse } from '../protocols/IHttp'
 import { MissingParamsError } from '../errors/MissingParamsError'
+import { badRequest } from '../helper/httpHelper'
 
 export class SignUpController {
   public handle (httpRequest: IHttpRequest): IHttpResponse {
     if (!httpRequest.body.name) {
-      return {
-        statusCode: 400,
-        body: new MissingParamsError('name')
-      }
+      return badRequest(new MissingParamsError('name'))
     }
     if (!httpRequest.body.email) {
-      return {
-        statusCode: 400,
-        body: new MissingParamsError('email')
-      }
+      return badRequest(new MissingParamsError('email'))
     }
   }
 }
