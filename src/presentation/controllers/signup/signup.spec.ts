@@ -1,14 +1,14 @@
 import { SignUpController } from './signup'
 import { MissingParamsError, InvalidParamError, ServerError } from '../../errors'
 import {
-  IEmailValidator,
+  EmailValidator,
   AddAccountModel,
   AccountModel,
   AddAccount
 } from './signup-protocols'
 
-const makeEmailValidator = (): IEmailValidator => {
-  class EmailValidatorStub implements IEmailValidator { // MOCK TYPE STUB
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator { // MOCK TYPE STUB
     isValid (email: string): boolean {
       return true
     }
@@ -32,7 +32,7 @@ const makeAddAccount = (): AddAccount => {
 }
 
 interface ISutTypes {
-  emailValidatorStub: IEmailValidator
+  emailValidatorStub: EmailValidator
   addAccountStub: AddAccount
   sut: SignUpController
 }

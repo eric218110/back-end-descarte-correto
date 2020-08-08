@@ -1,23 +1,23 @@
 import {
-  IHttpRequest,
-  IHttpResponse,
-  IController,
-  IEmailValidator,
+  HttpRequest,
+  HttpResponse,
+  Controller,
+  EmailValidator,
   AddAccount
 } from './signup-protocols'
 import { MissingParamsError, InvalidParamError } from '../../errors'
 import { badRequest, serverError } from '../../helper/http-helper'
 
-export class SignUpController implements IController {
-  private readonly emailValidator: IEmailValidator
+export class SignUpController implements Controller {
+  private readonly emailValidator: EmailValidator
   private readonly addAccount: AddAccount
 
-  constructor (emailValidator: IEmailValidator, addAccount: AddAccount) {
+  constructor (emailValidator: EmailValidator, addAccount: AddAccount) {
     this.emailValidator = emailValidator
     this.addAccount = addAccount
   }
 
-  public handle (httpRequest: IHttpRequest): IHttpResponse {
+  public handle (httpRequest: HttpRequest): HttpResponse {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       for (const field of requiredFields) {
