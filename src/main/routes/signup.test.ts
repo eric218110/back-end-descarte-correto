@@ -1,5 +1,19 @@
 import request from 'supertest'
 import app from '../config/app'
+import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
+
+beforeAll(async () => {
+  await MongoHelper.connect(process.env.MONGO_URL)
+})
+
+afterAll(async () => {
+  await MongoHelper.disconnect()
+})
+
+beforeEach(async () => {
+  const accountCollection = MongoHelper.getCollection('account')
+  await accountCollection.deleteMany({})
+})
 
 describe('CORS Middleware', () => {
   test('Should enable as request', async () => {
