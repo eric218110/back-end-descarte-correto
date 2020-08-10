@@ -11,11 +11,11 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  const accountCollection = MongoHelper.getCollection('account')
+  const accountCollection = await MongoHelper.getCollection('account')
   await accountCollection.deleteMany({})
 })
 
-describe('CORS Middleware', () => {
+describe('SignUp Route', () => {
   test('Should enable as request', async () => {
     await request(app)
       .post('/api/signup')
