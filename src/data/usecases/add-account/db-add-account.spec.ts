@@ -90,23 +90,13 @@ describe('DbAddAccount', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )
-    const accountData: AddAccountModel = {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'valid_password'
-    }
-    const promisse = sut.add(accountData)
+    const promisse = sut.add(makeAccouData())
     await expect(promisse).rejects.toThrow()
   })
 
   test('should return an account on sucess', async () => {
     const { sut } = makeSut()
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'valid_password'
-    }
-    const account = await sut.add(accountData)
+    const account = await sut.add(makeAccouData())
     expect(account).toEqual(makeFakeAccount())
   })
 })
