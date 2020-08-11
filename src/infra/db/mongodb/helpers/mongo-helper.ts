@@ -18,7 +18,6 @@ export const MongoHelper = {
   },
 
   async getCollection (name: string): Promise<Collection> {
-    // console.log(this.client.isConnected())
     if (!this.client?.isConnected()) {
       await this.connect(this.uri)
     }
