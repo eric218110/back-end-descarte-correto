@@ -24,7 +24,6 @@ export class LoginController implements Controller {
         return badRequest(new InvalidParamError('email'))
       }
       await this.authentication.auth(email, password)
-      return new Promise(resolve => resolve(badRequest(new MissingParamsError('email'))))
     } catch (error) {
       return serverError(error)
     }
