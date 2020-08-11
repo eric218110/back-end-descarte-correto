@@ -65,8 +65,7 @@ describe('LoginController', () => {
   test('should return 400 if EmailValidator return false', async () => {
     const { sut, emailValidateStub } = makeSut()
     jest.spyOn(emailValidateStub, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = makeFakeHttpRequest()
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
   })
 
