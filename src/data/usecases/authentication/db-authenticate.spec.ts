@@ -57,7 +57,11 @@ const makeSut = (): SutTypes => {
   const loadByEmailRepositoryStub = makeLoadByEmailRepositoryStub()
   const hashCompareStub = makeHashCompareStub()
   const tokenGeneratorStub = makeTokenGeneratorStub()
-  const sut = new DbAuthentication(loadByEmailRepositoryStub, hashCompareStub, tokenGeneratorStub)
+  const sut = new DbAuthentication(
+    loadByEmailRepositoryStub,
+    hashCompareStub,
+    tokenGeneratorStub
+  )
   const fakeRequest = makeFakeRequest()
   const fakeAccout = makeFakeAccout()
   return {
