@@ -41,4 +41,10 @@ describe('ValidatorComposite', () => {
     const error = sut.isValid({ field: 'any_field' })
     expect(error).toEqual(new Error())
   })
+
+  test('Should not return if validation sucess', () => {
+    const { sut } = makeSut()
+    const error = sut.isValid({ field: 'any_field' })
+    expect(error).toBeFalsy()
+  })
 })
