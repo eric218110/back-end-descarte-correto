@@ -17,6 +17,7 @@ const makeFakeRequest = (): AuthenticationModel => ({
   password: 'any_password'
 })
 
+const fakeToken: string = 'valid_token'
 interface SutTypes {
   sut: Authentication
   loadByEmailRepositoryStub: LoadByEmailRepository
@@ -24,6 +25,7 @@ interface SutTypes {
   tokenGeneratorStub: TokenGenerator
   fakeRequest: AuthenticationModel
   fakeAccout: AccountModel
+  fakeToken: string
 }
 
 const makeLoadByEmailRepositoryStub = (): LoadByEmailRepository => {
@@ -47,7 +49,7 @@ const makeHashCompareStub = (): HashCompare => {
 const makeTokenGeneratorStub = (): TokenGenerator => {
   class TokenGeneratorStub implements TokenGenerator {
     async generate (id: string): Promise<string> {
-      return 'valid_token'
+      return fakeToken
     }
   }
   return new TokenGeneratorStub()
@@ -70,7 +72,8 @@ const makeSut = (): SutTypes => {
     hashCompareStub,
     tokenGeneratorStub,
     fakeRequest,
-    fakeAccout
+    fakeAccout,
+    fakeToken
   }
 }
 
@@ -136,5 +139,11 @@ describe('DbAuthenticate use case', () => {
       )
     const response = sut.auth(fakeRequest)
     await expect(response).rejects.toThrow()
+  })
+
+  test('should return accessToken if TokenGenerator generate correct toke with id valid', async () => {
+    const { sut, fakeRequest, fakeToken } = makeSut()
+    const accessToken = await sut.auth(fakeRequest)
+    expect(accessToken).toBe(fakeToken)
   })
 })
