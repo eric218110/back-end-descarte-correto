@@ -4,7 +4,7 @@ import {
   AuthenticationModel,
   AccountModel,
   HashCompare,
-  LoadByEmailRepository,
+  LoadAccountByEmailRepository,
   TokenGenerator,
   UpdateAccessTokenRepository
 } from './db-authenticate-protocols'
@@ -24,7 +24,7 @@ const makeFakeRequest = (): AuthenticationModel => ({
 const fakeToken: string = 'valid_token'
 interface SutTypes {
   sut: Authentication
-  loadByEmailRepositoryStub: LoadByEmailRepository
+  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashCompareStub: HashCompare
   tokenGeneratorStub: TokenGenerator
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
@@ -33,13 +33,13 @@ interface SutTypes {
   fakeToken: string
 }
 
-const makeLoadByEmailRepositoryStub = (): LoadByEmailRepository => {
-  class LoadByEmailRepositoryStub implements LoadByEmailRepository {
+const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
+  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadWithEmail (email: string): Promise<AccountModel> {
       return makeFakeAccout()
     }
   }
-  return new LoadByEmailRepositoryStub()
+  return new LoadAccountByEmailRepositoryStub()
 }
 
 const makeHashCompareStub = (): HashCompare => {
@@ -70,12 +70,12 @@ const makeUpdateAccessTokenRepositoryStub = (): UpdateAccessTokenRepository => {
 }
 
 const makeSut = (): SutTypes => {
-  const loadByEmailRepositoryStub = makeLoadByEmailRepositoryStub()
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
   const hashCompareStub = makeHashCompareStub()
   const tokenGeneratorStub = makeTokenGeneratorStub()
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepositoryStub()
   const sut = new DbAuthentication(
-    loadByEmailRepositoryStub,
+    loadAccountByEmailRepositoryStub,
     hashCompareStub,
     tokenGeneratorStub,
     updateAccessTokenRepositoryStub
@@ -84,7 +84,7 @@ const makeSut = (): SutTypes => {
   const fakeAccout = makeFakeAccout()
   return {
     sut,
-    loadByEmailRepositoryStub,
+    loadAccountByEmailRepositoryStub,
     hashCompareStub,
     tokenGeneratorStub,
     updateAccessTokenRepositoryStub,
@@ -95,25 +95,25 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAuthenticate use case', () => {
-  test('should call LoadByEmailRepository with email correct', async () => {
-    const { sut, loadByEmailRepositoryStub, fakeRequest } = makeSut()
-    const spyloadWithEmail = jest.spyOn(loadByEmailRepositoryStub, 'loadWithEmail')
+  test('should call LoadAccountByEmailRepository with email correct', async () => {
+    const { sut, loadAccountByEmailRepositoryStub, fakeRequest } = makeSut()
+    const spyloadWithEmail = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadWithEmail')
     await sut.auth(fakeRequest)
     expect(spyloadWithEmail).toHaveBeenCalledWith(fakeRequest.email)
   })
 
-  test('should throws if LoadByEmailRepository throws', async () => {
-    const { sut, loadByEmailRepositoryStub, fakeRequest } = makeSut()
-    jest.spyOn(loadByEmailRepositoryStub, 'loadWithEmail')
+  test('should throws if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub, fakeRequest } = makeSut()
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadWithEmail')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error()))
       )
     const response = sut.auth(fakeRequest)
     await expect(response).rejects.toThrow()
   })
 
-  test('should return null if LoadByEmailRepository return null', async () => {
-    const { sut, loadByEmailRepositoryStub, fakeRequest } = makeSut()
-    jest.spyOn(loadByEmailRepositoryStub, 'loadWithEmail').mockReturnValueOnce(null)
+  test('should return null if LoadAccountByEmailRepository return null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub, fakeRequest } = makeSut()
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadWithEmail').mockReturnValueOnce(null)
     const accessToken = await sut.auth(fakeRequest)
     expect(accessToken).toBeNull()
   })

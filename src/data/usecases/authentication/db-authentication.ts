@@ -2,20 +2,20 @@ import {
   Authentication,
   AuthenticationModel,
   HashCompare,
-  LoadByEmailRepository,
+  LoadAccountByEmailRepository,
   TokenGenerator,
   UpdateAccessTokenRepository
 } from './db-authenticate-protocols'
 export class DbAuthentication implements Authentication {
   constructor (
-    private readonly loadByEmailRepository: LoadByEmailRepository,
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashCompare: HashCompare,
     private readonly tokenGenerator: TokenGenerator,
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
   async auth (authentication: AuthenticationModel): Promise<string> {
-    const account = await this.loadByEmailRepository.loadWithEmail(authentication.email)
+    const account = await this.loadAccountByEmailRepository.loadWithEmail(authentication.email)
     if (account) {
       const isValidCompare = await this.hashCompare.compare(authentication.password, account.password)
       if (isValidCompare) {
