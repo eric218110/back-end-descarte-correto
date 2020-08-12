@@ -59,8 +59,8 @@ const makeTokenGeneratorStub = (): TokenGenerator => {
 
 const makeUpdateAccessTokenRepositoryStub = (): UpdateAccessTokenRepository => {
   class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-    async update (id: string, token: string): Promise<boolean> {
-      return true
+    async update (id: string, token: string): Promise<void> {
+      return new Promise(resolve => resolve())
     }
   }
   return new UpdateAccessTokenRepositoryStub()
