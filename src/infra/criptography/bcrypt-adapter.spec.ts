@@ -60,4 +60,10 @@ describe('BCryptAdapter', () => {
     const promise = sut.compare('any_value', 'hashed_value')
     await expect(promise).rejects.toThrow()
   })
+
+  test('should return a true if bcrypt compare on sucess', async () => {
+    const { sut } = makeSut()
+    const isEquals = await sut.compare('any_value', 'hashed_value')
+    expect(isEquals).toBe(true)
+  })
 })
