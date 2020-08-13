@@ -13,7 +13,7 @@ export class BCryptAdapter implements Encrypter, HashCompare {
   }
 
   async compare (hash: string, compareHash: string): Promise<boolean> {
-    await bcrypt.compare(hash, compareHash)
-    return new Promise(resolve => resolve(true))
+    const isEquals = await bcrypt.compare(hash, compareHash)
+    return isEquals
   }
 }
