@@ -1,8 +1,20 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
 import { Collection } from 'mongodb'
+import { AddAccountModel } from '../../../../domain/usecases/add-account'
 
 let accountCollection: Collection
+
+const makeFakeAddAccountModel = (): AddAccountModel => ({
+  name: 'any_name',
+  email: 'any_email@mail.com',
+  password: 'any_password'
+})
+
+interface SutTypes {
+  sut: AccountMongoRepository
+  fakeAddAccountModel: AddAccountModel
+}
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
@@ -16,17 +28,18 @@ describe('Account Mongo Repository', () => {
     await accountCollection.deleteMany({})
   })
 
-  const makeSut = (): AccountMongoRepository => {
-    return new AccountMongoRepository()
+  const makeSut = (): SutTypes => {
+    const fakeAddAccountModel = makeFakeAddAccountModel()
+    const sut = new AccountMongoRepository()
+    return {
+      sut,
+      fakeAddAccountModel
+    }
   }
 
   test('should return an account on add sucess', async () => {
-    const sut = makeSut()
-    const account = await sut.add({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    const { sut, fakeAddAccountModel } = makeSut()
+    const account = await sut.add(fakeAddAccountModel)
 
     expect(account).toBeTruthy()
     expect(account.id).toBeTruthy()
@@ -36,23 +49,19 @@ describe('Account Mongo Repository', () => {
   })
 
   test('should return an account on loadByEmail sucess', async () => {
-    const sut = makeSut()
-    await accountCollection.insertOne({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
-    const account = await sut.loadWithEmail('any_email@mail.com')
+    const { sut, fakeAddAccountModel } = makeSut()
+    await accountCollection.insertOne(fakeAddAccountModel)
+    const account = await sut.loadWithEmail(fakeAddAccountModel.email)
     expect(account).toBeTruthy()
     expect(account.id).toBeTruthy()
-    expect(account.name).toBe('any_name')
-    expect(account.email).toBe('any_email@mail.com')
-    expect(account.password).toBe('any_password')
+    expect(account.name).toBe(fakeAddAccountModel.name)
+    expect(account.email).toBe(fakeAddAccountModel.email)
+    expect(account.password).toBe(fakeAddAccountModel.password)
   })
 
   test('should return null if loadByEmail fails', async () => {
-    const sut = makeSut()
-    const account = await sut.loadWithEmail('any_email@mail.com')
+    const { sut, fakeAddAccountModel } = makeSut()
+    const account = await sut.loadWithEmail(fakeAddAccountModel.email)
     expect(account).toBeFalsy()
   })
 })
