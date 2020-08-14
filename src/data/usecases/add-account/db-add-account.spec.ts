@@ -1,5 +1,11 @@
 import { DbAddAccount } from './db-add-account'
-import { Encrypter, AddAccountModel, AccountModel, AddAccountRepository } from './db-add-account-protocols'
+import {
+  Encrypter,
+  AddAccountModel,
+  AccountModel,
+  AddAccountRepository,
+  LoadAccountByEmailRepository
+} from './db-add-account-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -37,21 +43,37 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   }
   return new AddAccountRepositoryStub()
 }
+
+const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
+  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+    async loadWithEmail (email: string): Promise<AccountModel> {
+      return makeFakeAccount()
+    }
+  }
+  return new LoadAccountByEmailRepositoryStub()
+}
 interface SutTypes {
   sut: DbAddAccount
   encrypterStub: Encrypter
   addAccountRepositoryStub: AddAccountRepository
+  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
 }
 
 const makeSut = (): SutTypes => {
   const encrypterStub = makeEncrypter()
   const addAccountRepositoryStub = makeAddAccountRepository()
-  const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub)
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositoryStub()
+  const sut = new DbAddAccount(
+    encrypterStub,
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
+  )
 
   return {
     sut,
     encrypterStub,
-    addAccountRepositoryStub
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
   }
 }
 
@@ -98,5 +120,12 @@ describe('DbAddAccount', () => {
     const { sut } = makeSut()
     const account = await sut.add(makeAccouData())
     expect(account).toEqual(makeFakeAccount())
+  })
+
+  test('should call LoadAccountByEmailRepository with email correct', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    const spyloadWithEmail = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadWithEmail')
+    await sut.add(makeAccouData())
+    expect(spyloadWithEmail).toHaveBeenCalledWith(makeAccouData().email)
   })
 })

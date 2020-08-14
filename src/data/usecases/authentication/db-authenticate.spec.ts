@@ -9,7 +9,7 @@ import {
   UpdateAccessTokenRepository
 } from './db-authenticate-protocols'
 
-const makeFakeAccout = (): AccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   email: 'valid_mail@mail.com',
   name: 'valid_name',
@@ -36,7 +36,7 @@ interface SutTypes {
 const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadWithEmail (email: string): Promise<AccountModel> {
-      return makeFakeAccout()
+      return makeFakeAccount()
     }
   }
   return new LoadAccountByEmailRepositoryStub()
@@ -81,7 +81,7 @@ const makeSut = (): SutTypes => {
     updateAccessTokenRepositoryStub
   )
   const fakeRequest = makeFakeRequest()
-  const fakeAccout = makeFakeAccout()
+  const fakeAccout = makeFakeAccount()
   return {
     sut,
     loadAccountByEmailRepositoryStub,
