@@ -4,7 +4,9 @@ import {
   AddAccountModel,
   AccountModel,
   AddAccount,
-  Validator
+  Validator,
+  Authentication,
+  AuthenticationModel
 } from './signup-controller-protocols'
 import { HttpRequest } from '../../protocols'
 import { ok, badRequest, serverError } from '../../helper/http/http-helper'
@@ -43,18 +45,30 @@ const makeValidatorStub = (): Validator => {
   return new ValidatorStub()
 }
 
+const makeAuthenticationStub = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth (authentication: AuthenticationModel): Promise<string> {
+      return new Promise(resolve => resolve('valid_token'))
+    }
+  }
+  return new AuthenticationStub()
+}
+
 interface ISutTypes {
-  addAccountStub: AddAccount
   sut: SignUpController
+  authenticationStub: Authentication
+  addAccountStub: AddAccount
   validatorStub: Validator
 }
 
 const makeSut = (): ISutTypes => {
   const validatorStub = makeValidatorStub()
   const addAccountStub = makeAddAccount()
-  const sut = new SignUpController(addAccountStub, validatorStub)
+  const authenticationStub = makeAuthenticationStub()
+  const sut = new SignUpController(addAccountStub, validatorStub, authenticationStub)
   return {
     sut,
+    authenticationStub,
     addAccountStub,
     validatorStub
   }
@@ -101,5 +115,18 @@ describe('Signup Controller', () => {
     jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
+  })
+
+  test('should call function auth in Authentication if values is valid', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    const httpRequest = makeFakeRequest()
+    const { email, password } = httpRequest.body
+    const authenticationModelFake: AuthenticationModel = {
+      email,
+      password
+    }
+    await sut.handle(httpRequest)
+    expect(authSpy).toHaveBeenCalledWith(authenticationModelFake)
   })
 })
