@@ -1,5 +1,4 @@
-node_modules
-./dist
+node_modulesdist
 *.js
 coverage
 globalConfig.json
