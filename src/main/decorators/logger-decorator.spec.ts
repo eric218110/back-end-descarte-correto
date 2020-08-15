@@ -1,8 +1,8 @@
 import { LoggerControllerDecorator } from './logger-decorator'
-import { HttpRequest, Controller, HttpResponse } from '../../presentation/protocols'
-import { serverError, ok } from '../../presentation/helper/http/http-helper'
-import { LoggerErrorRepository } from '../../data/protocols/data/logger/logger-error-repository'
-import { AccountModel } from '../../domain/models/account'
+import { HttpRequest, Controller, HttpResponse } from '@presentation/protocols'
+import { serverError, ok } from '@presentation/helper/http/http-helper'
+import { LoggerErrorRepository } from '@data/protocols/data/logger/logger-error-repository'
+import { AccountModel } from '@domain/models/account'
 
 type SutTypes = {
   sut: LoggerControllerDecorator

@@ -1,5 +1,5 @@
-import { Validator } from '../../../presentation/protocols'
-import { MissingParamsError } from '../../../presentation/errors'
+import { Validator } from '@presentation/protocols'
+import { MissingParamsError } from '@presentation/errors'
 
 export class RequireFieldValidator implements Validator {
   constructor (

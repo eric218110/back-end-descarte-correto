@@ -8,9 +8,12 @@
     "rootDir": "src",
     "baseUrl": "src",
     "paths": {
-      "@data/*": [
-        "./data/*"
-      ]
+      "@data/*": ["./data/*"],
+      "@domain/*": ["./domain/*"],
+      "@infra/*": ["./infra/*"],
+      "@main/*": ["./main/*"],
+      "@presentation/*": ["./presentation/*"],
+      "@validation/*": ["./validation/*"]
     }
   },
   "include": [

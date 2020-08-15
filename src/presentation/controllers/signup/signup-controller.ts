@@ -5,9 +5,9 @@ import {
   AddAccount,
   Validator
 } from './signup-controller-protocols'
-import { badRequest, serverError, ok, forbidden } from '../../helper/http/http-helper'
+import { badRequest, serverError, ok, forbidden } from '@presentation/helper/http/http-helper'
 import { Authentication } from '../login/login-controller-protocols'
-import { EmailInUserError } from '../../errors'
+import { EmailInUserError } from '@presentation/errors'
 
 export class SignUpController implements Controller {
   constructor (
