@@ -9,7 +9,7 @@
 4. ✅ **Busca** o usuário com o email e senha fornecidos
 5. ✅ Gera um **token** de acesso a partir do ID do usuário
 6. ✅ **Atualiza** os dados do usuário com o token de acesso gerado
-7. ❌ Retorna **200** com o token de acesso, nome e id do usuário
+7. ✅ Retorna **200** com o token de acesso, id do usuário
 
 > ## Exceções
 
