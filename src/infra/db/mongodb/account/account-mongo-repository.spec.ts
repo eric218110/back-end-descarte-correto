@@ -12,7 +12,7 @@ const makeFakeAddAccountModel = (): AddAccountModel => ({
   password: 'any_password'
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: AccountMongoRepository
   fakeAddAccountModel: AddAccountModel
 }

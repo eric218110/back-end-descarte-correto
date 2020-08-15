@@ -14,7 +14,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password'
 })
 
-interface TypeAccountData {
+type TypeAccountData = {
   name: string
   email: string
   password: string
@@ -52,7 +52,7 @@ const makeLoadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository =>
   }
   return new LoadAccountByEmailRepositoryStub()
 }
-interface SutTypes {
+type SutTypes = {
   sut: DbAddAccount
   encrypterStub: Encrypter
   addAccountRepositoryStub: AddAccountRepository

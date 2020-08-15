@@ -10,7 +10,7 @@ jest.mock('bcrypt', () => ({
   }
 }))
 
-interface MakeTypes {
+type MakeTypes = {
   salt: number
   sut: BCryptAdapter
 }

@@ -54,7 +54,7 @@ const makeAuthenticationStub = (): Authentication => {
   return new AuthenticationStub()
 }
 
-interface ISutTypes {
+type ISutTypes = {
   sut: SignUpController
   authenticationStub: Authentication
   addAccountStub: AddAccount

@@ -22,7 +22,8 @@ const makeFakeRequest = (): AuthenticationModel => ({
 })
 
 const fakeToken: string = 'valid_token'
-interface SutTypes {
+
+type SutTypes = {
   sut: Authentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashCompareStub: HashCompare

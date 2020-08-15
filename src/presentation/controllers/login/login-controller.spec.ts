@@ -4,7 +4,7 @@ import { MissingParamsError } from '../../errors'
 import { Authentication, Validator } from './login-controller-protocols'
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
 
-interface SutTypes {
+type SutTypes = {
   sut: LoginController
   validatorStub: Validator
   authenticationStub: Authentication
@@ -38,7 +38,7 @@ const makeSut = (): SutTypes => {
     validatorStub
   }
 }
-interface HttpRequestLogin {
+type HttpRequestLogin = {
   body: {
     email: string
     password: string

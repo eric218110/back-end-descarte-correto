@@ -11,7 +11,7 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
-interface ISutTypes {
+type ISutTypes = {
   emailValidatorStub: EmailValidator
   sut: EmailValidatorComposite
 }

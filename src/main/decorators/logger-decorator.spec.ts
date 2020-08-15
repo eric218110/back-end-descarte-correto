@@ -4,7 +4,7 @@ import { serverError, ok } from '../../presentation/helper/http/http-helper'
 import { LoggerErrorRepository } from '../../data/protocols/data/logger/logger-error-repository'
 import { AccountModel } from '../../domain/models/account'
 
-interface SutTypes {
+type SutTypes = {
   sut: LoggerControllerDecorator
   controllerStub: Controller
   loggerErrorRepository: LoggerErrorRepository
