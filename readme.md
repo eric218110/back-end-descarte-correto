@@ -1,6 +1,12 @@
 <h1 style="font-weight: bold" align="center">Node api - Tem coleta</h1>
 
+[![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
+[![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
+[![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:alexandre.monteiro.bec@gmail.com)](mailto:ericsilvaccp@gmail.com)
+[![Build Status](https://travis-ci.org/eric218110/pattern-api-node-ts.svg?branch=master)](https://travis-ci.org/eric218110/pattern-api-node-ts)
+[![Coverage Status](https://coveralls.io/repos/github/eric218110/pattern-api-node-ts/badge.svg?branch=master)](https://coveralls.io/github/eric218110/pattern-api-node-ts?branch=master)
 
+---
 Esta API faz parte do TCC de Eric Silva.
 
 API bem arquiteturada, definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
@@ -134,8 +140,3 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 Feito com muito carinho, dedicação e estudos por mim, <a href="https://github.com/eric218110/">Eric Silva</a>
 </p>
 
----
-
-[![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
-[![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
-[![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:alexandre.monteiro.bec@gmail.com)](mailto:ericsilvaccp@gmail.com)
