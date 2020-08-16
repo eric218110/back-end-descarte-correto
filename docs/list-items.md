@@ -4,7 +4,8 @@
 > ## Caso de sucesso
 
 1. ❌ Recebe uma requisição do tipo **GET** na rota **/api/items**
-2. ❌ Retorna **200** com o itens
+2. ❌ Retorna **204** se não estiver nenhum item
+3. ❌ Retorna **200** com o itens
 
 > ## Exceções
 
