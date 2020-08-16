@@ -1,5 +1,5 @@
 import { LoadItemsController } from './load-items-controller'
-import { noContent } from '@presentation/helper/http/http-helper'
+import { noContent, serverError } from '@presentation/helper/http/http-helper'
 import { LoadItems, LoadItemsModel } from './load-items-controller-protocols'
 
 type SutType = {
@@ -42,11 +42,29 @@ describe('LoadItemsController', () => {
     expect(loadSpy).toBeCalled()
   })
 
-  test('should return if LoadItems returns null', async () => {
+  test('should return 204 if LoadItems returns null', async () => {
     const { sut, loadItemsStub } = makeSut()
     jest.spyOn(loadItemsStub, 'load')
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const response = await sut.handle({})
     expect(response).toEqual(noContent())
+  })
+
+  test('should return 500 if LoadItems throws', async () => {
+    const { sut, loadItemsStub } = makeSut()
+    jest.spyOn(loadItemsStub, 'load')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const response = await sut.handle({})
+    expect(response).toEqual(noContent())
+  })
+
+  test('should return 500 if Authentication throws', async () => {
+    const { sut, loadItemsStub } = makeSut()
+    jest.spyOn(loadItemsStub, 'load')
+      .mockImplementationOnce(async () => {
+        throw new Error()
+      })
+    const response = await sut.handle({})
+    expect(response).toEqual(serverError(new Error()))
   })
 })
