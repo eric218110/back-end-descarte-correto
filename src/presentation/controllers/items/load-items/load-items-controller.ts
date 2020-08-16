@@ -4,7 +4,7 @@ import {
   HttpResponse,
   LoadItems
 } from './load-items-controller-protocols'
-import { ok, noContent } from '@presentation/helper/http/http-helper'
+import { ok, noContent, serverError } from '@presentation/helper/http/http-helper'
 
 export class LoadItemsController implements Controller {
   constructor (
@@ -12,10 +12,14 @@ export class LoadItemsController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const items = await this.loadItems.load()
-    if (items) {
-      return ok(items)
+    try {
+      const items = await this.loadItems.load()
+      if (items) {
+        return ok(items)
+      }
+      return noContent()
+    } catch (error) {
+      return serverError(error)
     }
-    return noContent()
   }
 }
