@@ -41,4 +41,10 @@ describe('DbLoadItemsRepository', () => {
     await sut.load()
     expect(loadAllItemsSpy).toBeCalled()
   })
+
+  test('should return a list of LoadItemRepositoty on sucess', async () => {
+    const { sut, itemsFake } = makeSut()
+    const response = await sut.load()
+    expect(response).toEqual(itemsFake)
+  })
 })
