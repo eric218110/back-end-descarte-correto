@@ -42,6 +42,14 @@ describe('DbLoadItemsRepository', () => {
     expect(loadAllItemsSpy).toBeCalled()
   })
 
+  test('should return null if LoadItemRepositoty list is null', async () => {
+    const { sut, loadItemsRepositoryStub } = makeSut()
+    jest.spyOn(loadItemsRepositoryStub, 'loadAllItems')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const response = await sut.load()
+    expect(response).toBeNull()
+  })
+
   test('should return a list of LoadItemRepositoty on sucess', async () => {
     const { sut, itemsFake } = makeSut()
     const response = await sut.load()
