@@ -7,7 +7,7 @@ export class DbLoadItemsRepository implements LoadItems {
   ) {}
 
   async load (): Promise<LoadItemsModel[]> {
-    await this.loadItemsRepository.loadAllItems()
-    return null
+    const listItems = await this.loadItemsRepository.loadAllItems()
+    return listItems
   }
 }
