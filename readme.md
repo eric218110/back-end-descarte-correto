@@ -1,4 +1,4 @@
-<h1 style="font-weight: bold" align="center">Node api - Tem coleta</h1>
+<h1 style="font-weight: bold" align="center">Node api - Tem coleta ♻️</h1>
 
 [![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
 [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
@@ -8,19 +8,26 @@
 
 ---
 Esta API faz parte do TCC de Eric Silva.
-
 API bem arquiteturada, definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
 
 ## [**Link para a documentação da API**]()
 
 > ## Contrução
 
-1. [Cadastro](./docs/signup.md)
-2. [Login](./docs/login.md)
-3. [Cadastrar um ponto de coleta](./docs/add-point.md)
-4. [Listar items de coleta](./docs/list-items.md)
-5. [Listar pontos de coletas a partir de filtros](./docs/list-filter-points.md)
-6. [Listar um único ponto de coleta](./docs/list-id-point.md)
+- <span style='font-size:25px; color: green;'>&#10004;</span>
+<span style='font-size:16px;'>&#10140;</span> [Cadastro](./docs/signup.md)
+- <span style='font-size:25px; color: green;'>&#10004;</span>
+<span style='font-size:16px;'>&#10140;</span> [Login](./docs/login.md)
+- <span style='font-size:15px;'>&#10060;</span>
+<span style='font-size:16px;'>&#10140;</span> [Cadastrar um ponto de coleta](./docs/add-point.md)
+- <span style='font-size:15px;'>&#10060;</span>
+<span style='font-size:16px;'>&#10140;</span> [Cadastrar items de coleta](./docs/add-items.md)
+- <span style='font-size:15px;'>&#10060;</span>
+<span style='font-size:16px;'>&#10140;</span> [Listar items de coleta](./docs/list-items.md)
+- <span style='font-size:15px;'>&#10060;</span>
+<span style='font-size:16px;'>&#10140;</span> [Listar pontos de coletas a partir de filtros](./docs/list-filter-points.md)
+- <span style='font-size:15px;'>&#10060;</span>
+<span style='font-size:16px;'>&#10140;</span> [Listar um único ponto de coleta](./docs/list-id-point.md)
 
 > ## Princípios
 
