@@ -4,7 +4,7 @@ import {
   HttpResponse,
   AddItem
 } from './add-items-controller-protocols'
-import { serverError } from '@presentation/helper/http/http-helper'
+import { serverError, onCreated } from '@presentation/helper/http/http-helper'
 
 export class AddItemController implements Controller {
   constructor (
@@ -14,8 +14,8 @@ export class AddItemController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { image, title } = httpRequest.body
-      await this.addItem.add({ image, title })
-      return null
+      const item = await this.addItem.add({ image, title })
+      return onCreated(item)
     } catch (error) {
       return serverError(error)
     }
