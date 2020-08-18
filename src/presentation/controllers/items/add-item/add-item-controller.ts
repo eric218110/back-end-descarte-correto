@@ -5,7 +5,7 @@ import {
   AddItem,
   Validator
 } from './add-item-controller-protocols'
-import { serverError, onCreated } from '@presentation/helper/http/http-helper'
+import { serverError, onCreated, badRequest } from '@presentation/helper/http/http-helper'
 
 export class AddItemController implements Controller {
   constructor (
@@ -15,7 +15,10 @@ export class AddItemController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validator.isValid(httpRequest.body)
+      const isError = this.validator.isValid(httpRequest.body)
+      if (isError) {
+        return badRequest(isError)
+      }
       const { image, title } = httpRequest.body
       const item = await this.addItem.add({ image, title })
       return onCreated(item)
