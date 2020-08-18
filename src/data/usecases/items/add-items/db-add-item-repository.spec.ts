@@ -57,4 +57,13 @@ describe('DbAddItemRepository', () => {
       })
     )
   })
+
+  test('should throws if AddtemRepository throws', async () => {
+    const { sut, addItemRepository, fakeRequest } = makeSut()
+    jest.spyOn(addItemRepository, 'addNewItem')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.add(fakeRequest.body)
+    await expect(response).rejects.toThrow()
+  })
 })
