@@ -15,7 +15,7 @@
   <span style='font-size:16px;'>&#10140;</span>  Valida dados obrigatórios **title**, **image**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span>  Receber arquivo de image no campo **image** e realizar upload em algum serviço de storage
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna **201** `created` e o objeto, ao salvar o objeto corretamente
 
 > ## Exceções
@@ -28,7 +28,7 @@
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **401** se o usuário não estiver logado
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **403** se o usuário estiver logado e não for `admin`
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **500** se der erro ao salvar os dados
 
 -----------------------------------------------------------------------------------------------
