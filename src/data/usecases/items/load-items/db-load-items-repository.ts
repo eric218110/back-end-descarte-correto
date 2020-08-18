@@ -1,5 +1,8 @@
-import { LoadItemsModel, LoadItems } from '@domain/usecases/load-items'
-import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
+import {
+  LoadItemsModel,
+  LoadItems,
+  LoadItemsRepository
+} from './db-load-items-protocols'
 
 export class DbLoadItemsRepository implements LoadItems {
   constructor (
