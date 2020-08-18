@@ -1,11 +1,21 @@
 import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
 import { LoadItemsModel } from '@domain/usecases/load-items'
 import { MongoHelper } from '../helpers/mongo-helper'
+import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
+import { ItemModel } from '@domain/models/item'
+import { AddItemModel } from '@domain/usecases/add-item'
 
-export class ItemMongoRepositoty implements LoadItemsRepository {
+export class ItemMongoRepository implements AddItemRepository, LoadItemsRepository {
   async loadAllItems (): Promise<LoadItemsModel[]> {
     const itemsCollection = await MongoHelper.getCollection('items')
     const items = await itemsCollection.find().toArray()
     return items
+  }
+
+  async addNewItem (addItem: AddItemModel): Promise<ItemModel> {
+    const itemCollection = await MongoHelper.getCollection('items')
+    const result = await itemCollection.insertOne(addItem)
+    const newItem = result.ops[0]
+    return MongoHelper.collectionWithoutId<ItemModel>(newItem)
   }
 }
