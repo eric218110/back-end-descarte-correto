@@ -1,5 +1,5 @@
 import { AddItemController } from './add-item-controller'
-import { HttpRequest } from '../load-items/load-items-controller-protocols'
+import { HttpRequest, Validator } from '../load-items/load-items-controller-protocols'
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/add-items'
 import { serverError, onCreated } from '@presentation/helper/http/http-helper'
@@ -8,6 +8,7 @@ type SutTypes = {
   addItemStub: AddItem
   sut: AddItemController
   fakeRequest: HttpRequest
+  validatorStub: Validator
 }
 
 const fakeItem = (): ItemModel => (
@@ -18,6 +19,19 @@ const fakeRequest = (): AddItemModel => (
   { image: 'http://any_image_1.com', title: 'any_title_1' }
 )
 
+const fakeHttpRequest = (): HttpRequest => ({
+  body: fakeRequest()
+})
+
+const makeValidatorStub = (): Validator => {
+  class ValidatorStub implements Validator {
+    isValid (input: any): Error {
+      return null
+    }
+  }
+  return new ValidatorStub()
+}
+
 const makeAddItemStub = (): AddItem => {
   class AddItemStub implements AddItem {
     async add (item: AddItemModel): Promise<ItemModel> {
@@ -27,18 +41,16 @@ const makeAddItemStub = (): AddItem => {
   return new AddItemStub()
 }
 
-const fakeHttpRequest = (): HttpRequest => ({
-  body: fakeRequest()
-})
-
 const makeSut = (): SutTypes => {
   const addItemStub = makeAddItemStub()
-  const sut = new AddItemController(addItemStub)
+  const validatorStub = makeValidatorStub()
+  const sut = new AddItemController(addItemStub, validatorStub)
   const fakeRequest = fakeHttpRequest()
   return {
     sut,
     fakeRequest,
-    addItemStub
+    addItemStub,
+    validatorStub
   }
 }
 
@@ -64,5 +76,12 @@ describe('AddItemController', () => {
     const { sut, fakeRequest } = makeSut()
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(onCreated(fakeItem()))
+  })
+
+  test('Should call Validator with correct value', async () => {
+    const { sut, validatorStub, fakeRequest } = makeSut()
+    const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+    await sut.handle(fakeRequest)
+    expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.body)
   })
 })
