@@ -102,4 +102,10 @@ describe('AddItemController', () => {
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(serverError(new Error()))
   })
+
+  test('Should return 201 and list if Validator is null', async () => {
+    const { sut, fakeRequest } = makeSut()
+    const httpResponse = await sut.handle(fakeRequest)
+    expect(httpResponse).toEqual(onCreated(fakeItem()))
+  })
 })
