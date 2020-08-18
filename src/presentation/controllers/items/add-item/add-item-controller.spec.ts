@@ -86,10 +86,20 @@ describe('AddItemController', () => {
     expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.body)
   })
 
-  test('Should return 400 if valid return Error', async () => {
+  test('Should return 400 if Validator return Error', async () => {
     const { sut, validatorStub, fakeRequest } = makeSut()
     jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
     const httpResponse = await sut.handle(fakeRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
+  })
+
+  test('should return 500 if Validator throws', async () => {
+    const { sut, validatorStub, fakeRequest } = makeSut()
+    jest.spyOn(validatorStub, 'isValid')
+      .mockImplementationOnce(() => {
+        throw new Error()
+      })
+    const response = await sut.handle(fakeRequest)
+    expect(response).toEqual(serverError(new Error()))
   })
 })
