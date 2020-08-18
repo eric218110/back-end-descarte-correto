@@ -2,7 +2,7 @@ import { AddItemController } from './add-item-controller'
 import { HttpRequest } from '../load-items/load-items-controller-protocols'
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/add-items'
-import { serverError } from '@presentation/helper/http/http-helper'
+import { serverError, onCreated } from '@presentation/helper/http/http-helper'
 
 type SutTypes = {
   addItemStub: AddItem
@@ -58,5 +58,11 @@ describe('AddItemController', () => {
       })
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(serverError(new Error()))
+  })
+
+  test('should return 201 if AddItem success', async () => {
+    const { sut, fakeRequest } = makeSut()
+    const response = await sut.handle(fakeRequest)
+    expect(response).toEqual(onCreated(fakeItem()))
   })
 })
