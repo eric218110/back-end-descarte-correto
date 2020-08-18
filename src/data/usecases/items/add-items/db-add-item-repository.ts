@@ -1,6 +1,9 @@
-import { AddItem, AddItemModel } from '@domain/usecases/add-item'
-import { ItemModel } from '@domain/models/item'
-import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
+import {
+  AddItem,
+  AddItemModel,
+  AddItemRepository,
+  ItemModel
+} from './db-add-items-protocols'
 
 export class DbAddItemRepository implements AddItem {
   constructor (
