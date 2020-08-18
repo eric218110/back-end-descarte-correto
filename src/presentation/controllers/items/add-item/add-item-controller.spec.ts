@@ -2,7 +2,8 @@ import { AddItemController } from './add-item-controller'
 import { HttpRequest, Validator } from '../load-items/load-items-controller-protocols'
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/add-items'
-import { serverError, onCreated } from '@presentation/helper/http/http-helper'
+import { serverError, onCreated, badRequest } from '@presentation/helper/http/http-helper'
+import { MissingParamsError } from '@presentation/errors'
 
 type SutTypes = {
   addItemStub: AddItem
@@ -83,5 +84,12 @@ describe('AddItemController', () => {
     const isValidSpy = jest.spyOn(validatorStub, 'isValid')
     await sut.handle(fakeRequest)
     expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.body)
+  })
+
+  test('Should return 400 if valid return Error', async () => {
+    const { sut, validatorStub, fakeRequest } = makeSut()
+    jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
+    const httpResponse = await sut.handle(fakeRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
   })
 })
