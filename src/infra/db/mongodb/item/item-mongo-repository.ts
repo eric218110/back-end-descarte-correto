@@ -1,4 +1,4 @@
-import { LoadItemsRepository } from '@data/protocols/items/load-items-repository'
+import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
 import { LoadItemsModel } from '@domain/usecases/load-items'
 import { MongoHelper } from '../helpers/mongo-helper'
 

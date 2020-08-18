@@ -1,6 +1,6 @@
 import { AddItemModel } from '@domain/usecases/add-item'
 import { DbAddItemRepository } from './db-add-item-repository'
-import { AddItemRepository } from '@data/protocols/items/add-items-repository'
+import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
 import { ItemModel } from '@domain/models/item'
 import { HttpRequest } from '@presentation/protocols'
 

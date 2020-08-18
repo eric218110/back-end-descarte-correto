@@ -1,5 +1,5 @@
 import { LoadItemsModel, LoadItems } from '@domain/usecases/load-items'
-import { LoadItemsRepository } from '@data/protocols/items/load-items-repository'
+import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
 
 export class DbLoadItemsRepository implements LoadItems {
   constructor (
