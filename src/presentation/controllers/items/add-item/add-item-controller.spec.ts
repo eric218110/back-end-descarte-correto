@@ -1,7 +1,7 @@
 import { AddItemController } from './add-item-controller'
 import { HttpRequest, Validator } from '../load-items/load-items-controller-protocols'
 import { ItemModel } from '@domain/models/item'
-import { AddItem, AddItemModel } from '@domain/usecases/add-items'
+import { AddItem, AddItemModel } from '@domain/usecases/add-item'
 import { serverError, onCreated, badRequest } from '@presentation/helper/http/http-helper'
 import { MissingParamsError } from '@presentation/errors'
 
