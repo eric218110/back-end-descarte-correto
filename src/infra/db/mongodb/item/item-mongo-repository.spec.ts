@@ -60,4 +60,11 @@ describe('LoadAllItems()', () => {
     expect(item.title).toBe(itemsFake[0].title)
     expect(item.image).toBe(itemsFake[0].image)
   })
+
+  test('should add only one item', async () => {
+    const { sut, itemsFake } = makeSut()
+    await sut.addNewItem(itemsFake[0])
+    const itemExist = await itemsColletction.find({ title: itemsFake[0].title }).toArray()
+    expect(itemExist.length).toBe(1)
+  })
 })
