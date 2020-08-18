@@ -2,8 +2,9 @@ import request from 'supertest'
 import app from '@main/config/app'
 import { MongoHelper } from '@infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
+import { LoadItemsModel } from '@domain/usecases/load-items'
 
-let accountCollection: Collection
+let itemsCollection: Collection<LoadItemsModel>
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
@@ -14,18 +15,14 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  accountCollection = await MongoHelper.getCollection('account')
-  await accountCollection.deleteMany({})
+  itemsCollection = await MongoHelper.getCollection('account')
+  await itemsCollection.deleteMany({})
 })
 
 describe('Get - Item Route', () => {
-  test('Should return 200 as request', async () => {
+  test('Should return 200 as request and in body with list items', async () => {
     await request(app)
       .get('/api/item')
-      .send({
-        email: 'ericsilvaccp@gmail.com',
-        password: '123'
-      })
       .expect(200)
   })
 })
