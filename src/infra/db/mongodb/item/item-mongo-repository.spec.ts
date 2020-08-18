@@ -1,4 +1,4 @@
-import { ItemMongoRepositoty } from './item-mongo-repository'
+import { ItemMongoRepository } from './item-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ItemModel } from '@domain/models/item'
 import { Collection } from 'mongodb'
@@ -7,7 +7,7 @@ import { LoadItemsModel } from '@domain/usecases/load-items'
 let itemsColletction: Collection<Omit<ItemModel, 'id'>>
 
 interface SutTypes {
-  sut: ItemMongoRepositoty
+  sut: ItemMongoRepository
   itemsFake: LoadItemsModel[]
 }
 
@@ -17,7 +17,7 @@ const makeLoadItemsFake = (): LoadItemsModel[] => ([
 ])
 
 const makeSut = (): SutTypes => {
-  const sut = new ItemMongoRepositoty()
+  const sut = new ItemMongoRepository()
   const itemsFake = makeLoadItemsFake()
   return {
     sut,
@@ -46,9 +46,18 @@ describe('LoadAllItems()', () => {
     expect(items[1].title).toBe(itemsFake[1].title)
   })
 
-  test('should ItemMongoRepositoty return [] if is empty', async () => {
+  test('should ItemMongoRepository return [] if is empty', async () => {
     const { sut } = makeSut()
     const items = await sut.loadAllItems()
     expect(items.length).toBe(0)
+  })
+
+  test('should return new item if add item on sucess', async () => {
+    const { sut, itemsFake } = makeSut()
+    const item = await sut.addNewItem(itemsFake[0])
+    expect(item).toBeTruthy()
+    expect(item.id).toBeTruthy()
+    expect(item.title).toBe(itemsFake[0].title)
+    expect(item.image).toBe(itemsFake[0].image)
   })
 })
