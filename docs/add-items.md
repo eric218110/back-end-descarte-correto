@@ -15,6 +15,8 @@
   <span style='font-size:16px;'>&#10140;</span>  Valida dados obrigatórios **title**, **image**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span>  Receber arquivo de image no campo **image** e realizar upload em algum serviço de storage
+- <span style='font-size:15px;'>&#10060;</span>
+  <span style='font-size:16px;'>&#10140;</span>  Salvar um novo item
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna **201** `created` e o objeto, ao salvar o objeto corretamente
 
@@ -24,6 +26,7 @@
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **404** se a API não existir
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **401** se o token estiver expirado, mal formatado ou invalido
+- <span style='font-size:25px; color: green;'>&#10004;</span><span style='font-size:16px;'>&#10140;</span> Retorna erro **400** se title ou image não forem fornecidos pelo client
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span>  Retorna erro **401** se o usuário não estiver logado
 - <span style='font-size:15px;'>&#10060;</span>
