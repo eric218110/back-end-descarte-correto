@@ -14,8 +14,12 @@ export class ItemMongoRepository implements AddItemRepository, LoadItemsReposito
 
   async addNewItem (addItem: AddItemModel): Promise<ItemModel> {
     const itemCollection = await MongoHelper.getCollection('items')
-    const result = await itemCollection.insertOne(addItem)
-    const newItem = result.ops[0]
-    return MongoHelper.collectionWithoutId<ItemModel>(newItem)
+    const itemExist = await itemCollection.findOne({ title: addItem.title })
+    if (!itemExist) {
+      const result = await itemCollection.insertOne(addItem)
+      const newItem = result.ops[0]
+      return MongoHelper.collectionWithoutId<ItemModel>(newItem)
+    }
+    return null
   }
 }
