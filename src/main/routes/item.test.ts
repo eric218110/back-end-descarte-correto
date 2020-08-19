@@ -19,10 +19,18 @@ beforeEach(async () => {
   await itemsCollection.deleteMany({})
 })
 
-describe('Get - Item Route', () => {
+describe('GER - Item Route', () => {
   test('Should return 200 as request and in body with list items', async () => {
     await request(app)
       .get('/api/item')
       .expect(200)
+  })
+})
+
+describe('POST - Item Route', () => {
+  test('Should return 404 if not request', async () => {
+    await request(app)
+      .post('/api/item')
+      .expect(404)
   })
 })
