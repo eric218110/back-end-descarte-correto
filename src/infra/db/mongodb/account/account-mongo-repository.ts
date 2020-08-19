@@ -4,11 +4,13 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { UpdateAccessTokenRepository } from '@data/protocols/data/account/update-access-token-repository'
 import { AddAccountRepository } from '@data/protocols/data/account/add-account-repository'
 import { LoadAccountByEmailRepository } from '@data/protocols/data/account/load-by-email-repository'
+import { LoadAccountByTokenRepository } from '@data/protocols/data/account/load-by-token-repository'
 
 export class AccountMongoRepository implements
   AddAccountRepository,
   LoadAccountByEmailRepository,
-  UpdateAccessTokenRepository {
+  UpdateAccessTokenRepository,
+  LoadAccountByTokenRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('account')
     const result = await accountCollection.insertOne(accountData)
@@ -31,5 +33,14 @@ export class AccountMongoRepository implements
         accessToken: token
       }
     })
+  }
+
+  async loadByToken (token: string, role?: string): Promise<AccountModel> {
+    const accountCollection = await MongoHelper.getCollection('account')
+    const account = await accountCollection.findOne({
+      accessToken: token,
+      role
+    })
+    return account && MongoHelper.collectionWithoutId(account)
   }
 }
