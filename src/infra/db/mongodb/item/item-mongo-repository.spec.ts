@@ -67,4 +67,11 @@ describe('LoadAllItems()', () => {
     const itemExist = await itemsColletction.find({ title: itemsFake[0].title }).toArray()
     expect(itemExist.length).toBe(1)
   })
+
+  test('should return null if title already exists', async () => {
+    const { sut, itemsFake } = makeSut()
+    await itemsColletction.insertOne({ title: itemsFake[0].title, image: itemsFake[1].image })
+    const newItem = await sut.addNewItem(itemsFake[0])
+    expect(newItem).toBeNull()
+  })
 })
