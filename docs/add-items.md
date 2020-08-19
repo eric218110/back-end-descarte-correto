@@ -3,7 +3,7 @@
 
 > ## Caso de sucesso
 
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Recebe uma requisição do tipo **POST** na rota **/api/items**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Ser acessada apenas por usuários **admin**, com token valido (middleware pattern PROXY)
@@ -24,14 +24,14 @@
 
 > ## Exceções
 
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna erro **404** se a API não existir
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna erro **401** se o token estiver expirado, mal formatado ou invalido
 - <span style='font-size:25px; color: green;'>&#10004;</span><span style='font-size:16px;'>&#10140;</span> Retorna erro **400** se title ou image não forem fornecidos pelo client
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna erro **401** se o usuário não estiver logado
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna status code **419** se o title já estiver duplicado
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna erro **403** se o usuário estiver logado e não for `admin`
