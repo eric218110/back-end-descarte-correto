@@ -14,6 +14,12 @@ export const forbidden = (error: Error): HttpResponse => (
     body: error
   })
 
+export const alreadyExist = (error: Error): HttpResponse => (
+  {
+    statusCode: 412,
+    body: error
+  })
+
 export const serverError = (error: Error): HttpResponse => (
   {
     statusCode: 500,
