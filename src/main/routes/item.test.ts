@@ -37,4 +37,18 @@ describe('POST - Item Route', () => {
       })
       .expect(201)
   })
+
+  test('Should return 412 if title already exists', async () => {
+    await itemsCollection.insertOne({
+      title: 'any_title',
+      image: 'any_image'
+    })
+    await request(app)
+      .post('/api/item')
+      .send({
+        title: 'any_title',
+        image: 'https://url_any_image.com'
+      })
+      .expect(412)
+  })
 })
