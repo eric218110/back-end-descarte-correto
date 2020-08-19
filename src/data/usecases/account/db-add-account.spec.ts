@@ -28,7 +28,7 @@ const makeAccountData = (): TypeAccountData => ({
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    async encript (value: string): Promise<string> {
+    async encrypt (value: string): Promise<string> {
       return new Promise(resolve => resolve('hashed_password'))
     }
   }
@@ -78,16 +78,16 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddAccount', () => {
-  test('should call encripty with correct password', async () => {
+  test('should call encrypt with correct password', async () => {
     const { sut, encrypterStub } = makeSut()
-    const encriptSpy = jest.spyOn(encrypterStub, 'encript')
+    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.add(makeAccountData())
-    expect(encriptSpy).toHaveBeenCalledWith(makeAccountData().password)
+    expect(encryptSpy).toHaveBeenCalledWith(makeAccountData().password)
   })
 
-  test('should throws to encripty throws', async () => {
+  test('should throws to encrypt throws', async () => {
     const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encript')
+    jest.spyOn(encrypterStub, 'encrypt')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )
@@ -106,7 +106,7 @@ describe('DbAddAccount', () => {
     })
   })
 
-  test('should throws to encripty throws', async () => {
+  test('should throws to encrypt throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     jest.spyOn(addAccountRepositoryStub, 'add')
       .mockReturnValueOnce(

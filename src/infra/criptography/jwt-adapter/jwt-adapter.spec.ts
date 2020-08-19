@@ -22,13 +22,13 @@ describe('JwtAdapter', () => {
   test('should call jwt sign with correct values', async () => {
     const { sut } = makeSut()
     const spySign = jest.spyOn(jsonwebtoken, 'sign')
-    await sut.encript('any_id')
+    await sut.encrypt('any_id')
     expect(spySign).toHaveBeenCalledWith({ id: 'any_id' }, 'secret')
   })
 
   test('should return token if jwt sign success', async () => {
     const { sut } = makeSut()
-    const accessToken = await sut.encript('any_id')
+    const accessToken = await sut.encrypt('any_id')
     expect(accessToken).toBe('valid_token')
   })
 
@@ -38,7 +38,7 @@ describe('JwtAdapter', () => {
       .mockImplementationOnce(() => {
         throw new Error()
       })
-    const promise = sut.encript('any_id')
+    const promise = sut.encrypt('any_id')
     await expect(promise).rejects.toThrow()
   })
 })
