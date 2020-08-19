@@ -28,17 +28,17 @@ describe('GET - Item Route', () => {
 })
 
 describe('POST - Item Route', () => {
-  test('Should return 201 as request', async () => {
+  test('Should return 403 as request', async () => {
     await request(app)
       .post('/api/item')
       .send({
         title: 'any_title',
         image: 'https://url_any_image.com'
       })
-      .expect(201)
+      .expect(403)
   })
 
-  test('Should return 412 if title already exists', async () => {
+  test('Should return 403 if title already exists', async () => {
     await itemsCollection.insertOne({
       title: 'any_title',
       image: 'any_image'
@@ -49,6 +49,6 @@ describe('POST - Item Route', () => {
         title: 'any_title',
         image: 'https://url_any_image.com'
       })
-      .expect(412)
+      .expect(403)
   })
 })
