@@ -1,4 +1,4 @@
-import { forbidden, ok } from '@presentation/helper/http/http-helper'
+import { forbidden, ok, serverError } from '@presentation/helper/http/http-helper'
 import { AccessDeniedError } from '@presentation/errors/access-denied-error copy'
 import { AuthMiddleware } from './auth-middleware'
 import { HttpRequest } from '@presentation/protocols'
@@ -74,5 +74,15 @@ describe('AuthMiddleware', () => {
     const { sut, fakeHttpRequest, fakeAccountModel } = makeSut()
     const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual(ok({ accountId: fakeAccountModel.id }))
+  })
+
+  test('should return 500 if LoadAccountByToken throws', async () => {
+    const { sut, fakeHttpRequest, loadAccountByTokenStub } = makeSut()
+    jest.spyOn(loadAccountByTokenStub, 'load')
+      .mockImplementationOnce(async () => {
+        return new Promise((resolve, reject) => reject(new Error()))
+      })
+    const httpResponse = await sut.handle(fakeHttpRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
