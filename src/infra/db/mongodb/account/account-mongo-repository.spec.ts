@@ -4,7 +4,7 @@ import { Collection } from 'mongodb'
 import { AddAccountModel } from '@domain/usecases/add-account'
 import { AccountModel } from '@domain/models/account'
 
-let accountCollection: Collection<AddAccountModel | AccountModelWithToken>
+let accountCollection: Collection
 
 const makeFakeAddAccountModel = (): AddAccountModel => ({
   name: 'any_name',
@@ -20,14 +20,6 @@ type SutTypes = {
 interface AccountModelWithToken extends AccountModel {
   accessToken: string
 }
-
-const makeFakeAccountResultMongoDb = (): AccountModelWithToken => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password',
-  accessToken: 'any_token'
-})
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
@@ -100,9 +92,32 @@ describe('Account Mongo Repository', () => {
   describe('loadByToken()', () => {
     test('should return an account on loadByToken sucess', async () => {
       const { sut, fakeAddAccountModel } = makeSut()
-      const fakeAccount = makeFakeAccountResultMongoDb()
-      await accountCollection.insertOne(fakeAccount)
-      const account = await sut.loadByToken(fakeAccount.accessToken)
+      await accountCollection.insertOne({
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token'
+      })
+      const account = await sut.loadByToken('any_token')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(fakeAddAccountModel.name)
+      expect(account.email).toBe(fakeAddAccountModel.email)
+      expect(account.password).toBe(fakeAddAccountModel.password)
+    })
+
+    test('should return an account on loadByToken sucess with role', async () => {
+      const { sut, fakeAddAccountModel } = makeSut()
+      await accountCollection.insertOne({
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'any_role'
+      })
+      const account = await sut.loadByToken('any_token', 'any_role')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe(fakeAddAccountModel.name)
