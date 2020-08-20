@@ -1,7 +1,7 @@
 import { LoginController } from './login-controller'
 import { MissingParamsError } from '@presentation/errors'
 import { Authentication, Validator } from './login-controller-protocols'
-import { AuthenticationModel } from '@domain/usecases/authentication'
+import { AuthenticationModel } from '@domain/usecases/account/authentication'
 import {
   badRequest,
   serverError,

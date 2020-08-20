@@ -1,9 +1,9 @@
 import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
-import { LoadItemsModel } from '@domain/usecases/load-items'
+import { LoadItemsModel } from '@domain/usecases/item/load-items'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
 import { ItemModel } from '@domain/models/item'
-import { AddItemModel } from '@domain/usecases/add-item'
+import { AddItemModel } from '@domain/usecases/item/add-item'
 
 export class ItemMongoRepository implements AddItemRepository, LoadItemsRepository {
   async loadAllItems (): Promise<LoadItemsModel[]> {

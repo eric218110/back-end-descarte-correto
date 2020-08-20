@@ -2,7 +2,7 @@ import { ItemMongoRepository } from './item-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ItemModel } from '@domain/models/item'
 import { Collection } from 'mongodb'
-import { LoadItemsModel } from '@domain/usecases/load-items'
+import { LoadItemsModel } from '@domain/usecases/item/load-items'
 
 let itemsColletction: Collection<Omit<ItemModel, 'id'>>
 

@@ -1,4 +1,4 @@
-import { AddAccountModel } from '@domain/usecases/add-account'
+import { AddAccountModel } from '@domain/usecases/account/add-account'
 import { AccountModel } from '@domain/models/account'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { UpdateAccessTokenRepository } from '@data/protocols/data/account/update-access-token-repository'

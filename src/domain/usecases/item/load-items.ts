@@ -1,4 +1,4 @@
-import { ItemModel } from '../models/item'
+import { ItemModel } from '@domain/models/item'
 
 export type LoadItemsModel = Omit<ItemModel, 'id'>
 
