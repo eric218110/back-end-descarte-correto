@@ -59,4 +59,13 @@ describe('UploadImageMiddleware', () => {
     const httpResponse = await sut.handle(fakeRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
+
+  test('should return image url if UploadImage success', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      file: makeFileRequest()
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.body.imageUrl).toEqual('https://url_any_image.com')
+  })
 })
