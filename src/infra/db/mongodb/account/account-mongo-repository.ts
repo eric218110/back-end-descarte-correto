@@ -41,6 +41,6 @@ export class AccountMongoRepository implements
       accessToken: token,
       role
     })
-    return account && MongoHelper.collectionWithoutId(account)
+    return account
   }
 }
