@@ -2,9 +2,8 @@ import { AddItemController } from './add-item-controller'
 import { HttpRequest, Validator } from '../load-items/load-items-controller-protocols'
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/add-item'
-import { serverError, onCreated, badRequest, alreadyExist } from '@presentation/helper/http/http-helper'
+import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
 import { MissingParamsError } from '@presentation/errors'
-import { AlreadyExistError } from '@presentation/errors/already-exists-error'
 
 type SutTypes = {
   addItemStub: AddItem
@@ -74,18 +73,10 @@ describe('AddItemController', () => {
     expect(response).toEqual(serverError(new Error()))
   })
 
-  test('Should return 419 if item already exist', async () => {
-    const { sut, addItemStub, fakeRequest } = makeSut()
-    jest.spyOn(addItemStub, 'add')
-      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const httpResponse = await sut.handle(fakeRequest)
-    expect(httpResponse).toEqual(alreadyExist(new AlreadyExistError(fakeRequest.body.title)))
-  })
-
-  test('should return 201 if AddItem success', async () => {
+  test('Should return 204 on success', async () => {
     const { sut, fakeRequest } = makeSut()
     const response = await sut.handle(fakeRequest)
-    expect(response).toEqual(onCreated(fakeItem()))
+    expect(response).toEqual(noContent())
   })
 
   test('Should call Validator with correct value', async () => {
@@ -110,11 +101,5 @@ describe('AddItemController', () => {
       })
     const response = await sut.handle(fakeRequest)
     expect(response).toEqual(serverError(new Error()))
-  })
-
-  test('Should return 201 and list if Validator is null', async () => {
-    const { sut, fakeRequest } = makeSut()
-    const httpResponse = await sut.handle(fakeRequest)
-    expect(httpResponse).toEqual(onCreated(fakeItem()))
   })
 })

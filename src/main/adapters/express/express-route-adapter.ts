@@ -7,7 +7,7 @@ export const addpterRoute = (controller: Controller) => {
       body: request.body
     }
     const { body, statusCode } = await controller.handle(httpRequest)
-    if (statusCode === 200) {
+    if (statusCode >= 200 && statusCode <= 299) {
       response.status(statusCode).json(body)
     } else {
       response.status(statusCode).json({

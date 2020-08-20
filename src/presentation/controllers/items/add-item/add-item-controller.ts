@@ -5,8 +5,7 @@ import {
   AddItem,
   Validator
 } from './add-item-controller-protocols'
-import { serverError, onCreated, badRequest, alreadyExist } from '@presentation/helper/http/http-helper'
-import { AlreadyExistError } from '@presentation/errors/already-exists-error'
+import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
 
 export class AddItemController implements Controller {
   constructor (
@@ -21,11 +20,10 @@ export class AddItemController implements Controller {
         return badRequest(isError)
       }
       const { image, title } = httpRequest.body
-      const item = await this.addItem.add({ image, title })
-      if (item) {
-        return onCreated(item)
-      }
-      return alreadyExist(new AlreadyExistError(title))
+
+      await this.addItem.add({ image, title })
+
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
