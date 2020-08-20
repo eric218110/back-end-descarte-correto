@@ -3,7 +3,8 @@ import {
   HttpRequest,
   HttpResponse,
   UploadImage,
-  serverError
+  serverError,
+  ok
 } from './upload-image-middleware-protocols'
 
 export class UploadImageMiddleware implements Middleware {
@@ -13,8 +14,8 @@ export class UploadImageMiddleware implements Middleware {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      await this.uploadImage.upload(httpRequest.file)
-      return null
+      const imageUrl = await this.uploadImage.upload(httpRequest.file)
+      return ok({ imageUrl })
     } catch (error) {
       return serverError(error)
     }
