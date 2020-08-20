@@ -2,8 +2,10 @@ import {
   Middleware,
   HttpRequest,
   HttpResponse,
-  UploadImage
+  UploadImage,
+  serverError
 } from './upload-image-middleware-protocols'
+import { ok } from '../auth/auth-middleware-protocols'
 
 export class UploadImageMiddleware implements Middleware {
   constructor (
@@ -11,7 +13,11 @@ export class UploadImageMiddleware implements Middleware {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    await this.uploadImage.upload(httpRequest.file)
-    return new Promise(resolve => resolve(null))
+    try {
+      const fileUpload = await this.uploadImage.upload(httpRequest.file)
+      return ok({ image: fileUpload })
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
