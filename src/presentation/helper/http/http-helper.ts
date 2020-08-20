@@ -14,12 +14,6 @@ export const forbidden = (error: Error): HttpResponse => (
     body: error
   })
 
-export const alreadyExist = (error: Error): HttpResponse => (
-  {
-    statusCode: 412,
-    body: error
-  })
-
 export const serverError = (error: Error): HttpResponse => (
   {
     statusCode: 500,
@@ -30,13 +24,6 @@ export const serverError = (error: Error): HttpResponse => (
 export const ok = (data: any): HttpResponse => (
   {
     statusCode: 200,
-    body: data
-  }
-)
-
-export const onCreated = (data: any): HttpResponse => (
-  {
-    statusCode: 201,
     body: data
   }
 )
