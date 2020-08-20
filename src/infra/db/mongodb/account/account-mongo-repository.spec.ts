@@ -107,7 +107,7 @@ describe('Account Mongo Repository', () => {
       expect(account.password).toBe(fakeAddAccountModel.password)
     })
 
-    test('should return an account on loadByToken sucess with role', async () => {
+    test('should return an account on loadByToken sucess with admin role', async () => {
       const { sut, fakeAddAccountModel } = makeSut()
       await accountCollection.insertOne({
         id: 'any_id',
@@ -115,9 +115,40 @@ describe('Account Mongo Repository', () => {
         email: 'any_email@mail.com',
         password: 'any_password',
         accessToken: 'any_token',
-        role: 'any_role'
+        role: 'admin'
       })
-      const account = await sut.loadByToken('any_token', 'any_role')
+      const account = await sut.loadByToken('any_token', 'admin')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(fakeAddAccountModel.name)
+      expect(account.email).toBe(fakeAddAccountModel.email)
+      expect(account.password).toBe(fakeAddAccountModel.password)
+    })
+
+    test('should return null on loadByToken with invalid role', async () => {
+      const { sut } = makeSut()
+      await accountCollection.insertOne({
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token'
+      })
+      const account = await sut.loadByToken('any_token', 'admin')
+      expect(account).toBeFalsy()
+    })
+
+    test('should return an account on loadByToken sucess if user is admin', async () => {
+      const { sut, fakeAddAccountModel } = makeSut()
+      await accountCollection.insertOne({
+        id: 'any_id',
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'admin'
+      })
+      const account = await sut.loadByToken('any_token')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe(fakeAddAccountModel.name)
