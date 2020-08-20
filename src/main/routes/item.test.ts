@@ -3,8 +3,12 @@ import app from '@main/config/app'
 import { MongoHelper } from '@infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { LoadItemsModel } from '@domain/usecases/load-items'
+import { hash } from 'bcrypt'
+import { sign } from 'jsonwebtoken'
+import env from '@main/config/env'
 
 let itemsCollection: Collection<LoadItemsModel>
+let accountCollection: Collection
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
@@ -16,7 +20,9 @@ afterAll(async () => {
 
 beforeEach(async () => {
   itemsCollection = await MongoHelper.getCollection('items')
+  accountCollection = await MongoHelper.getCollection('account')
   await itemsCollection.deleteMany({})
+  await accountCollection.deleteMany({})
 })
 
 describe('GET - Item Route', () => {
@@ -50,5 +56,31 @@ describe('POST - Item Route', () => {
         image: 'https://url_any_image.com'
       })
       .expect(403)
+  })
+
+  test('Should return 204 if accessToken is valid with role admin', async () => {
+    const result = await accountCollection.insertOne({
+      name: 'Eric Silva',
+      email: 'ericsilvaccp@gmail.com',
+      password: await hash('123', 12),
+      role: 'admin'
+    })
+    const id = result.ops[0]._id
+    const accessToken = sign({ id }, env.jwt_secret)
+    await accountCollection.updateOne({
+      _id: id
+    }, {
+      $set: {
+        accessToken
+      }
+    })
+    await request(app)
+      .post('/api/item')
+      .set('x-access-token', accessToken)
+      .send({
+        title: 'any_title',
+        image: 'https://url_any_image.com'
+      })
+      .expect(204)
   })
 })
