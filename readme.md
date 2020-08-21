@@ -6,8 +6,8 @@
 [![Build Status](https://travis-ci.org/eric218110/pattern-api-node-ts.svg?branch=master)](https://travis-ci.org/eric218110/pattern-api-node-ts)
 [![Coverage Status](https://coveralls.io/repos/github/eric218110/pattern-api-node-ts/badge.svg?branch=master)](https://coveralls.io/github/eric218110/pattern-api-node-ts?branch=master)
 [![dependencies Status](https://david-dm.org/eric218110/pattern-api-node-ts/status.svg)](https://david-dm.org/eric218110/pattern-api-node-ts)
-<img src="https://www.code-inspector.com/project/12522/score/svg">
-<img src="https://www.code-inspector.com/project/12522/status/svg">
+<img src="https://www.code-inspector.com/project/12545/score/svg">
+<img src="https://www.code-inspector.com/project/12545/status/svg">
 ---
 Esta API faz parte do TCC de Eric Silva.
 API bem arquiteturada, definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
