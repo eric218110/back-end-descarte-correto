@@ -64,4 +64,10 @@ describe('SaveImage', () => {
     const imageUrl = await sut.upload(fileFake)
     expect(imageUrl).toBeNull()
   })
+
+  test('should return an image url if ImageFileUploader on sucess', async () => {
+    const { sut, fileFake } = makeSut()
+    const imageUrl = await sut.upload(fileFake)
+    expect(imageUrl).toEqual('https://url_any_image.com')
+  })
 })
