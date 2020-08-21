@@ -65,6 +65,16 @@ describe('SaveImage', () => {
     expect(imageUrl).toBeNull()
   })
 
+  test('should throws to ImageFileUploader throws', async () => {
+    const { sut, imageFileUploaderStub, fileFake } = makeSut()
+    jest.spyOn(imageFileUploaderStub, 'imageUpload')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const promisse = sut.upload(fileFake)
+    await expect(promisse).rejects.toThrow()
+  })
+
   test('should return an image url if ImageFileUploader on sucess', async () => {
     const { sut, fileFake } = makeSut()
     const imageUrl = await sut.upload(fileFake)
