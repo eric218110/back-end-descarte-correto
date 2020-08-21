@@ -1,6 +1,7 @@
 import { UploadImageMiddleware } from './upload-image-middleware'
 import { UploadImage } from '@domain/usecases/upload/upload-image'
-import { serverError } from '../auth/auth-middleware-protocols'
+import { serverError, badRequest } from '../auth/auth-middleware-protocols'
+import { UploadFileError } from '@presentation/errors/upload-file-error'
 
 type SutTypes = {
   sut: UploadImageMiddleware
@@ -58,6 +59,17 @@ describe('UploadImageMiddleware', () => {
     }
     const httpResponse = await sut.handle(fakeRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 400 if UploadImage return false', async () => {
+    const { sut, uploadImageStub } = makeSut()
+    jest.spyOn(uploadImageStub, 'upload')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const fakeRequest = {
+      file: makeFileRequest()
+    }
+    const httpResponse = await sut.handle(fakeRequest)
+    expect(httpResponse).toEqual(badRequest(new UploadFileError()))
   })
 
   test('should return image url if UploadImage success', async () => {
