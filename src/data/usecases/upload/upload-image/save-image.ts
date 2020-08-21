@@ -7,7 +7,7 @@ export class SaveImage implements UploadImage {
   ) {}
 
   async upload (file: any): Promise<string> {
-    await this.imageFileUploader.imageUpload(file)
-    return null
+    const imageUrl = await this.imageFileUploader.imageUpload(file)
+    return (imageUrl) || null
   }
 }
