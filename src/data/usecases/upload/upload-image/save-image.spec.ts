@@ -1,6 +1,5 @@
 import { SaveImage } from './save-image'
-import { ImageFileUploader } from '@data/protocols/upload/image-file-uploader'
-import { FileProps } from '@domain/usecases/upload/upload-image'
+import { ImageFileUploader, FileProps } from './save-image-protocols'
 
 type SutTypes = {
   imageFileUploaderStub: ImageFileUploader

@@ -1,5 +1,4 @@
-import { UploadImage, FileProps } from '@domain/usecases/upload/upload-image'
-import { ImageFileUploader } from '@data/protocols/upload/image-file-uploader'
+import { UploadImage, ImageFileUploader, FileProps } from './save-image-protocols'
 
 export class SaveImage implements UploadImage {
   constructor (
