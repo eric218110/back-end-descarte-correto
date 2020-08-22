@@ -1,37 +1,21 @@
 import { SaveImage } from './save-image'
 import { ImageFileUploader } from '@data/protocols/upload/image-file-uploader'
-
-type FileImageUpload = {
-  fieldname: string
-  originalname: string
-  encoding: string
-  mimetype: string
-  destination: string
-  filename: string
-  path: string
-  size: number
-}
+import { FileProps } from '@domain/usecases/upload/upload-image'
 
 type SutTypes = {
   imageFileUploaderStub: ImageFileUploader
   sut: SaveImage
-  fileFake: FileImageUpload
+  fileFake: FileProps
 }
 
-const makeFileFake = (): FileImageUpload => ({
-  fieldname: 'any_fieldname',
-  originalname: 'any_originalname',
-  encoding: 'any_encoding',
-  mimetype: 'any/any_mimetype',
-  destination: 'any/destination',
-  filename: 'any_file_name',
-  path: 'any/any_path',
-  size: 1111
+const makeFileFake = (): FileProps => ({
+  request: 'any_request',
+  response: 'any_response'
 })
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
-    async imageUpload (fileImage: any): Promise<string> {
+    async imageUpload (fileImage: FileProps): Promise<string> {
       return new Promise(resolve => resolve('https://url_any_image.com'))
     }
   }
