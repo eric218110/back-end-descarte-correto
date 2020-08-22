@@ -1,3 +1,8 @@
+export type FileProps = {
+  request: any
+  response: any
+}
+
 export interface UploadImage {
-  upload: (file: any) => Promise<string>
+  upload: (file: FileProps) => Promise<string>
 }

@@ -1,3 +1,4 @@
+import { FileProps } from '@domain/usecases/upload/upload-image'
 export interface ImageFileUploader {
-  imageUpload: (file: any) => Promise<string>
+  imageUpload: (file: FileProps) => Promise<string>
 }
