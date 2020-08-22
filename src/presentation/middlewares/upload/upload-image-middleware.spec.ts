@@ -9,14 +9,10 @@ type SutTypes = {
 }
 
 const makeFileRequest = (): any => ({
-  fieldname: 'any_fieldname',
-  originalname: 'any_originalname',
-  encoding: 'any_encoding',
-  mimetype: 'any/any_mimetype',
-  destination: 'any/destination',
-  filename: 'any_file_name',
-  path: 'any/any_path',
-  size: 1111
+  file: {
+    request: 'any_request',
+    response: 'any_response'
+  }
 })
 
 const makeUploadImageStub = (): UploadImage => {
@@ -45,7 +41,12 @@ describe('UploadImageMiddleware', () => {
       file: makeFileRequest()
     }
     await sut.handle(fakeRequest)
-    expect(uploadSpy).toHaveBeenCalledWith(makeFileRequest())
+    expect(uploadSpy).toHaveBeenCalledWith({
+      file: {
+        request: 'any_request',
+        response: 'any_response'
+      }
+    })
   })
 
   test('should return 500 if UploadImage throws', async () => {
