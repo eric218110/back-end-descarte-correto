@@ -3,20 +3,9 @@ import { Request, Response } from 'express'
 
 export const addpterRoute = (controller: Controller) => {
   return async (request: Request, response: Response) => {
-    if (request.file) {
-
-    }
     const httpRequest: HttpRequest = {
       body: request.body,
-      headers: request.headers,
-      file: (request.file) ? {
-        request: request.file,
-        response: null
-      }
-        : {
-          request: null,
-          response: null
-        }
+      headers: request.headers
     }
     const { body, statusCode } = await controller.handle(httpRequest)
     if (statusCode >= 200 && statusCode <= 299) {
