@@ -3,3 +3,5 @@ dist
 .vscode
 coverage
 globalConfig.json
+temp/*
+!temp/.gitkeep

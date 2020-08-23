@@ -1,4 +1,4 @@
-export type FileRequest = {
+type FileRequest = {
   request: any
   response: any
 }

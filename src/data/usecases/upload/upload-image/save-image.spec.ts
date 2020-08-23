@@ -1,29 +1,16 @@
 import { SaveImage } from './save-image'
 import { ImageFileUploader, FileProps } from './save-image-protocols'
-import { Encrypter } from '@data/protocols/criptography/encrypter'
 
 type SutTypes = {
-  encrypterStub: Encrypter
   imageFileUploaderStub: ImageFileUploader
   sut: SaveImage
   fileFake: FileProps
 }
 
 const makeFileFake = (): FileProps => ({
-  request: {
-    file: { originalname: 'any_name.jpg' }
-  },
+  request: 'any_request',
   response: 'any_response'
 })
-
-const makeEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt (value: string): Promise<string> {
-      return new Promise(resolve => resolve('hashed_name'))
-    }
-  }
-  return new EncrypterStub()
-}
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
@@ -35,12 +22,10 @@ const makeImageFileUploaderStub = (): ImageFileUploader => {
 }
 
 const makeSut = (): SutTypes => {
-  const encrypterStub = makeEncrypter()
   const imageFileUploaderStub = makeImageFileUploaderStub()
-  const sut = new SaveImage(imageFileUploaderStub, encrypterStub)
+  const sut = new SaveImage(imageFileUploaderStub)
   const fileFake = makeFileFake()
   return {
-    encrypterStub,
     imageFileUploaderStub,
     sut,
     fileFake
@@ -48,18 +33,11 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SaveImage', () => {
-  test('should call encrypt with correct password', async () => {
-    const { sut, encrypterStub, fileFake } = makeSut()
-    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
-    await sut.upload(fileFake)
-    expect(encryptSpy).toHaveBeenCalledWith('any_name.jpg')
-  })
-
   test('should call ImageFileUploader with correct values', async () => {
     const { sut, imageFileUploaderStub, fileFake } = makeSut()
     const imageUploadSpy = jest.spyOn(imageFileUploaderStub, 'imageUpload')
     await sut.upload(fileFake)
-    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, 'hashed_name' + '.jpg')
+    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake)
   })
 
   test('should return null if ImageFileUploader return null', async () => {
