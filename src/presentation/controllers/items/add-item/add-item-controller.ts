@@ -6,6 +6,7 @@ import {
   Validator
 } from './add-item-controller-protocols'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
+import { UploadFileError } from '@presentation/errors'
 
 export class AddItemController implements Controller {
   constructor (
@@ -19,9 +20,12 @@ export class AddItemController implements Controller {
       if (isError) {
         return badRequest(isError)
       }
-      const { image, title } = httpRequest.body
 
-      await this.addItem.add({ image, title })
+      if (!httpRequest.body.file) {
+        return badRequest(new UploadFileError())
+      }
+      const { title, file } = httpRequest.body
+      await this.addItem.add({ image: file, title })
 
       return noContent()
     } catch (error) {
