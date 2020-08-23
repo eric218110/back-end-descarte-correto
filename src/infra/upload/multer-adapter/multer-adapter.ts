@@ -22,6 +22,7 @@ export class MulterAdapter implements ImageFileUploader {
       if (error) {
         return error
       }
+      request.body.file = request.file.filename
     })
   }
 }
