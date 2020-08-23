@@ -72,70 +72,78 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddItemController', () => {
-  test('should call LoadItemByTitle with values correctly', async () => {
-    const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
-    const addSpy = jest.spyOn(loadItemByTitleStub, 'load')
-    await sut.handle(fakeRequest)
-    expect(addSpy).toHaveBeenCalledWith(fakeRequest.body.title)
-  })
+  describe('AddItem', () => {
+    test('should call AddItem with values correctly', async () => {
+      const { sut, addItemStub, fakeRequest } = makeSut()
+      const addSpy = jest.spyOn(addItemStub, 'add')
+      await sut.handle(fakeRequest)
+      expect(addSpy).toHaveBeenCalledWith({
+        image: fakeRequest.body.file,
+        title: fakeRequest.body.title
+      })
+    })
 
-  test('should call AddItem with values correctly', async () => {
-    const { sut, addItemStub, fakeRequest } = makeSut()
-    const addSpy = jest.spyOn(addItemStub, 'add')
-    await sut.handle(fakeRequest)
-    expect(addSpy).toHaveBeenCalledWith({
-      image: fakeRequest.body.file,
-      title: fakeRequest.body.title
+    test('should return 500 if AddItem throws', async () => {
+      const { sut, addItemStub, fakeRequest } = makeSut()
+      jest.spyOn(addItemStub, 'add')
+        .mockImplementationOnce(async () => {
+          throw new Error()
+        })
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(serverError(new Error()))
+    })
+
+    test('Should return 204 on success', async () => {
+      const { sut, fakeRequest } = makeSut()
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(noContent())
     })
   })
 
-  test('should return 500 if AddItem throws', async () => {
-    const { sut, addItemStub, fakeRequest } = makeSut()
-    jest.spyOn(addItemStub, 'add')
-      .mockImplementationOnce(async () => {
-        throw new Error()
-      })
-    const response = await sut.handle(fakeRequest)
-    expect(response).toEqual(serverError(new Error()))
-  })
-
-  test('Should return 204 on success', async () => {
-    const { sut, fakeRequest } = makeSut()
-    const response = await sut.handle(fakeRequest)
-    expect(response).toEqual(noContent())
-  })
-
-  test('Should call Validator with correct value', async () => {
-    const { sut, validatorStub, fakeRequest } = makeSut()
-    const isValidSpy = jest.spyOn(validatorStub, 'isValid')
-    await sut.handle(fakeRequest)
-    expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.body)
-  })
-
-  test('Should return 400 if Validator return Error', async () => {
-    const { sut, validatorStub, fakeRequest } = makeSut()
-    jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
-    const httpResponse = await sut.handle(fakeRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
-  })
-
-  test('Should return 400 if field file not exist in request', async () => {
-    const { sut } = makeSut()
-    const httpResponse = await sut.handle({
-      body: {
-        title: 'any_title_1'
-      }
+  describe('Validator', () => {
+    test('Should call Validator with correct value', async () => {
+      const { sut, validatorStub, fakeRequest } = makeSut()
+      const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+      await sut.handle(fakeRequest)
+      expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
-    expect(httpResponse).toEqual(badRequest(new UploadFileError()))
+
+    test('Should return 400 if Validator return Error', async () => {
+      const { sut, validatorStub, fakeRequest } = makeSut()
+      jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
+      const httpResponse = await sut.handle(fakeRequest)
+      expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
+    })
+
+    test('should return 500 if Validator throws', async () => {
+      const { sut, validatorStub, fakeRequest } = makeSut()
+      jest.spyOn(validatorStub, 'isValid')
+        .mockImplementationOnce(() => {
+          throw new Error()
+        })
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(serverError(new Error()))
+    })
   })
 
-  test('should return 500 if Validator throws', async () => {
-    const { sut, validatorStub, fakeRequest } = makeSut()
-    jest.spyOn(validatorStub, 'isValid')
-      .mockImplementationOnce(() => {
-        throw new Error()
+  describe('File', () => {
+    test('Should return 400 if field file not exist in request', async () => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle({
+        body: {
+          title: 'any_title_1'
+        }
       })
-    const response = await sut.handle(fakeRequest)
-    expect(response).toEqual(serverError(new Error()))
+      expect(httpResponse).toEqual(badRequest(new UploadFileError()))
+    })
+  })
+
+  describe('LoadItemByTitle', () => {
+    test('should call LoadItemByTitle with values correctly', async () => {
+      const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
+      const addSpy = jest.spyOn(loadItemByTitleStub, 'load')
+      await sut.handle(fakeRequest)
+      expect(addSpy).toHaveBeenCalledWith(fakeRequest.body.title)
+    })
   })
 })
