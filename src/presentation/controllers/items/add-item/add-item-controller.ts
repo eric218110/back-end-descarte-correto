@@ -24,6 +24,7 @@ export class AddItemController implements Controller {
       if (!httpRequest.body.file) {
         return badRequest(new UploadFileError())
       }
+
       const { title, file } = httpRequest.body
       await this.addItem.add({ image: file, title })
 
