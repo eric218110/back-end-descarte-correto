@@ -7,11 +7,13 @@ import {
 } from './add-item-controller-protocols'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
 import { UploadFileError } from '@presentation/errors'
+import { LoadItemByTitle } from '@domain/usecases/item/load-item-by-title'
 
 export class AddItemController implements Controller {
   constructor (
     private readonly addItem: AddItem,
-    private readonly validator: Validator
+    private readonly validator: Validator,
+    private readonly loadItemByTitle: LoadItemByTitle
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -26,6 +28,7 @@ export class AddItemController implements Controller {
       }
 
       const { title, file } = httpRequest.body
+      await this.loadItemByTitle.load(title)
       await this.addItem.add({ image: file, title })
 
       return noContent()
