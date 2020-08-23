@@ -4,5 +4,5 @@ export type FileProps = {
 }
 
 export interface UploadImage {
-  upload: (file: FileProps) => Promise<string>
+  upload: (file: FileProps) => Promise<void>
 }

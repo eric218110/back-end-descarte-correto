@@ -14,8 +14,8 @@ const makeFileFake = (): FileProps => ({
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
-    async imageUpload (fileImage: FileProps): Promise<string> {
-      return new Promise(resolve => resolve('https://url_any_image.com'))
+    async imageUpload (fileImage: FileProps): Promise<void> {
+      return new Promise(resolve => resolve())
     }
   }
   return new ImageFileUploaderStub()
@@ -40,14 +40,6 @@ describe('SaveImage', () => {
     expect(imageUploadSpy).toHaveBeenCalledWith(fileFake)
   })
 
-  test('should return null if ImageFileUploader return null', async () => {
-    const { sut, imageFileUploaderStub, fileFake } = makeSut()
-    jest.spyOn(imageFileUploaderStub, 'imageUpload')
-      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const imageUrl = await sut.upload(fileFake)
-    expect(imageUrl).toBeNull()
-  })
-
   test('should throws if ImageFileUploader throws', async () => {
     const { sut, imageFileUploaderStub, fileFake } = makeSut()
     jest.spyOn(imageFileUploaderStub, 'imageUpload')
@@ -56,11 +48,5 @@ describe('SaveImage', () => {
       )
     const promisse = sut.upload(fileFake)
     await expect(promisse).rejects.toThrow()
-  })
-
-  test('should return an image url if ImageFileUploader on sucess', async () => {
-    const { sut, fileFake } = makeSut()
-    const imageUrl = await sut.upload(fileFake)
-    expect(imageUrl).toEqual('https://url_any_image.com')
   })
 })

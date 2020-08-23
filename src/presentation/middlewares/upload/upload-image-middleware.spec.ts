@@ -1,7 +1,6 @@
 import { UploadImageMiddleware } from './upload-image-middleware'
 import { UploadImage } from '@domain/usecases/upload/upload-image'
-import { serverError, badRequest } from '../auth/auth-middleware-protocols'
-import { UploadFileError } from '@presentation/errors/upload-file-error'
+import { serverError } from '../auth/auth-middleware-protocols'
 
 type SutTypes = {
   sut: UploadImageMiddleware
@@ -17,8 +16,8 @@ const makeFileRequest = (): any => ({
 
 const makeUploadImageStub = (): UploadImage => {
   class UploadImageStub implements UploadImage {
-    async upload (file: any): Promise<string> {
-      return new Promise(resolve => resolve('https://url_any_image.com'))
+    async upload (file: any): Promise<void> {
+      return new Promise(resolve => resolve())
     }
   }
   return new UploadImageStub()
@@ -60,34 +59,5 @@ describe('UploadImageMiddleware', () => {
     }
     const httpResponse = await sut.handle(fakeRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
-  })
-
-  test('should return 400 if UploadImage return false', async () => {
-    const { sut, uploadImageStub } = makeSut()
-    jest.spyOn(uploadImageStub, 'upload')
-      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const fakeRequest = {
-      file: makeFileRequest()
-    }
-    const httpResponse = await sut.handle(fakeRequest)
-    expect(httpResponse).toEqual(badRequest(new UploadFileError()))
-  })
-
-  test('should return image url if UploadImage success', async () => {
-    const { sut } = makeSut()
-    const fakeRequest = {
-      file: makeFileRequest()
-    }
-    const response = await sut.handle(fakeRequest)
-    expect(response.body.imageUrl).toEqual('https://url_any_image.com')
-  })
-
-  test('should return status code 200 if UploadImage success', async () => {
-    const { sut } = makeSut()
-    const fakeRequest = {
-      file: makeFileRequest()
-    }
-    const response = await sut.handle(fakeRequest)
-    expect(response.statusCode).toBe(200)
   })
 })

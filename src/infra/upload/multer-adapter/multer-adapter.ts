@@ -1,45 +1,27 @@
 import { ImageFileUploader, FileUploadProps } from '@data/protocols/upload/image-file-uploader'
 import multer from 'multer'
-import { resolve } from 'path'
-
+import { MulterHelper } from '../helper/multer-helper'
 export class MulterAdapter implements ImageFileUploader {
-  async imageUpload (file: FileUploadProps): Promise<string> {
+  async imageUpload (file: FileUploadProps): Promise<void> {
     const { request, response } = file
     const config = {
-      uploadsFolder: resolve('temp', 'uploads'),
+      uploadsFolder: MulterHelper.uploadDir(),
       storage: multer.diskStorage({
-        destination: resolve('temp', 'uploads'),
+        destination: MulterHelper.uploadDir(),
         filename (request, file, callback) {
-          const hash = Date.now()
-          const fileName = `${hash}-${file.originalname}`
-          return callback(null, fileName)
+          return callback(null, MulterHelper.generateFileName(file.originalname))
         }
       }),
-      limits: {
-        fileSize: 2 * 1024 * 1024
-      },
-      fileFilter: (request: any, file: any, cb: any) => {
-        const allowedMimes = [
-          'image/jpeg',
-          'image/pjpeg',
-          'image/png'
-        ]
-
-        if (allowedMimes.includes(file.mimetype)) {
-          cb(null, true)
-        } else {
-          cb(new Error('File not supported'))
-        }
-      }
+      limits: MulterHelper.limitImageUpload(),
+      fileFilter: MulterHelper.fileFilter
     }
 
     const upload = multer(config).single('file')
 
-    upload(request, response, function (error: any) {
+    upload(request, response, (error: any) => {
       if (error) {
-        return null
+        return error
       }
     })
-    return new Promise(resolve => resolve('void'))
   }
 }
