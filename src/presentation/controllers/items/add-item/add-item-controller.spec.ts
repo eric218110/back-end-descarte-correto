@@ -3,7 +3,7 @@ import { HttpRequest, Validator } from '../load-items/load-items-controller-prot
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/item/add-item'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
-import { MissingParamsError } from '@presentation/errors'
+import { MissingParamsError, UploadFileError } from '@presentation/errors'
 
 type SutTypes = {
   addItemStub: AddItem
@@ -16,8 +16,11 @@ const fakeItem = (): ItemModel => (
   { id: 'any_id', image: 'http://any_image_1.com', title: 'any_title_1' }
 )
 
-const fakeRequest = (): AddItemModel => (
-  { image: 'http://any_image_1.com', title: 'any_title_1' }
+const fakeRequest = (): {} => (
+  {
+    title: 'any_title_1',
+    file: 'any_filename.png'
+  }
 )
 
 const fakeHttpRequest = (): HttpRequest => ({
@@ -60,7 +63,10 @@ describe('AddItemController', () => {
     const { sut, addItemStub, fakeRequest } = makeSut()
     const addSpy = jest.spyOn(addItemStub, 'add')
     await sut.handle(fakeRequest)
-    expect(addSpy).toHaveBeenCalledWith(fakeRequest.body)
+    expect(addSpy).toHaveBeenCalledWith({
+      image: fakeRequest.body.file,
+      title: fakeRequest.body.title
+    })
   })
 
   test('should return 500 if AddItem throws', async () => {
@@ -91,6 +97,16 @@ describe('AddItemController', () => {
     jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(new MissingParamsError('any_field'))
     const httpResponse = await sut.handle(fakeRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamsError('any_field')))
+  })
+
+  test('Should return 400 if field file not exist in request', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({
+      body: {
+        title: 'any_title_1'
+      }
+    })
+    expect(httpResponse).toEqual(badRequest(new UploadFileError()))
   })
 
   test('should return 500 if Validator throws', async () => {
