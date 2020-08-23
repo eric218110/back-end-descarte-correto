@@ -4,12 +4,14 @@ import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/item/add-item'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
 import { MissingParamsError, UploadFileError } from '@presentation/errors'
+import { LoadItemByTitle } from '@domain/usecases/item/load-item-by-title'
 
 type SutTypes = {
   addItemStub: AddItem
   sut: AddItemController
   fakeRequest: HttpRequest
   validatorStub: Validator
+  loadItemByTitleStub: LoadItemByTitle
 }
 
 const fakeItem = (): ItemModel => (
@@ -45,20 +47,38 @@ const makeAddItemStub = (): AddItem => {
   return new AddItemStub()
 }
 
+const makeLoadItemByTitleStub = (): LoadItemByTitle => {
+  class AddItemStub implements LoadItemByTitle {
+    async load (title: string): Promise<ItemModel> {
+      return new Promise(resolve => resolve(null))
+    }
+  }
+  return new AddItemStub()
+}
+
 const makeSut = (): SutTypes => {
+  const loadItemByTitleStub = makeLoadItemByTitleStub()
   const addItemStub = makeAddItemStub()
   const validatorStub = makeValidatorStub()
-  const sut = new AddItemController(addItemStub, validatorStub)
+  const sut = new AddItemController(addItemStub, validatorStub, loadItemByTitleStub)
   const fakeRequest = fakeHttpRequest()
   return {
     sut,
     fakeRequest,
     addItemStub,
-    validatorStub
+    validatorStub,
+    loadItemByTitleStub
   }
 }
 
 describe('AddItemController', () => {
+  test('should call LoadItemByTitle with values correctly', async () => {
+    const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
+    const addSpy = jest.spyOn(loadItemByTitleStub, 'load')
+    await sut.handle(fakeRequest)
+    expect(addSpy).toHaveBeenCalledWith(fakeRequest.body.title)
+  })
+
   test('should call AddItem with values correctly', async () => {
     const { sut, addItemStub, fakeRequest } = makeSut()
     const addSpy = jest.spyOn(addItemStub, 'add')
