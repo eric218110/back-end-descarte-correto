@@ -19,10 +19,11 @@ export class MulterAdapter implements ImageFileUploader {
     const upload = multer(config).single('file')
 
     upload(request, response, (error: any) => {
-      if (error) {
-        return error
+      if (!error) {
+        if (MulterHelper.fileExist(request)) {
+          request.body.file = request.file.filename
+        }
       }
-      request.body.file = request.file.filename
     })
   }
 }

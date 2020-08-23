@@ -30,6 +30,10 @@ export const MulterHelper = {
     } else {
       cb(new Error('File not supported'), false)
     }
+  },
+
+  fileExist: (request: any): boolean => {
+    return !!request.file
   }
 
 }

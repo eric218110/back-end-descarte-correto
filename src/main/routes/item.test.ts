@@ -6,6 +6,7 @@ import { LoadItemsModel } from '@domain/usecases/item/load-items'
 import { hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import env from '@main/config/env'
+import { resolve } from 'path'
 
 let itemsCollection: Collection<LoadItemsModel>
 let accountCollection: Collection
@@ -37,10 +38,8 @@ describe('POST - Item Route', () => {
   test('Should return 403 as request', async () => {
     await request(app)
       .post('/api/item')
-      .send({
-        title: 'any_title',
-        image: 'https://url_any_image.com'
-      })
+      .attach('file', resolve('test', 'file', 'file-test.png'))
+      .field('title', 'any_title')
       .expect(403)
   })
 
@@ -51,14 +50,11 @@ describe('POST - Item Route', () => {
     })
     await request(app)
       .post('/api/item')
-      .send({
-        title: 'any_title',
-        image: 'https://url_any_image.com'
-      })
+      .attach('file', resolve('test', 'file', 'file-test.png'))
       .expect(403)
   })
 
-  test('Should return 204 if accessToken is valid with role admin', async () => {
+  test('Should return 400 if file not exists in request body', async () => {
     const result = await accountCollection.insertOne({
       name: 'Eric Silva',
       email: 'ericsilvaccp@gmail.com',
@@ -77,10 +73,55 @@ describe('POST - Item Route', () => {
     await request(app)
       .post('/api/item')
       .set('x-access-token', accessToken)
-      .send({
-        title: 'any_title',
-        image: 'https://url_any_image.com'
-      })
+      .field('title', 'any_title')
+      .expect(400)
+  })
+
+  test('Should return 403 if user not admin', async () => {
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: await hash('123', 12)
+    })
+    const id = result.ops[0]._id
+    const accessToken = sign({ id }, env.jwt_secret)
+    await accountCollection.updateOne({
+      _id: id
+    }, {
+      $set: {
+        accessToken
+      }
+    })
+    await request(app)
+      .post('/api/item')
+      .attach('file', resolve('test', 'file', 'file-test.png'))
+      .set('x-access-token', accessToken)
+      .field('title', 'any_title')
+      .expect(403)
+  })
+
+  test('Should return 204 if accessToken is valid with role admin', async () => {
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: await hash('123', 12),
+      role: 'admin'
+    })
+    const id = result.ops[0]._id
+    const accessToken = sign({ id }, env.jwt_secret)
+    await accountCollection.updateOne({
+      _id: id
+    }, {
+      $set: {
+        accessToken
+      }
+    })
+    await request(app)
+      .post('/api/item')
+      .set('x-access-token', accessToken)
+      .field({ title: 'any_title' })
+      .field({ file: 'any_file' })
+      .attach('file', resolve('test', 'file', 'file-test.png'))
       .expect(204)
   })
 })
