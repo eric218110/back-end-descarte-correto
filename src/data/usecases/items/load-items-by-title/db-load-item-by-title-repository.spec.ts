@@ -30,10 +30,20 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbLoadItemByTitleRepository', () => {
-  test('should call LoadItemByToken correctly', async () => {
+  test('should call LoadItemByTitle correctly', async () => {
     const { sut, loadItemByTitleRepositoryStub } = makeSut()
     const spyLoadByTitle = jest.spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
     await sut.load('any_title')
     expect(spyLoadByTitle).toHaveBeenCalledWith('any_title')
+  })
+
+  test('should return Item if LoadItemByTitle return success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.load('any_title')
+    expect(response).toEqual({
+      id: 'any_id',
+      image: 'http://any_image.com',
+      title: 'any_title'
+    })
   })
 })
