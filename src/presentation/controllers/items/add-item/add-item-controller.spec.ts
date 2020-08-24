@@ -154,6 +154,16 @@ describe('AddItemController', () => {
       expect(response).toEqual(badRequest(new TitleAlreadyExistError()))
     })
 
+    test('should return 500 if LoadItemByTitle throws', async () => {
+      const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
+      jest.spyOn(loadItemByTitleStub, 'load')
+        .mockImplementationOnce(async () => {
+          throw new Error()
+        })
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(serverError(new Error()))
+    })
+
     test('should return 204 if title not exist', async () => {
       const { sut, fakeRequest } = makeSut()
       const response = await sut.handle(fakeRequest)
