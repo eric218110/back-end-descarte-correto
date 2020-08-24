@@ -4,8 +4,10 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
 import { ItemModel } from '@domain/models/item'
 import { AddItemModel } from '@domain/usecases/item/add-item'
+import { LoadItemByTitleRepository } from '@data/protocols/data/items/load-item-by-title-repository'
 
-export class ItemMongoRepository implements AddItemRepository, LoadItemsRepository {
+export class ItemMongoRepository
+implements AddItemRepository, LoadItemsRepository, LoadItemByTitleRepository {
   async loadAllItems (): Promise<LoadItemsModel[]> {
     const itemsCollection = await MongoHelper.getCollection('items')
     const items = await itemsCollection.find().toArray()
@@ -21,5 +23,11 @@ export class ItemMongoRepository implements AddItemRepository, LoadItemsReposito
       return MongoHelper.collectionWithoutId<ItemModel>(newItem)
     }
     return null
+  }
+
+  async loadByTitle (title: string): Promise<ItemModel> {
+    const itemCollection = await MongoHelper.getCollection('items')
+    const item = await itemCollection.findOne({ title })
+    return MongoHelper.collectionWithoutId<ItemModel>(item)
   }
 }
