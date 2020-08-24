@@ -5,3 +5,4 @@ coverage
 globalConfig.json
 temp/*
 !temp/.gitkeep
+.env

@@ -51,7 +51,7 @@ describe('POST - Item Route', () => {
       role: 'admin'
     })
     const id = result.ops[0]._id
-    const accessToken = sign({ id }, env.jwt_secret)
+    const accessToken = sign({ id }, env.JWT_SECRET)
     await accountCollection.updateOne({
       _id: id
     }, {
@@ -73,7 +73,7 @@ describe('POST - Item Route', () => {
       password: await hash('123', 12)
     })
     const id = result.ops[0]._id
-    const accessToken = sign({ id }, env.jwt_secret)
+    const accessToken = sign({ id }, env.JWT_SECRET)
     await accountCollection.updateOne({
       _id: id
     }, {
@@ -97,7 +97,7 @@ describe('POST - Item Route', () => {
       role: 'admin'
     })
     const id = result.ops[0]._id
-    const accessToken = sign({ id }, env.jwt_secret)
+    const accessToken = sign({ id }, env.JWT_SECRET)
     await accountCollection.updateOne({
       _id: id
     }, {
@@ -122,7 +122,7 @@ describe('POST - Item Route', () => {
       role: 'admin'
     })
     const id = result.ops[0]._id
-    const accessToken = sign({ id }, env.jwt_secret)
+    const accessToken = sign({ id }, env.JWT_SECRET)
     await accountCollection.updateOne({
       _id: id
     }, {
