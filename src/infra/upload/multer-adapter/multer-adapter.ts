@@ -2,7 +2,7 @@ import { ImageFileUploader, FileUploadProps } from '@data/protocols/upload/image
 import multer from 'multer'
 import { MulterHelper } from '../helper/multer-helper'
 export class MulterAdapter implements ImageFileUploader {
-  async imageUpload (file: FileUploadProps): Promise<void> {
+  async imageUpload (file: FileUploadProps, storageType: 'LOCAL' | 'ONLINE'): Promise<void> {
     const { request, response } = file
     const config = {
       uploadsFolder: MulterHelper.uploadDir(),
