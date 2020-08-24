@@ -89,5 +89,12 @@ describe('ItemMongoRepository', () => {
       expect(item.title).toBe(itemsFake[0].title)
       expect(item.image).toBe(itemsFake[0].image)
     })
+
+    test('should return null if title is different', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemsColletction.insertMany(itemsFake)
+      const item = await sut.loadByTitle('not_exist_title')
+      expect(item).toBeNull()
+    })
   })
 })
