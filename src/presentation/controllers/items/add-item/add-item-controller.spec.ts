@@ -131,10 +131,22 @@ describe('AddItemController', () => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle({
         body: {
-          title: 'any_title_1'
+          title: 'any_title_1',
+          error: 'any_error_is_required'
         }
       })
-      expect(httpResponse).toEqual(badRequest(new UploadFileError()))
+      expect(httpResponse).toEqual(badRequest(new UploadFileError('any_error_is_required')))
+    })
+
+    test('Should return 400 if error in save file', async () => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle({
+        body: {
+          title: 'any_title_1',
+          error: 'any_error'
+        }
+      })
+      expect(httpResponse).toEqual(badRequest(new UploadFileError('any_error')))
     })
   })
 
