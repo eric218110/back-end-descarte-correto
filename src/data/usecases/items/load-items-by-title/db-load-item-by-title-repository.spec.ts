@@ -46,4 +46,12 @@ describe('DbLoadItemByTitleRepository', () => {
       title: 'any_title'
     })
   })
+
+  test('should return null if LoadItemByTitle returns null', async () => {
+    const { sut, loadItemByTitleRepositoryStub } = makeSut()
+    jest.spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const response = await sut.load('any_title')
+    expect(response).toBeNull()
+  })
 })
