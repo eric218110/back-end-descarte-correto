@@ -8,7 +8,7 @@ export class DbLoadItemByTitleRepository implements LoadItemByTitle {
   ) {}
 
   async load (title: any): Promise<ItemModel> {
-    await this.loadItemByTitleRepository.loadByTitle(title)
-    return new Promise(resolve => resolve(null))
+    const item = await this.loadItemByTitleRepository.loadByTitle(title)
+    return item
   }
 }
