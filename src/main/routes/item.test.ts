@@ -43,17 +43,6 @@ describe('POST - Item Route', () => {
       .expect(403)
   })
 
-  test('Should return 403 if title already exists', async () => {
-    await itemsCollection.insertOne({
-      title: 'any_title',
-      image: 'any_image'
-    })
-    await request(app)
-      .post('/api/item')
-      .attach('file', resolve('test', 'file', 'file-test.png'))
-      .expect(403)
-  })
-
   test('Should return 400 if file not exists in request body', async () => {
     const result = await accountCollection.insertOne({
       name: 'Eric Silva',
@@ -123,5 +112,29 @@ describe('POST - Item Route', () => {
       .field({ file: 'any_file' })
       .attach('file', resolve('test', 'file', 'file-test.png'))
       .expect(204)
+  })
+
+  test('Should return 400 if file not supported', async () => {
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: await hash('123', 12),
+      role: 'admin'
+    })
+    const id = result.ops[0]._id
+    const accessToken = sign({ id }, env.jwt_secret)
+    await accountCollection.updateOne({
+      _id: id
+    }, {
+      $set: {
+        accessToken
+      }
+    })
+    await request(app)
+      .post('/api/item')
+      .set('x-access-token', accessToken)
+      .field({ title: 'any_title' })
+      .attach('file', resolve('test', 'file', 'no-supported-test.txt'))
+      .expect(400)
   })
 })
