@@ -153,5 +153,11 @@ describe('AddItemController', () => {
       const response = await sut.handle(fakeRequest)
       expect(response).toEqual(badRequest(new TitleAlreadyExistError()))
     })
+
+    test('should return 204 if title not exist', async () => {
+      const { sut, fakeRequest } = makeSut()
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(noContent())
+    })
   })
 })
