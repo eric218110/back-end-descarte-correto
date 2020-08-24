@@ -18,13 +18,12 @@ export class AddItemController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      if (!httpRequest.body.file) {
+        return badRequest(new UploadFileError(httpRequest.body.error))
+      }
       const isError = this.validator.isValid(httpRequest.body)
       if (isError) {
         return badRequest(isError)
-      }
-
-      if (!httpRequest.body.file) {
-        return badRequest(new UploadFileError(httpRequest.body.error))
       }
 
       const { title, file } = httpRequest.body

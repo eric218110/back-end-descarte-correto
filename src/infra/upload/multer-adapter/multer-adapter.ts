@@ -23,6 +23,8 @@ export class MulterAdapter implements ImageFileUploader {
         if (MulterHelper.fileExist(request)) {
           request.body.file = request.file.filename
         }
+      } else {
+        request.body.error = error.message
       }
     })
   }
