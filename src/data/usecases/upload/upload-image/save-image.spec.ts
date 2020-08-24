@@ -23,7 +23,7 @@ const makeImageFileUploaderStub = (): ImageFileUploader => {
 
 const makeSut = (): SutTypes => {
   const imageFileUploaderStub = makeImageFileUploaderStub()
-  const sut = new SaveImage(imageFileUploaderStub)
+  const sut = new SaveImage(imageFileUploaderStub, 'LOCAL')
   const fileFake = makeFileFake()
   return {
     imageFileUploaderStub,
@@ -33,11 +33,11 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SaveImage', () => {
-  test('should call ImageFileUploader with correct values', async () => {
+  test('should call ImageFileUploader with correct values in mode development', async () => {
     const { sut, imageFileUploaderStub, fileFake } = makeSut()
     const imageUploadSpy = jest.spyOn(imageFileUploaderStub, 'imageUpload')
     await sut.upload(fileFake)
-    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake)
+    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, 'LOCAL')
   })
 
   test('should throws if ImageFileUploader throws', async () => {
