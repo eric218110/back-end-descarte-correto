@@ -24,7 +24,7 @@ export class AddItemController implements Controller {
       }
 
       if (!httpRequest.body.file) {
-        return badRequest(new UploadFileError())
+        return badRequest(new UploadFileError(httpRequest.body.error))
       }
 
       const { title, file } = httpRequest.body

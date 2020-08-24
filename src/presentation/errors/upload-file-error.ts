@@ -1,6 +1,6 @@
 export class UploadFileError extends Error {
-  constructor () {
-    super('Could not save the file')
+  constructor (messageError: string) {
+    super(`Error saving: ${messageError}`)
     this.name = 'UploadFileError'
   }
 }
