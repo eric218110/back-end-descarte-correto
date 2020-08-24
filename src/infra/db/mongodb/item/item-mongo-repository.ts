@@ -28,6 +28,6 @@ implements AddItemRepository, LoadItemsRepository, LoadItemByTitleRepository {
   async loadByTitle (title: string): Promise<ItemModel> {
     const itemCollection = await MongoHelper.getCollection('items')
     const item = await itemCollection.findOne({ title })
-    return MongoHelper.collectionWithoutId<ItemModel>(item)
+    return item && MongoHelper.collectionWithoutId<ItemModel>(item)
   }
 }
