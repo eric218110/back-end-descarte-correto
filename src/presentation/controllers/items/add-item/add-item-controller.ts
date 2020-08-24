@@ -6,7 +6,7 @@ import {
   Validator
 } from './add-item-controller-protocols'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
-import { UploadFileError } from '@presentation/errors'
+import { UploadFileError, TitleAlreadyExistError } from '@presentation/errors'
 import { LoadItemByTitle } from '@domain/usecases/item/load-item-by-title'
 
 export class AddItemController implements Controller {
@@ -28,7 +28,10 @@ export class AddItemController implements Controller {
       }
 
       const { title, file } = httpRequest.body
-      await this.loadItemByTitle.load(title)
+      const titleExist = await this.loadItemByTitle.load(title)
+      if (titleExist) {
+        return badRequest(new TitleAlreadyExistError())
+      }
       await this.addItem.add({ image: file, title })
 
       return noContent()
