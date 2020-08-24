@@ -3,7 +3,7 @@ import { HttpRequest, Validator } from '../load-items/load-items-controller-prot
 import { ItemModel } from '@domain/models/item'
 import { AddItem, AddItemModel } from '@domain/usecases/item/add-item'
 import { serverError, badRequest, noContent } from '@presentation/helper/http/http-helper'
-import { MissingParamsError, UploadFileError } from '@presentation/errors'
+import { MissingParamsError, UploadFileError, TitleAlreadyExistError } from '@presentation/errors'
 import { LoadItemByTitle } from '@domain/usecases/item/load-item-by-title'
 
 type SutTypes = {
@@ -144,6 +144,14 @@ describe('AddItemController', () => {
       const addSpy = jest.spyOn(loadItemByTitleStub, 'load')
       await sut.handle(fakeRequest)
       expect(addSpy).toHaveBeenCalledWith(fakeRequest.body.title)
+    })
+
+    test('should return 400 if title already exist', async () => {
+      const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
+      jest.spyOn(loadItemByTitleStub, 'load')
+        .mockReturnValueOnce(new Promise(resolve => resolve(fakeItem())))
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(badRequest(new TitleAlreadyExistError()))
     })
   })
 })
