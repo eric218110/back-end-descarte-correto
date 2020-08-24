@@ -1,7 +1,7 @@
+import { Collection } from 'mongodb'
 import { ItemMongoRepository } from './item-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ItemModel } from '@domain/models/item'
-import { Collection } from 'mongodb'
 import { LoadItemsModel } from '@domain/usecases/item/load-items'
 
 let itemsColletction: Collection<Omit<ItemModel, 'id'>>
@@ -36,42 +36,56 @@ beforeEach(async () => {
   await itemsColletction.deleteMany({})
 })
 
-describe('LoadAllItems()', () => {
-  test('should load all items on sucess', async () => {
-    const { sut, itemsFake } = makeSut()
-    await itemsColletction.insertMany(itemsFake)
-    const items = await sut.loadAllItems()
-    expect(items.length).toBe(2)
-    expect(items[0].title).toBe(itemsFake[0].title)
-    expect(items[1].title).toBe(itemsFake[1].title)
+describe('ItemMongoRepository', () => {
+  describe('LoadAllItems()', () => {
+    test('should load all items on sucess', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemsColletction.insertMany(itemsFake)
+      const items = await sut.loadAllItems()
+      expect(items.length).toBe(2)
+      expect(items[0].title).toBe(itemsFake[0].title)
+      expect(items[1].title).toBe(itemsFake[1].title)
+    })
+
+    test('should ItemMongoRepository return [] if is empty', async () => {
+      const { sut } = makeSut()
+      const items = await sut.loadAllItems()
+      expect(items.length).toBe(0)
+    })
+
+    test('should return new item if add item on sucess', async () => {
+      const { sut, itemsFake } = makeSut()
+      const item = await sut.addNewItem(itemsFake[0])
+      expect(item).toBeTruthy()
+      expect(item.id).toBeTruthy()
+      expect(item.title).toBe(itemsFake[0].title)
+      expect(item.image).toBe(itemsFake[0].image)
+    })
+
+    test('should add only one item', async () => {
+      const { sut, itemsFake } = makeSut()
+      await sut.addNewItem(itemsFake[0])
+      const itemExist = await itemsColletction.find({ title: itemsFake[0].title }).toArray()
+      expect(itemExist.length).toBe(1)
+    })
+
+    test('should return null if title already exists', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemsColletction.insertOne({ title: itemsFake[0].title, image: itemsFake[1].image })
+      const newItem = await sut.addNewItem(itemsFake[0])
+      expect(newItem).toBeNull()
+    })
   })
 
-  test('should ItemMongoRepository return [] if is empty', async () => {
-    const { sut } = makeSut()
-    const items = await sut.loadAllItems()
-    expect(items.length).toBe(0)
-  })
-
-  test('should return new item if add item on sucess', async () => {
-    const { sut, itemsFake } = makeSut()
-    const item = await sut.addNewItem(itemsFake[0])
-    expect(item).toBeTruthy()
-    expect(item.id).toBeTruthy()
-    expect(item.title).toBe(itemsFake[0].title)
-    expect(item.image).toBe(itemsFake[0].image)
-  })
-
-  test('should add only one item', async () => {
-    const { sut, itemsFake } = makeSut()
-    await sut.addNewItem(itemsFake[0])
-    const itemExist = await itemsColletction.find({ title: itemsFake[0].title }).toArray()
-    expect(itemExist.length).toBe(1)
-  })
-
-  test('should return null if title already exists', async () => {
-    const { sut, itemsFake } = makeSut()
-    await itemsColletction.insertOne({ title: itemsFake[0].title, image: itemsFake[1].image })
-    const newItem = await sut.addNewItem(itemsFake[0])
-    expect(newItem).toBeNull()
+  describe('LoadItemByToken', () => {
+    test('should return one item if title is equals', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemsColletction.insertMany(itemsFake)
+      const item = await sut.loadByTitle(itemsFake[0].title)
+      expect(item).toBeTruthy()
+      expect(item.id).toBeTruthy()
+      expect(item.title).toBe(itemsFake[0].title)
+      expect(item.image).toBe(itemsFake[0].image)
+    })
   })
 })
