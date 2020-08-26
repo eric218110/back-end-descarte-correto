@@ -10,7 +10,7 @@ export class MulterAdapter implements ImageFileUploader {
     upload(request, response, async (error: any) => {
       if (!error) {
         if (MulterHelper.fileExist(request)) {
-          await saveFileStorage.saveFile(request, request.file.filename)
+          await saveFileStorage.saveFile(request)
         }
       } else {
         request.body.error = error.message
