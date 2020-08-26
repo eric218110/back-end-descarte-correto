@@ -9,8 +9,8 @@ type SutTypes = {
 
 const makeSavedFileStorageStub = (): SavedFileStorage => {
   class SavedFileStorageStub implements SavedFileStorage {
-    async saveFile (request: any, fileName: string): Promise<void> {
-      return new Promise(resolve => resolve())
+    async saveFile (request: any): Promise<string> {
+      return new Promise(resolve => resolve('http://image_url.com'))
     }
   }
   return new SavedFileStorageStub()
@@ -40,8 +40,8 @@ describe('SavedImageStorage', () => {
   test('should call save with correct values', async () => {
     const { sut, savedFileStorage } = makeSut()
     const spySaveFile = jest.spyOn(savedFileStorage, 'saveFile')
-    await sut.save(makeFakeRequest(), 'any_name')
-    expect(spySaveFile).toBeCalledWith(makeFakeRequest(), 'any_name')
+    await sut.save(makeFakeRequest())
+    expect(spySaveFile).toBeCalledWith(makeFakeRequest())
   })
 
   test('should throws if FileStorage throws', async () => {
@@ -50,7 +50,7 @@ describe('SavedImageStorage', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )
-    const promisse = sut.save(makeFakeRequest(), 'any_name')
+    const promisse = sut.save(makeFakeRequest())
     await expect(promisse).rejects.toThrow()
   })
 })

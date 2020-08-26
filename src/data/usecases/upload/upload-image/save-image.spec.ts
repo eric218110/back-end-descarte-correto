@@ -25,7 +25,7 @@ const makeImageFileUploaderStub = (): ImageFileUploader => {
 
 const makeSaveFileStorageStub = (): SavedFileStorage => {
   class SavedFileStorageStub implements SavedFileStorage {
-    async saveFile (request: any, fileName: string): Promise<void> {
+    async saveFile (request: any): Promise<string> {
       return new Promise(resolve => resolve())
     }
   }
