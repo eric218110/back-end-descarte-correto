@@ -1,27 +1,16 @@
-import { ImageFileUploader, FileUploadProps } from '@data/protocols/upload/image-file-uploader'
 import multer from 'multer'
-import { MulterHelper } from '../helper/multer-helper'
+import { ImageFileUploader, FileUploadProps } from '@data/protocols/upload/image-file-uploader'
+import { MulterHelper } from '@infra/upload/helper/multer-helper'
+import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
 export class MulterAdapter implements ImageFileUploader {
-  async imageUpload (file: FileUploadProps, storageType: 'LOCAL' | 'ONLINE'): Promise<void> {
+  async imageUpload (file: FileUploadProps, saveFileStorage: SavedFileStorage): Promise<void> {
     const { request, response } = file
-    const config = {
-      uploadsFolder: MulterHelper.uploadDir(),
-      storage: multer.diskStorage({
-        destination: MulterHelper.uploadDir(),
-        filename (request, file, callback) {
-          return callback(null, MulterHelper.generateFileName(file.originalname))
-        }
-      }),
-      limits: MulterHelper.limitImageUpload(),
-      fileFilter: MulterHelper.fileFilter
-    }
-
-    const upload = multer(config).single('file')
-
-    upload(request, response, (error: any) => {
+    const upload = multer(MulterHelper.setConfig(multer)).single('file')
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    upload(request, response, async (error: any) => {
       if (!error) {
         if (MulterHelper.fileExist(request)) {
-          request.body.file = request.file.filename
+          await saveFileStorage.saveFile(request, request.file.filename)
         }
       } else {
         request.body.error = error.message

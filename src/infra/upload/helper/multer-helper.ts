@@ -34,6 +34,20 @@ export const MulterHelper = {
 
   fileExist: (request: any): boolean => {
     return !!request.file
+  },
+
+  setConfig: (multer: any): {} => {
+    return {
+      uploadsFolder: MulterHelper.uploadDir(),
+      storage: multer.diskStorage({
+        destination: MulterHelper.uploadDir(),
+        filename (request, file, callback) {
+          return callback(null, MulterHelper.generateFileName(file.originalname))
+        }
+      }),
+      limits: MulterHelper.limitImageUpload(),
+      fileFilter: MulterHelper.fileFilter
+    }
   }
 
 }
