@@ -1,9 +1,11 @@
 import { SaveImage } from './save-image'
 import { ImageFileUploader, FileProps } from './save-image-protocols'
+import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
 
 type SutTypes = {
   imageFileUploaderStub: ImageFileUploader
   sut: SaveImage
+  saveFileStorageStub: SavedFileStorage
   fileFake: FileProps
 }
 
@@ -14,41 +16,45 @@ const makeFileFake = (): FileProps => ({
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
-    async imageUpload (fileImage: FileProps, storageType: 'LOCAL' | 'ONLINE'): Promise<void> {
+    async imageUpload (fileImage: FileProps, saveFileStorage: SavedFileStorage): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
   return new ImageFileUploaderStub()
 }
 
-const makeSut = (env: 'LOCAL' | 'ONLINE'): SutTypes => {
+const makeSaveFileStorageStub = (): SavedFileStorage => {
+  class SavedFileStorageStub implements SavedFileStorage {
+    async saveFile (request: any, fileName: string): Promise<void> {
+      return new Promise(resolve => resolve())
+    }
+  }
+  return new SavedFileStorageStub()
+}
+
+const makeSut = (): SutTypes => {
   const imageFileUploaderStub = makeImageFileUploaderStub()
-  const sut = new SaveImage(imageFileUploaderStub, env)
+  const saveFileStorageStub = makeSaveFileStorageStub()
+  const sut = new SaveImage(imageFileUploaderStub, saveFileStorageStub)
   const fileFake = makeFileFake()
   return {
     imageFileUploaderStub,
     sut,
-    fileFake
+    fileFake,
+    saveFileStorageStub
   }
 }
 
 describe('SaveImage', () => {
-  test('should call ImageFileUploader with correct values in mode development', async () => {
-    const { sut, imageFileUploaderStub, fileFake } = makeSut('LOCAL')
+  test('should call ImageFileUploader with SaveFileStorage', async () => {
+    const { sut, imageFileUploaderStub, fileFake, saveFileStorageStub } = makeSut()
     const imageUploadSpy = jest.spyOn(imageFileUploaderStub, 'imageUpload')
     await sut.upload(fileFake)
-    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, 'LOCAL')
-  })
-
-  test('should call ImageFileUploader with correct values in online development', async () => {
-    const { sut, imageFileUploaderStub, fileFake } = makeSut('ONLINE')
-    const imageUploadSpy = jest.spyOn(imageFileUploaderStub, 'imageUpload')
-    await sut.upload(fileFake)
-    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, 'ONLINE')
+    expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, saveFileStorageStub)
   })
 
   test('should throws if ImageFileUploader throws', async () => {
-    const { sut, imageFileUploaderStub, fileFake } = makeSut('LOCAL')
+    const { sut, imageFileUploaderStub, fileFake } = makeSut()
     jest.spyOn(imageFileUploaderStub, 'imageUpload')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
