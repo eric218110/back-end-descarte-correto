@@ -43,4 +43,14 @@ describe('SavedImageStorage', () => {
     await sut.save(makeFakeRequest(), 'any_name')
     expect(spySaveFile).toBeCalledWith(makeFakeRequest(), 'any_name')
   })
+
+  test('should throws if FileStorage throws', async () => {
+    const { sut, savedFileStorage } = makeSut()
+    jest.spyOn(savedFileStorage, 'saveFile')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const promisse = sut.save(makeFakeRequest(), 'any_name')
+    await expect(promisse).rejects.toThrow()
+  })
 })
