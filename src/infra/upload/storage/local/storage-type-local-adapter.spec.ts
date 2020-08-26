@@ -39,4 +39,30 @@ describe('StorageTypeLocalAdapter', () => {
     const fileUrl = sut.saveFile(fakeRequestInvalid)
     await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
   })
+
+  test('should return throws type error if file is undefined', async () => {
+    const { sut } = makeSut()
+    const fakeRequestInvalid = undefined
+    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
+  })
+
+  test('should return throws type error if filename is undefined', async () => {
+    const { sut } = makeSut()
+    const fakeRequestInvalid = {
+      file: {
+        destination: 'any_destination',
+        encoding: 'any_encoding',
+        fieldname: 'any_fieldname',
+        filename: undefined,
+        mimetype: 'any_mimetype',
+        originalname: 'any_originalname',
+        path: 'any_path',
+        size: 'any_size',
+        stream: 'any_stream'
+      }
+    }
+    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    await expect(fileUrl).rejects.toThrow(TypeError('field filename is required'))
+  })
 })
