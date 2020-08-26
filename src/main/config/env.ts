@@ -11,5 +11,5 @@ export default {
   AWS_BUCKET: process.env.AWS_BUCKET || 'tem-coleta-back-end-test',
   AWS_ACL: process.env.AWS_ACL || 'public-read',
   MODE: process.env.MODE || 'development',
-  HOST_APPLICATION: process.env.STATIC_PATH_URL || `http://localhost:${port}/files/`
+  HOST_APPLICATION: process.env.HOST_APPLICATION || `http://localhost:${port}`
 }

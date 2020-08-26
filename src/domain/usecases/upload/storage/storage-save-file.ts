@@ -1,3 +1,3 @@
 export interface StorageSaveFile {
-  save: (request: any) => Promise<void>
+  save: (request: any, fileName: string) => Promise<void>
 }

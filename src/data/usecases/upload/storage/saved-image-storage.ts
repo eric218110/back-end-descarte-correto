@@ -6,7 +6,7 @@ export class SavedImageStorage implements StorageSaveFile {
     private readonly savedFileStorage: SavedFileStorage
   ) {}
 
-  async save (request: any): Promise<void> {
-    await this.savedFileStorage.saveFile(request)
+  async save (request: any, fileName: string): Promise<void> {
+    await this.savedFileStorage.saveFile(request, fileName)
   }
 }
