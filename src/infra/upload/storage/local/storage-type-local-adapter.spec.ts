@@ -1,4 +1,6 @@
 import { StorageTypeLocalAdapter } from './storage-type-local-adapter'
+import fs from 'fs'
+import { resolve } from 'path'
 
 export type SutTypes = {
   sut: StorageTypeLocalAdapter
@@ -71,6 +73,25 @@ describe('StorageTypeLocalAdapter', () => {
   })
 
   describe('RemoveImage', () => {
+    test('should remove file is success', async () => {
+      const pathImage = resolve('test', 'file', 'file-test-remove.png')
+      fs.writeFile(pathImage, 'Test RemoveImage\n', (error) => {
+        if (error) throw error
+      })
+      const { sut } = makeSut()
+      await sut.removeImage(pathImage)
+      const existFile = fs.stat(pathImage, function (error, stat) {
+        if (error == null) {
+          console.log('dd')
+          return true
+        } else if (error.code === 'ENOENT') {
+          return false
+        } else {
+          throw error
+        }
+      })
 
+      expect(existFile).toBeFalsy()
+    })
   })
 })
