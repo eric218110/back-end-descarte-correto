@@ -80,17 +80,25 @@ describe('StorageTypeLocalAdapter', () => {
       })
       const { sut } = makeSut()
       await sut.removeImage(pathImage)
-      const existFile = fs.stat(pathImage, function (error, stat) {
+      let existFile = false
+      fs.stat(pathImage, function (error, stat) {
         if (error == null) {
-          console.log('dd')
-          return true
-        } else if (error.code === 'ENOENT') {
-          return false
-        } else {
-          throw error
+          existFile = true
         }
       })
+      expect(existFile).toBeFalsy()
+    })
 
+    test('should file only if it exists', async () => {
+      const pathImage = resolve('test', 'file', 'file-not-exist.png')
+      const { sut } = makeSut()
+      await sut.removeImage(pathImage)
+      let existFile = false
+      fs.stat(pathImage, function (error, stat) {
+        if (error == null) {
+          existFile = true
+        }
+      })
       expect(existFile).toBeFalsy()
     })
   })
