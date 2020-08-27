@@ -23,9 +23,9 @@ export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageS
   }
 
   async removeImage (filePath: string): Promise<void> {
-    fs.unlink(filePath, function (error) {
-      if (error) {
-        throw new Error('Not remove file')
+    fs.stat(filePath, function (error, stat) {
+      if (error == null) {
+        fs.unlinkSync(filePath)
       }
     })
   }
