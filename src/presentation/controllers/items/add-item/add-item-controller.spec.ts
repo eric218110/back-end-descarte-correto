@@ -60,8 +60,8 @@ const makeLoadItemByTitleStub = (): LoadItemByTitle => {
 
 const makeStorageRemoveFileStub = (): StorageRemoveFile => {
   class StorageRemoveFileStub implements StorageRemoveFile {
-    async remove (filePath: string): Promise<boolean> {
-      return new Promise(resolve => resolve(true))
+    async remove (filePath: string): Promise<void> {
+      return new Promise(resolve => resolve())
     }
   }
   return new StorageRemoveFileStub()
@@ -214,6 +214,22 @@ describe('AddItemController', () => {
       })
 
       expect(addSpy).toHaveBeenCalledWith('any_path_url.file')
+    })
+
+    test('should return 500 if RemoveFileStorage throws', async () => {
+      const { sut, storageRemoveFileStub } = makeSut()
+      jest.spyOn(storageRemoveFileStub, 'remove')
+        .mockImplementationOnce(async () => {
+          throw new Error()
+        })
+      const response = await sut.handle({
+        body: {
+          title: 'any_title_1',
+          error: 'any_error_is_required',
+          pathFile: 'any_path_url.file'
+        }
+      })
+      expect(response).toEqual(serverError(new Error()))
     })
   })
 })

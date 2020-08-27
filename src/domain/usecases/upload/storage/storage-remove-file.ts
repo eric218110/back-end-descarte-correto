@@ -1,3 +1,3 @@
 export interface StorageRemoveFile {
-  remove: (pathFile: string) => Promise<boolean>
+  remove: (pathFile: string) => Promise<void>
 }
