@@ -31,4 +31,14 @@ describe('RemoveImageStorage', () => {
     await sut.remove('any_image_path.file')
     expect(removeFileSpy).toHaveBeenCalledWith('any_image_path.file')
   })
+
+  test('should throws if RemovedImageStorage throws', async () => {
+    const { sut, removedImageStorage } = makeSut()
+    jest.spyOn(removedImageStorage, 'removeImage')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const promisse = sut.remove('any_image_path.file')
+    await expect(promisse).rejects.toThrow()
+  })
 })
