@@ -202,7 +202,7 @@ describe('AddItemController', () => {
   })
 
   describe('Storage', () => {
-    test('should call RemoveFileStorage with correct values', async () => {
+    test('should call RemoveFileStorage with correct values if Error an save file', async () => {
       const { sut, storageRemoveFileStub } = makeSut()
       const addSpy = jest.spyOn(storageRemoveFileStub, 'remove')
       await sut.handle({
