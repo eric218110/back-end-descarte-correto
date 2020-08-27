@@ -33,9 +33,18 @@ describe('StorageTypeLocalAdapter', () => {
     expect(fileUrl).toEqual('http://localhost:1995/files/valid_any_filename.jpg')
   })
 
-  test('should return throws type error if file is undefined', async () => {
+  test('should return throws type error if request is undefined', async () => {
     const { sut } = makeSut()
     const fakeRequestInvalid = undefined
+    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    await expect(fileUrl).rejects.toThrow(TypeError('request is required'))
+  })
+
+  test('should return throws type error if file in request is undefined', async () => {
+    const { sut } = makeSut()
+    const fakeRequestInvalid = {
+      file: undefined
+    }
     const fileUrl = sut.saveFile(fakeRequestInvalid)
     await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
   })
