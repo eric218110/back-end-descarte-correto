@@ -7,12 +7,14 @@ export class MulterAdapter implements ImageFileUploader {
     const { request, response } = file
     const upload = multer(MulterHelper.setConfig(multer)).single('file')
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    upload(request, response, async (error: any) => {
-      if (!error) {
-        if (MulterHelper.fileExist(request)) {
-          await saveFileStorage.saveFile(request)
+    upload(request, response, async (errorMulter: any) => {
+      try {
+        if (errorMulter) {
+          throw new Error(errorMulter.message)
         }
-      } else {
+        const imageUrl = await saveFileStorage.saveFile(request)
+        request.body.file = imageUrl
+      } catch (error) {
         request.body.error = error.message
       }
     })
