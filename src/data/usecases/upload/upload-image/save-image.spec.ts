@@ -1,11 +1,11 @@
 import { SaveImage } from './save-image'
 import { ImageFileUploader, FileProps } from './save-image-protocols'
-import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
+import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 
 type SutTypes = {
   imageFileUploaderStub: ImageFileUploader
   sut: SaveImage
-  saveFileStorageStub: SavedFileStorage
+  saveFileStorageStub: SavedImageStorage
   fileFake: FileProps
 }
 
@@ -16,20 +16,20 @@ const makeFileFake = (): FileProps => ({
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
-    async imageUpload (fileImage: FileProps, saveFileStorage: SavedFileStorage): Promise<void> {
+    async imageUpload (fileImage: FileProps, saveFileStorage: SavedImageStorage): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
   return new ImageFileUploaderStub()
 }
 
-const makeSaveFileStorageStub = (): SavedFileStorage => {
-  class SavedFileStorageStub implements SavedFileStorage {
-    async saveFile (request: any): Promise<string> {
+const makeSaveFileStorageStub = (): SavedImageStorage => {
+  class SavedImageStorageStub implements SavedImageStorage {
+    async saveImage (request: any): Promise<string> {
       return new Promise(resolve => resolve())
     }
   }
-  return new SavedFileStorageStub()
+  return new SavedImageStorageStub()
 }
 
 const makeSut = (): SutTypes => {

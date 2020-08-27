@@ -1,12 +1,12 @@
-import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
+import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 import { StorageSaveFile } from '@domain/usecases/upload/storage/storage-save-file'
 
-export class SavedImageStorage implements StorageSaveFile {
+export class SaveImageStorage implements StorageSaveFile {
   constructor (
-    private readonly savedFileStorage: SavedFileStorage
+    private readonly savedImageStorage: SavedImageStorage
   ) {}
 
   async save (request: any): Promise<void> {
-    await this.savedFileStorage.saveFile(request)
+    await this.savedImageStorage.saveImage(request)
   }
 }

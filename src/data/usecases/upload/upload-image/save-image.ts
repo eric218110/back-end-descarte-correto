@@ -1,10 +1,10 @@
 import { UploadImage, ImageFileUploader, FileProps } from './save-image-protocols'
-import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
+import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 
 export class SaveImage implements UploadImage {
   constructor (
     private readonly imageFileUploader: ImageFileUploader,
-    private readonly saveFileStorage: SavedFileStorage
+    private readonly saveFileStorage: SavedImageStorage
   ) {}
 
   async upload (requestFile: FileProps): Promise<void> {

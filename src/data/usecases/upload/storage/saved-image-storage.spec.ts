@@ -1,26 +1,26 @@
-import { SavedImageStorage } from './saved-image-storage'
-import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
+import { SaveImageStorage } from './saved-image-storage'
+import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 import { HttpRequest } from '@presentation/protocols'
 
 type SutTypes = {
-  sut: SavedImageStorage
-  savedFileStorage: SavedFileStorage
+  sut: SaveImageStorage
+  savedImageStorage: SavedImageStorage
 }
 
-const makeSavedFileStorageStub = (): SavedFileStorage => {
-  class SavedFileStorageStub implements SavedFileStorage {
-    async saveFile (request: any): Promise<string> {
+const makeSavedImageStorageStub = (): SavedImageStorage => {
+  class SavedImageStorageStub implements SavedImageStorage {
+    async saveImage (request: any): Promise<string> {
       return new Promise(resolve => resolve('http://image_url.com'))
     }
   }
-  return new SavedFileStorageStub()
+  return new SavedImageStorageStub()
 }
 
 const makeSut = (): SutTypes => {
-  const savedFileStorage = makeSavedFileStorageStub()
-  const sut = new SavedImageStorage(savedFileStorage)
+  const savedImageStorage = makeSavedImageStorageStub()
+  const sut = new SaveImageStorage(savedImageStorage)
   return {
-    savedFileStorage,
+    savedImageStorage,
     sut
   }
 }
@@ -38,15 +38,15 @@ const makeFakeRequest = (): HttpRequest => ({
 
 describe('SavedImageStorage', () => {
   test('should call save with correct values', async () => {
-    const { sut, savedFileStorage } = makeSut()
-    const spySaveFile = jest.spyOn(savedFileStorage, 'saveFile')
+    const { sut, savedImageStorage } = makeSut()
+    const spySaveFile = jest.spyOn(savedImageStorage, 'saveImage')
     await sut.save(makeFakeRequest())
     expect(spySaveFile).toBeCalledWith(makeFakeRequest())
   })
 
   test('should throws if FileStorage throws', async () => {
-    const { sut, savedFileStorage } = makeSut()
-    jest.spyOn(savedFileStorage, 'saveFile')
+    const { sut, savedImageStorage } = makeSut()
+    jest.spyOn(savedImageStorage, 'saveImage')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )

@@ -1,11 +1,11 @@
-import { SavedFileStorage } from '@data/protocols/upload/storage/saved-file-storage'
+import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 
-export class StorageTypeLocalAdapter implements SavedFileStorage {
+export class StorageTypeLocalAdapter implements SavedImageStorage {
   constructor (
     private readonly staticPathFilesUrl: string
   ) {}
 
-  async saveFile (request: any): Promise<string> {
+  async saveImage (request: any): Promise<string> {
     if (request === undefined) {
       throw TypeError('request is required')
     }

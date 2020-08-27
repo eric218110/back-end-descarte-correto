@@ -29,14 +29,14 @@ const makeFileRequestFake = (): {} => ({
 describe('StorageTypeLocalAdapter', () => {
   test('should return url file correct', async () => {
     const { sut } = makeSut()
-    const fileUrl = await sut.saveFile(makeFileRequestFake())
+    const fileUrl = await sut.saveImage(makeFileRequestFake())
     expect(fileUrl).toEqual('http://localhost:1995/files/valid_any_filename.jpg')
   })
 
   test('should return throws type error if request is undefined', async () => {
     const { sut } = makeSut()
     const fakeRequestInvalid = undefined
-    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    const fileUrl = sut.saveImage(fakeRequestInvalid)
     await expect(fileUrl).rejects.toThrow(TypeError('request is required'))
   })
 
@@ -45,7 +45,7 @@ describe('StorageTypeLocalAdapter', () => {
     const fakeRequestInvalid = {
       file: undefined
     }
-    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    const fileUrl = sut.saveImage(fakeRequestInvalid)
     await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
   })
 
@@ -64,7 +64,7 @@ describe('StorageTypeLocalAdapter', () => {
         stream: 'any_stream'
       }
     }
-    const fileUrl = sut.saveFile(fakeRequestInvalid)
+    const fileUrl = sut.saveImage(fakeRequestInvalid)
     await expect(fileUrl).rejects.toThrow(TypeError('field filename is required'))
   })
 })
