@@ -6,3 +6,4 @@ globalConfig.json
 temp/*
 !temp/.gitkeep
 .env
+test/file/file-test-remove.png
