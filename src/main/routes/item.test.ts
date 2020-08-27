@@ -114,6 +114,29 @@ describe('POST - Item Route', () => {
       .expect(204)
   })
 
+  test('Should error if Storage retrun error', async () => {
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: await hash('123', 12),
+      role: 'admin'
+    })
+    const id = result.ops[0]._id
+    const accessToken = sign({ id }, env.JWT_SECRET)
+    await accountCollection.updateOne({
+      _id: id
+    }, {
+      $set: {
+        accessToken
+      }
+    })
+    await request(app)
+      .post('/api/item')
+      .set('x-access-token', accessToken)
+      .field({ title: 'any_title' })
+      .expect(400)
+  })
+
   test('Should return 400 if file not supported', async () => {
     const result = await accountCollection.insertOne({
       name: 'any_name',
