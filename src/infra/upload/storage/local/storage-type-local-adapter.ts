@@ -1,6 +1,8 @@
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
+import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
+import fs from 'fs'
 
-export class StorageTypeLocalAdapter implements SavedImageStorage {
+export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageStorage {
   constructor (
     private readonly staticPathFilesUrl: string
   ) {}
@@ -18,5 +20,13 @@ export class StorageTypeLocalAdapter implements SavedImageStorage {
     const filename: string = request.file.filename
     const pathUrlFile = `${this.staticPathFilesUrl}${filename}`
     return pathUrlFile
+  }
+
+  async removeImage (filePath: string): Promise<void> {
+    fs.unlink(filePath, function (error) {
+      if (error) {
+        throw new Error('Not remove file')
+      }
+    })
   }
 }

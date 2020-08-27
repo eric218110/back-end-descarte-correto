@@ -1,3 +1,3 @@
 export interface RemovedImageStorage {
-  removeImage: (request: any) => Promise<void>
+  removeImage: (filePath: string) => Promise<void>
 }
