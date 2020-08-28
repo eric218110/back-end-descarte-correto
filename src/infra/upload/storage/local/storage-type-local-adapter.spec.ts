@@ -15,6 +15,9 @@ const makeSut = (): SutTypes => {
 }
 
 const makeFileRequestFake = (): {} => ({
+  body: {
+    pathFile: 'any_path'
+  },
   file: {
     destination: 'any_destination',
     encoding: 'any_encoding',
