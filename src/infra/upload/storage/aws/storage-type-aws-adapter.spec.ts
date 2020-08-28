@@ -50,4 +50,10 @@ describe('StorageTypeAwsAdapter', () => {
     })
     await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
   })
+
+  test('should return throws request not exist in request', async () => {
+    const { sut } = makeSut()
+    const fileUrl = sut.saveImage(undefined)
+    await expect(fileUrl).rejects.toThrow(TypeError('request is required'))
+  })
 })
