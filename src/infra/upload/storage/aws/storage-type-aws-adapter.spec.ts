@@ -91,4 +91,11 @@ describe('StorageTypeAwsAdapter', () => {
     const fileUrl = sut.saveImage(makeFileRequestFake())
     await expect(fileUrl).rejects.toThrow(TypeError('Error invalid config'))
   })
+
+  test('should return image url if image save in AWS S3', async () => {
+    const { sut } = makeSut()
+    const fileUrl = await sut.saveImage(makeFileRequestFake())
+    const uploadSuccess = fileUrl.indexOf('file-test-aws.png')
+    expect(uploadSuccess).toBeTruthy()
+  })
 })
