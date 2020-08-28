@@ -66,10 +66,10 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     const S3 = new AWS.S3()
     const params = this.getParamsUpload(request)
     try {
-      await S3.putObject(params).promise()
+      const upload = await S3.upload(params).promise()
+      return upload.Location
     } catch (error) {
       throw TypeError('Error invalid config')
     }
-    return new Promise(resolve => resolve('http://any_url.com'))
   }
 }
