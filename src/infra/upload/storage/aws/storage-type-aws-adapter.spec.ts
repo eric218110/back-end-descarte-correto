@@ -69,18 +69,18 @@ describe('StorageTypeAwsAdapter', () => {
     const { sut } = makeSut()
     const fileUrl = sut.saveImage({
       body: {
-        pathFile: 'any_path'
+        pathFile: 'invalid_path'
       },
       file: {
-        destination: 'any_destination',
-        encoding: 'any_encoding',
-        fieldname: 'any_fieldname',
-        filename: 'valid_any_filename.jpg',
-        mimetype: 'any_mimetype',
-        originalname: 'any_originalname',
-        path: 'any_path',
-        size: 'any_size',
-        stream: 'any_stream'
+        destination: 'invalid_destination',
+        encoding: 'invalid_encoding',
+        fieldname: 'invalid_fieldname',
+        filename: 'valid_invalid_filename.jpg',
+        mimetype: 'invalid_mimetype',
+        originalname: 'invalid_originalname',
+        path: 'invalid_path',
+        size: 'invalid_size',
+        stream: 'invalid_stream'
       }
     })
     await expect(fileUrl).rejects.toThrow(TypeError('file path is undefined'))
