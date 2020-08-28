@@ -1,4 +1,5 @@
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
+import { promises } from 'fs'
 export class StorageTypeAwsAdapter implements SavedImageStorage {
   constructor (
     private readonly config: {
@@ -10,7 +11,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     }
   ) {}
 
-  async saveImage (request: any): Promise<string> {
+  private async validateRequest (request: any): Promise<boolean> {
     if (request === undefined) {
       throw TypeError('request is required')
     }
@@ -18,6 +19,17 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     if (request.file === undefined) {
       throw TypeError('file is required')
     }
+
+    try {
+      await promises.stat(request.file.path)
+    } catch (error) {
+      throw TypeError('file path is undefined')
+    }
+    return true
+  }
+
+  async saveImage (request: any): Promise<string> {
+    await this.validateRequest(request)
     return new Promise(resolve => resolve('htt://any_ur.com'))
   }
 }
