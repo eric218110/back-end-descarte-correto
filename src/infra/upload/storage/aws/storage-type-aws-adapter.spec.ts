@@ -22,7 +22,13 @@ const makeFileRequestFake = (): {} => ({
 })
 
 const makeSut = (): SutTypes => {
-  const sut = new StorageTypeAwsAdapter()
+  const sut = new StorageTypeAwsAdapter({
+    AWS_ACCESS_KEY_ID: 'AKIA3S6DZKR6LLEGC5EC',
+    AWS_SECRET_ACCESS_KEY: '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',
+    AWS_DEFAULT_REGION: 'us-east-1',
+    AWS_BUCKET: 'tem-coleta-back-end-test',
+    AWS_ACL: 'public-read'
+  })
   return {
     sut
   }
@@ -33,5 +39,15 @@ describe('StorageTypeAwsAdapter', () => {
     const { sut } = makeSut()
     const response = await sut.saveImage(makeFileRequestFake())
     expect(response).toEqual('htt://any_ur.com')
+  })
+
+  test('should return throws file not exist in request', async () => {
+    const { sut } = makeSut()
+    const fileUrl = sut.saveImage({
+      body: {
+        pathFile: 'any_path'
+      }
+    })
+    await expect(fileUrl).rejects.toThrow(TypeError('file is required'))
   })
 })
