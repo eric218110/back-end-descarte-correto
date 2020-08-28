@@ -38,7 +38,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-afterAll(async () => {
+beforeAll(async () => {
   await promises.writeFile(pathImage, ('Test remove file'))
 })
 
@@ -99,5 +99,9 @@ describe('StorageTypeAwsAdapter', () => {
       const uploadSuccess = fileUrl.indexOf('file-test-aws.png')
       expect(uploadSuccess).toBeTruthy()
     })
+  })
+
+  describe('Remove()', () => {
+
   })
 })

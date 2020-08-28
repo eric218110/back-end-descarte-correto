@@ -67,6 +67,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     const params = this.getParamsUpload(request)
     try {
       const upload = await S3.upload(params).promise()
+      await promises.unlink(request.file.path)
       return upload.Location
     } catch (error) {
       throw TypeError('Error invalid config')

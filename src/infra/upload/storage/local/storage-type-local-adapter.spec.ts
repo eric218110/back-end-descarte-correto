@@ -31,7 +31,7 @@ const makeFileRequestFake = (): {} => ({
   }
 })
 
-afterAll(async () => {
+beforeAll(async () => {
   const pathImage = resolve('test', 'file', 'file-test-remove.png')
   await promises.writeFile(pathImage, ('Test remove file'))
 })
