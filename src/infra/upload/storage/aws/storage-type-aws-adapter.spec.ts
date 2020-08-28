@@ -1,8 +1,12 @@
 import { StorageTypeAwsAdapter } from './storage-type-aws-adapter'
+import { promises } from 'fs'
+import { resolve } from 'path'
 
 type SutTypes = {
   sut: StorageTypeAwsAdapter
 }
+
+const pathImage = resolve('test', 'file', 'file-test-aws-remove.png')
 
 const makeFileRequestFake = (): {} => ({
   body: {
@@ -15,7 +19,7 @@ const makeFileRequestFake = (): {} => ({
     filename: 'valid_any_filename.jpg',
     mimetype: 'any_mimetype',
     originalname: 'any_originalname',
-    path: 'any_path',
+    path: pathImage,
     size: 'any_size',
     stream: 'any_stream'
   }
@@ -33,6 +37,10 @@ const makeSut = (): SutTypes => {
     sut
   }
 }
+
+afterAll(async () => {
+  await promises.writeFile(pathImage, ('Test remove file'))
+})
 
 describe('StorageTypeAwsAdapter', () => {
   test('should return url if upload success', async () => {
@@ -55,5 +63,26 @@ describe('StorageTypeAwsAdapter', () => {
     const { sut } = makeSut()
     const fileUrl = sut.saveImage(undefined)
     await expect(fileUrl).rejects.toThrow(TypeError('request is required'))
+  })
+
+  test('should return throws path file is invalid', async () => {
+    const { sut } = makeSut()
+    const fileUrl = sut.saveImage({
+      body: {
+        pathFile: 'any_path'
+      },
+      file: {
+        destination: 'any_destination',
+        encoding: 'any_encoding',
+        fieldname: 'any_fieldname',
+        filename: 'valid_any_filename.jpg',
+        mimetype: 'any_mimetype',
+        originalname: 'any_originalname',
+        path: 'any_path',
+        size: 'any_size',
+        stream: 'any_stream'
+      }
+    })
+    await expect(fileUrl).rejects.toThrow(TypeError('file path is undefined'))
   })
 })
