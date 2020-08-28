@@ -21,7 +21,7 @@
   <span style='font-size:16px;'>&#10140;</span> Não adicionar se o title já estiver na base de dados
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Retorna **204** `created` e o objeto, ao salvar o objeto corretamente
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Deletar o arquivo caso ocorra algum erro ao salvar o item
 
 > ## Exceções
