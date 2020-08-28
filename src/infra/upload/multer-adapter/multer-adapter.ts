@@ -1,6 +1,6 @@
 import multer from 'multer'
 import { ImageFileUploader, FileUploadProps } from '@data/protocols/upload/image-file-uploader'
-import { MulterHelper } from '@infra/upload/helper/multer-helper'
+import { MulterHelper } from '@infra/upload/multer-adapter/helper/multer-helper'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 export class MulterAdapter implements ImageFileUploader {
   async imageUpload (file: FileUploadProps, saveFileStorage: SavedImageStorage): Promise<void> {

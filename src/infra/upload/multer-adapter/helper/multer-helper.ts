@@ -32,10 +32,6 @@ export const MulterHelper = {
     }
   },
 
-  fileExist: (request: any): boolean => {
-    return !!request.file
-  },
-
   setConfig: (multer: any): {} => {
     return {
       uploadsFolder: MulterHelper.uploadDir(),
