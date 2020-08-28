@@ -1,6 +1,6 @@
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
-import fs from 'fs'
+import { promises } from 'fs'
 
 export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageStorage {
   constructor (
@@ -24,10 +24,13 @@ export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageS
   }
 
   async removeImage (filePath: string): Promise<void> {
-    fs.stat(filePath, function (error, stat) {
-      if (error == null) {
-        fs.unlinkSync(filePath)
+    try {
+      const fileExist = await promises.stat(filePath)
+      if (fileExist) {
+        await promises.unlink(filePath)
       }
-    })
+    } catch (error) {
+      throw TypeError('Not remove file')
+    }
   }
 }

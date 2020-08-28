@@ -1,6 +1,6 @@
 import { StorageTypeLocalAdapter } from './storage-type-local-adapter'
-import fs from 'fs'
 import { resolve } from 'path'
+import { promises } from 'fs'
 
 export type SutTypes = {
   sut: StorageTypeLocalAdapter
@@ -29,6 +29,11 @@ const makeFileRequestFake = (): {} => ({
     size: 'any_size',
     stream: 'any_stream'
   }
+})
+
+afterAll(async () => {
+  const pathImage = resolve('test', 'file', 'file-test-remove.png')
+  await promises.writeFile(pathImage, ('Test remove file'))
 })
 
 describe('StorageTypeLocalAdapter', () => {
@@ -77,32 +82,18 @@ describe('StorageTypeLocalAdapter', () => {
 
   describe('RemoveImage', () => {
     test('should remove file is success', async () => {
-      const pathImage = resolve('test', 'file', 'file-test-remove.png')
-      fs.writeFile(pathImage, 'Test RemoveImage\n', (error) => {
-        if (error) throw error
-      })
       const { sut } = makeSut()
+      const pathImage = resolve('test', 'file', 'file-test-remove.png')
+      const fileExist = await promises.stat(pathImage)
+      expect(fileExist).toBeTruthy()
       await sut.removeImage(pathImage)
-      let existFile = false
-      fs.stat(pathImage, function (error, stat) {
-        if (error == null) {
-          existFile = true
-        }
-      })
-      expect(existFile).toBeFalsy()
     })
 
-    test('should file only if it exists', async () => {
-      const pathImage = resolve('test', 'file', 'file-not-exist.png')
+    test('should throws if file not exist', async () => {
       const { sut } = makeSut()
-      await sut.removeImage(pathImage)
-      let existFile = false
-      fs.stat(pathImage, function (error, stat) {
-        if (error == null) {
-          existFile = true
-        }
-      })
-      expect(existFile).toBeFalsy()
+      const pathImage = resolve('test', 'file', 'file-not-exist.png')
+      const remove = sut.removeImage(pathImage)
+      await expect(remove).rejects.toThrow(TypeError('Not remove file'))
     })
   })
 })
