@@ -1,5 +1,6 @@
+import AWS from 'aws-sdk'
+import fs, { promises } from 'fs'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
-import { promises } from 'fs'
 export class StorageTypeAwsAdapter implements SavedImageStorage {
   constructor (
     private readonly config: {
@@ -28,8 +29,48 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     return true
   }
 
+  private generateFileName (name: string): string {
+    const hash = Date.now()
+    const fileName = `${hash}-${name}`
+    return fileName
+  }
+
+  private setConfigAWS (): void {
+    const {
+      AWS_ACCESS_KEY_ID,
+      AWS_SECRET_ACCESS_KEY,
+      AWS_DEFAULT_REGION
+    } = this.config
+
+    AWS.config.update({
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      region: AWS_DEFAULT_REGION
+    })
+  }
+
+  private getParamsUpload (request: any): AWS.S3.PutObjectRequest {
+    return {
+      ContentEncoding: request.file.encoding,
+      ContentType: request.file.mimetype,
+      ACL: this.config.AWS_ACL,
+      Bucket: this.config.AWS_BUCKET,
+      Body: fs.createReadStream(request.file.path),
+      Key: this.generateFileName(request.file.originalname)
+    }
+  }
+
   async saveImage (request: any): Promise<string> {
     await this.validateRequest(request)
-    return new Promise(resolve => resolve('htt://any_ur.com'))
+    this.setConfigAWS()
+    const S3 = new AWS.S3()
+    const params = this.getParamsUpload(request)
+    try {
+      await S3.putObject(params).promise()
+    } catch (error) {
+      const code: string = error.code
+      throw TypeError(`Error - ${code}`)
+    }
+    return new Promise(resolve => resolve('http://any_url.com'))
   }
 }
