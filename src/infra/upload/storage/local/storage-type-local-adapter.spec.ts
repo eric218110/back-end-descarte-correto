@@ -32,6 +32,7 @@ const makeFileRequestFake = (): {} => ({
 })
 
 beforeAll(async () => {
+  await promises.mkdir(resolve('test', 'file'), { recursive: true })
   const pathImage = resolve('test', 'file', 'file-test-remove.png')
   await promises.writeFile(pathImage, ('Test remove file'))
 })

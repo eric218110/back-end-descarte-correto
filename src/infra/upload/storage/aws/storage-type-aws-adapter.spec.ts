@@ -39,6 +39,7 @@ const makeSut = (): SutTypes => {
 }
 
 beforeAll(async () => {
+  await promises.mkdir(resolve('test', 'file'), { recursive: true })
   await promises.writeFile(pathImage, ('Test remove file'))
 })
 

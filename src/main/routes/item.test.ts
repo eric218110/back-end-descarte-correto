@@ -7,12 +7,16 @@ import { hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import env from '@main/config/env'
 import { resolve } from 'path'
+import { promises } from 'fs'
 
 let itemsCollection: Collection<LoadItemsModel>
 let accountCollection: Collection
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
+  await promises.mkdir(resolve('test', 'file'), { recursive: true })
+  await promises.writeFile(resolve('test', 'file', 'file-test.png'), ('Is image :)'))
+  await promises.writeFile(resolve('test', 'file', 'no-supported-test.txt'), ('File not suported'))
 })
 
 afterAll(async () => {
