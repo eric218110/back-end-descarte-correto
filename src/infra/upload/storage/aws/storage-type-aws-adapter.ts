@@ -11,6 +11,10 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
   ) {}
 
   async saveImage (request: any): Promise<string> {
+    if (request === undefined) {
+      throw TypeError('request is required')
+    }
+
     if (request.file === undefined) {
       throw TypeError('file is required')
     }
