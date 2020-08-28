@@ -202,25 +202,26 @@ describe('AddItemController', () => {
   })
 
   describe('Storage', () => {
-    test('should call RemoveFileStorage with correct values if Error an save file', async () => {
-      const { sut, storageRemoveFileStub } = makeSut()
-      const addSpy = jest.spyOn(storageRemoveFileStub, 'remove')
+    test('should call RemoveFileStorage with correct values if Error on save file', async () => {
+      const { sut, loadItemByTitleStub, storageRemoveFileStub } = makeSut()
+      jest.spyOn(loadItemByTitleStub, 'load')
+        .mockReturnValueOnce(new Promise(resolve => resolve(fakeItem())))
+      const removeSpy = jest.spyOn(storageRemoveFileStub, 'remove')
       await sut.handle({
         body: {
           title: 'any_title_1',
-          error: 'any_error_is_required',
+          file: 'any_filename.png',
           pathFile: 'any_path_url.file'
         }
       })
-
-      expect(addSpy).toHaveBeenCalledWith('any_path_url.file')
+      expect(removeSpy).toHaveBeenCalledWith('any_path_url.file')
     })
 
     test('should return 500 if RemoveFileStorage throws', async () => {
       const { sut, storageRemoveFileStub } = makeSut()
       jest.spyOn(storageRemoveFileStub, 'remove')
         .mockImplementationOnce(async () => {
-          throw new Error()
+          throw new UploadFileError('any_error_is_required')
         })
       const response = await sut.handle({
         body: {
@@ -229,7 +230,7 @@ describe('AddItemController', () => {
           pathFile: 'any_path_url.file'
         }
       })
-      expect(response).toEqual(serverError(new Error()))
+      expect(response).toEqual(badRequest(new UploadFileError('any_error_is_required')))
     })
   })
 })

@@ -21,7 +21,6 @@ export class AddItemController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       if (!httpRequest.body.file) {
-        await this.storageRemoveFile.remove(httpRequest.body.pathFile)
         return badRequest(new UploadFileError(httpRequest.body.error))
       }
       const isError = this.validator.isValid(httpRequest.body)
@@ -32,6 +31,7 @@ export class AddItemController implements Controller {
       const { title, file } = httpRequest.body
       const titleExist = await this.loadItemByTitle.load(title)
       if (titleExist) {
+        await this.storageRemoveFile.remove(httpRequest.body.pathFile)
         return badRequest(new TitleAlreadyExistError())
       }
       await this.addItem.add({ image: file, title })

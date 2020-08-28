@@ -19,6 +19,7 @@ export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageS
     }
     const filename: string = request.file.filename
     const pathUrlFile = `${this.staticPathFilesUrl}${filename}`
+    request.body.pathFile = request.file.path
     return pathUrlFile
   }
 
