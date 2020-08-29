@@ -111,5 +111,17 @@ describe('StorageTypeAwsAdapter', () => {
       fileExist = await promises.stat(pathImage)
       expect(fileExist).toBeTruthy()
     })
+
+    test('should return throws if error config', async () => {
+      const sut = new StorageTypeAwsAdapter({
+        AWS_ACCESS_KEY_ID: 'invalid_key',
+        AWS_SECRET_ACCESS_KEY: '99vhrVY9sSvVN0ktfeIvEzglIpISl6iJZ06F9YdD',
+        AWS_DEFAULT_REGION: 'us-east-1',
+        AWS_BUCKET: 'tem-coleta-back-end-test',
+        AWS_ACL: 'public-read'
+      })
+      const fileUrl = sut.saveImage(makeFileRequestFake())
+      await expect(fileUrl).rejects.toThrow(TypeError('Error invalid config'))
+    })
   })
 })
