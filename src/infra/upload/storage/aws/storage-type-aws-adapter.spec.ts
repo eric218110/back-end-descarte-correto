@@ -112,7 +112,7 @@ describe('StorageTypeAwsAdapter', () => {
       expect(fileExist).toBeTruthy()
     })
 
-    test('should return throws if error config', async () => {
+    test('should return throws if AWS config incorrect an remove', async () => {
       const sut = new StorageTypeAwsAdapter({
         AWS_ACCESS_KEY_ID: 'invalid_key',
         AWS_SECRET_ACCESS_KEY: '99vhrVY9sSvVN0ktfeIvEzglIpISl6iJZ06F9YdD',
@@ -120,8 +120,8 @@ describe('StorageTypeAwsAdapter', () => {
         AWS_BUCKET: 'tem-coleta-back-end-test',
         AWS_ACL: 'public-read'
       })
-      const fileUrl = sut.saveImage(makeFileRequestFake())
-      await expect(fileUrl).rejects.toThrow(TypeError('Error invalid config'))
+      const fileUrl = sut.removeImage('invalid_file')
+      await expect(fileUrl).rejects.toThrow(TypeError('Not remove file in cloud'))
     })
   })
 })
