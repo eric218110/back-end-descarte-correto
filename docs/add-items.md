@@ -13,7 +13,7 @@
   <span style='font-size:16px;'>&#10140;</span> Receber os dados via body **title**, **image**
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Valida dados obrigatórios **title**, **image**
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber arquivo de image e realizar upload em algum serviço de storage ou local
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Salvar um novo item
