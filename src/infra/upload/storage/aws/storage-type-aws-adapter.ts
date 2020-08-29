@@ -88,13 +88,9 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     const S3 = this.getInstaceAWS()
     const params = this.getParamsRemove(filePath)
     try {
-      S3.deleteObject(params, function (errorDelete, data) {
-        if (errorDelete) {
-          throw TypeError('Not delete file')
-        }
-      })
+      await S3.deleteObject(params).promise()
     } catch (error) {
-      throw TypeError('Error invalid config')
+      throw TypeError('Not remove file in cloud')
     }
   }
 }
