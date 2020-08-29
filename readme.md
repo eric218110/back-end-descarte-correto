@@ -22,7 +22,7 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 <span style='font-size:16px;'>&#10140;</span> [Login](./docs/login.md)
 - <span style='font-size:15px;'>&#10060;</span>
 <span style='font-size:16px;'>&#10140;</span> [Cadastrar um ponto de coleta](./docs/add-point.md)
-- <span style='font-size:15px;'>&#10060;</span>
+- <span style='font-size:25px; color: green;'>&#10004;</span>
 <span style='font-size:16px;'>&#10140;</span> [Cadastrar items de coleta](./docs/add-items.md)
 - <span style='font-size:25px; color: green;'>&#10004;</span>
 <span style='font-size:16px;'>&#10140;</span> [Listar items de coleta](./docs/list-items.md)
