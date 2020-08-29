@@ -38,7 +38,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-beforeAll(async () => {
+beforeEach(async () => {
   await promises.mkdir(resolve('test', 'file'), { recursive: true })
   await promises.writeFile(pathImage, ('Test remove file'))
 })
@@ -103,6 +103,13 @@ describe('StorageTypeAwsAdapter', () => {
   })
 
   describe('Remove()', () => {
-
+    test('should remove file is success', async () => {
+      const { sut } = makeSut()
+      let fileExist = await promises.stat(pathImage)
+      expect(fileExist).toBeTruthy()
+      await sut.removeImage(pathImage)
+      fileExist = await promises.stat(pathImage)
+      expect(fileExist).toBeTruthy()
+    })
   })
 })
