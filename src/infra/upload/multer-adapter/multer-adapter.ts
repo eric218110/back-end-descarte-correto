@@ -12,7 +12,6 @@ export class MulterAdapter implements ImageFileUploader {
         const imageUrl = await saveFileStorage.saveImage(request)
         request.body.file = imageUrl
       } catch (error) {
-        console.log(error)
         request.body.error = error.message
       }
     }).catch((error) => {

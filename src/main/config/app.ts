@@ -6,7 +6,6 @@ import { resolve } from 'path'
 const app = express()
 
 app.use('/files/', express.static(resolve('temp', 'uploads')))
-console.log(resolve('temp', 'uploads'))
 middlewares(app)
 routes(app)
 
