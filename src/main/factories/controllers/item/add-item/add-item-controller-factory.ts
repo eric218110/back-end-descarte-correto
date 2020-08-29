@@ -4,18 +4,14 @@ import { makeLoggerControllerDecorator } from '@main/factories/decorators/logger
 import { makeDbAddItem } from '@main/factories/usecases/item/add-item/db-add-item-factory'
 import { makeAddItemValidator } from './add-item-validator-factory'
 import { makeLoadItemByTitle } from '@main/factories/usecases/item/load-item-by-title/load-item-by-title'
-import { StorageTypeLocalAdapter } from '@infra/upload/storage/local/storage-type-local-adapter'
-import env from '@main/config/env'
-import { RemoveImageStorage } from '@data/usecases/upload/storage/remove/remove-image-storage'
+import { makeRemoveImageStorage } from '@main/factories/usecases/upload/storage/remove/make-remove-image-storage'
 
 export const makeAddItemController = (): Controller => {
-  const storageLocal = new StorageTypeLocalAdapter(env.HOST_STATIC_PATH)
-  const removeFile = new RemoveImageStorage(storageLocal)
   const addItemController = new AddItemController(
     makeDbAddItem(),
     makeAddItemValidator(),
     makeLoadItemByTitle(),
-    removeFile
+    makeRemoveImageStorage()
   )
   return makeLoggerControllerDecorator(addItemController)
 }

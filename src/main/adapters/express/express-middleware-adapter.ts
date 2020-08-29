@@ -13,9 +13,7 @@ export const adaptMiddleware = (middleware: Middleware) => {
     const httpResponse = await middleware.handle(httpRequest)
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
       Object.assign(request.body, httpResponse.body)
-      setTimeout(() => {
-        next()
-      }, 1000)
+      next()
     } else {
       response.status(httpResponse.statusCode).json({
         error: httpResponse.body.message
