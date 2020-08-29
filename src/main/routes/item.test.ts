@@ -14,9 +14,9 @@ let accountCollection: Collection
 
 beforeAll(async () => {
   await MongoHelper.connect(process.env.MONGO_URL)
-  await promises.mkdir(resolve('test', 'file'), { recursive: true })
-  await promises.writeFile(resolve('test', 'file', 'file-test.png'), ('Is image :)'))
-  await promises.writeFile(resolve('test', 'file', 'no-supported-test.txt'), ('File not suported'))
+  await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
+  await promises.writeFile(resolve('__test__', 'file', 'file-test.png'), ('Is image :)'))
+  await promises.writeFile(resolve('__test__', 'file', 'no-supported-test.txt'), ('File not suported'))
 })
 
 afterAll(async () => {
@@ -42,7 +42,7 @@ describe('POST - Item Route', () => {
   test('Should return 403 as request', async () => {
     await request(app)
       .post('/api/item')
-      .attach('file', resolve('test', 'file', 'file-test.png'))
+      .attach('file', resolve('__test__', 'file', 'file-test.png'))
       .field('title', 'any_title')
       .expect(403)
   })
@@ -87,7 +87,7 @@ describe('POST - Item Route', () => {
     })
     await request(app)
       .post('/api/item')
-      .attach('file', resolve('test', 'file', 'file-test.png'))
+      .attach('file', resolve('__test__', 'file', 'file-test.png'))
       .set('x-access-token', accessToken)
       .field('title', 'any_title')
       .expect(403)
@@ -114,7 +114,7 @@ describe('POST - Item Route', () => {
       .set('x-access-token', accessToken)
       .field({ title: 'any_title' })
       .field({ file: 'any_file' })
-      .attach('file', resolve('test', 'file', 'file-test.png'))
+      .attach('file', resolve('__test__', 'file', 'file-test.png'))
       .expect(204)
   })
 
@@ -161,7 +161,7 @@ describe('POST - Item Route', () => {
       .post('/api/item')
       .set('x-access-token', accessToken)
       .field({ title: 'any_title' })
-      .attach('file', resolve('test', 'file', 'no-supported-test.txt'))
+      .attach('file', resolve('__test__', 'file', 'no-supported-test.txt'))
       .expect(400)
   })
 })

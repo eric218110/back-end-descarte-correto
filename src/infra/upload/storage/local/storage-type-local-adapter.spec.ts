@@ -32,8 +32,8 @@ const makeFileRequestFake = (): {} => ({
 })
 
 beforeAll(async () => {
-  await promises.mkdir(resolve('test', 'file'), { recursive: true })
-  const pathImage = resolve('test', 'file', 'file-test-remove.png')
+  await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
+  const pathImage = resolve('__test__', 'file', 'file-test-remove.png')
   await promises.writeFile(pathImage, ('Test remove file'))
 })
 
@@ -84,7 +84,7 @@ describe('StorageTypeLocalAdapter', () => {
   describe('RemoveImage', () => {
     test('should remove file is success', async () => {
       const { sut } = makeSut()
-      const pathImage = resolve('test', 'file', 'file-test-remove.png')
+      const pathImage = resolve('__test__', 'file', 'file-test-remove.png')
       const fileExist = await promises.stat(pathImage)
       expect(fileExist).toBeTruthy()
       await sut.removeImage(pathImage)
@@ -92,7 +92,7 @@ describe('StorageTypeLocalAdapter', () => {
 
     test('should throws if file not exist', async () => {
       const { sut } = makeSut()
-      const pathImage = resolve('test', 'file', 'file-not-exist.png')
+      const pathImage = resolve('__test__', 'file', 'file-not-exist.png')
       const remove = sut.removeImage(pathImage)
       await expect(remove).rejects.toThrow(TypeError('Not remove file'))
     })

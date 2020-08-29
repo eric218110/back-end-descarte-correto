@@ -6,7 +6,7 @@ type SutTypes = {
   sut: StorageTypeAwsAdapter
 }
 
-const pathImage = resolve('test', 'file', 'file-test-aws.png')
+const pathImage = resolve('__test__', 'file', 'file-test-aws.png')
 
 const makeFileRequestFake = (): {} => ({
   body: {
@@ -39,7 +39,7 @@ const makeSut = (): SutTypes => {
 }
 
 beforeEach(async () => {
-  await promises.mkdir(resolve('test', 'file'), { recursive: true })
+  await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
   await promises.writeFile(pathImage, ('Test remove file'))
 })
 
