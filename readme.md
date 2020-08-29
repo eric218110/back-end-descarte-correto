@@ -80,6 +80,11 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * MongoDb
 * Travis CI
 * Bcrypt
+* Babel
+* AWS SDK
+* Multer Express
+* Fs - Utils NodeJS
+* Promissify - Utils NodeJS
 * JsonWebToken
 * Faker
 * Coveralls
