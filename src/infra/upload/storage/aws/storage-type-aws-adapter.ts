@@ -1,7 +1,8 @@
-import AWS from 'aws-sdk'
+import AWS, { S3 } from 'aws-sdk'
 import fs, { promises } from 'fs'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
-export class StorageTypeAwsAdapter implements SavedImageStorage {
+import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
+export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageStorage {
   constructor (
     private readonly config: {
       AWS_ACCESS_KEY_ID: string
@@ -35,7 +36,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     return fileName
   }
 
-  private setConfigAWS (): void {
+  private getInstaceAWS (): AWS.S3 {
     const {
       AWS_ACCESS_KEY_ID,
       AWS_SECRET_ACCESS_KEY,
@@ -47,6 +48,8 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
       region: AWS_DEFAULT_REGION
     })
+
+    return new AWS.S3()
   }
 
   private getParamsUpload (request: any): AWS.S3.PutObjectRequest {
@@ -60,15 +63,36 @@ export class StorageTypeAwsAdapter implements SavedImageStorage {
     }
   }
 
+  private getParamsRemove (key: string): AWS.S3.DeleteObjectRequest {
+    return {
+      Bucket: this.config.AWS_BUCKET,
+      Key: key
+    }
+  }
+
   async saveImage (request: any): Promise<string> {
     await this.validateRequest(request)
-    this.setConfigAWS()
-    const S3 = new AWS.S3()
+    const S3 = this.getInstaceAWS()
     const params = this.getParamsUpload(request)
     try {
       const upload = await S3.upload(params).promise()
       await promises.unlink(request.file.path)
+      request.body.pathFile = upload.Key
       return upload.Location
+    } catch (error) {
+      throw TypeError('Error invalid config')
+    }
+  }
+
+  async removeImage (filePath: string): Promise<void> {
+    const S3 = this.getInstaceAWS()
+    const params = this.getParamsRemove(filePath)
+    try {
+      S3.deleteObject(params, function (errorDelete, data) {
+        if (errorDelete) {
+          throw TypeError('Not delete file')
+        }
+      })
     } catch (error) {
       throw TypeError('Error invalid config')
     }
