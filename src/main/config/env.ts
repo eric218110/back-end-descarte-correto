@@ -1,7 +1,7 @@
 const port = 1995
 
 export default {
-  MONGO_DB_URL: process.env.MONGO_URL || 'mongodb://localhost:27017/clean-node-api',
+  MONGO_DB_URL: process.env.MONGO_URL || 'mongodb://localhost:27017/node-api',
   PORT: Number(process.env.PORT) || port,
   SALT: 12,
   JWT_SECRET: process.env.JWT_SECRET || '59C457DE12F08B1F9D55333B26AE458C8F850122C3EC21730F496804368E435844F2AD645AD9F4D1A2B312DB6A3AEBC207A78E759F9CE024F54255D00F7F4270',
