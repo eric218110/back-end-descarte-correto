@@ -11,11 +11,11 @@
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Definir uma imagem padrão se a imagem não for informada
 - <span style='font-size:15px;'>&#10060;</span>
-  <span style='font-size:16px;'>&#10140;</span> Receber os dados via body **name**, **latitude**, **longitude**, **city**, **state**, **items**, **email**, **whatsapp**
+  <span style='font-size:16px;'>&#10140;</span> Receber os dados via body **name**, **latitude**, **longitude**, **city**, **state**, **items**, **email**, **image**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Valida dados obrigatórios **name**, **latitude**, **longitude**, **city**, **state**, e **items**
 - <span style='font-size:15px;'>&#10060;</span>
-  <span style='font-size:16px;'>&#10140;</span> Além dos dados obrigatórios aceitar também os dados **image**, **whatsapp**
+  <span style='font-size:16px;'>&#10140;</span> Além dos dados obrigatórios aceitar também os dados **image**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber arquivo de image no campo **image** e realizar upload em algum serviço de storage
 - <span style='font-size:15px;'>&#10060;</span>
