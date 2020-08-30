@@ -1,4 +1,5 @@
-<h1 style="font-weight: bold" align="center">Node api - Tem coleta ♻️</h1>
+
+<h1 style="display: flex; align-item: center; justify-content: center; font-weight: bold" align="center">Node api - Tem coleta <img style='margin-left: 10px; width: 40px' src="./docs/recycle.png"/></h1>
 
 [![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
 [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
@@ -9,6 +10,7 @@
 <img src="https://www.code-inspector.com/project/12545/score/svg">
 <img src="https://www.code-inspector.com/project/12545/status/svg">
 ---
+
 Esta API faz parte do TCC de Eric Silva.
 API bem arquiteturada, definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
 
