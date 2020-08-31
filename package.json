@@ -9,8 +9,9 @@
     "start": "node dist/main/server/index.js",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/main/server/index.ts",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test": "MODE=test jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:unit:verbose": "MODE=test jest --watch -c jest-unit-config.js --runInBand --detectOpenHandles",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
@@ -50,6 +51,7 @@
     "jest-module-name-mapper": "^0.1.5",
     "lint-staged": "^10.2.11",
     "rimraf": "^3.0.2",
+    "sqlite3": "^5.0.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.2.0",
     "ts-node-dev": "^1.0.0-pre.56",
@@ -64,6 +66,7 @@
     "mongodb": "^3.6.0",
     "multer": "^1.4.2",
     "pg": "^8.3.3",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.25",
     "validator": "^13.1.1"
   }
