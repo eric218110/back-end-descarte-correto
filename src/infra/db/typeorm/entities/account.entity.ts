@@ -14,4 +14,14 @@ export class EntityAccount implements AccountModelData {
 
   @Column()
   password: string
+
+  @Column({
+    nullable: true
+  })
+  accessToken: string
+
+  @Column({
+    default: 'user'
+  })
+  role: string
 }
