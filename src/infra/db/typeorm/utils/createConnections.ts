@@ -1,6 +1,6 @@
 import { Connection, createConnection, getConnection } from 'typeorm'
 
-export const connectionPostgres = {
+export const connectionDatabase = {
   create: async (): Promise<Connection> => {
     const connection = await createConnection()
     if (process.env.MODE === 'test') {
