@@ -18,7 +18,7 @@ export class EntityAccount implements AccountModelData {
   @Column({
     nullable: true
   })
-  accessToken: string
+  accessToken?: string
 
   @Column({
     default: 'user'

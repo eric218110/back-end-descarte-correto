@@ -1,4 +1,4 @@
-import { connectionDatabase } from '../../utils/createConnections'
+import { connectionDatabase } from '../../utils/create-connections'
 import { AddAccountModel } from '@domain/usecases/account/add-account'
 import { AccountTypeOrmRepository } from './account-typeorm-repository'
 

@@ -3,6 +3,6 @@ export type AccountModel = {
   name: string
   email: string
   password: string
-  accessToken: string
-  role: string
+  accessToken?: string
+  role?: string
 }
