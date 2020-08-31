@@ -1,5 +1,10 @@
 const port = 1995
 
+const database = (process.env.MODE === 'test') ? 'test_api_node' : 'api_node'
+const hostDatabae = (process.env.MODE !== 'prodution') ? 'localhost' : process.env.HOST_DATABASE
+const userDatabase = (process.env.MODE !== 'prodution') ? 'postgres' : process.env.USER_DATABASE
+const passwordDatabase = (process.env.MODE !== 'prodution') ? '218110' : process.env.PASSWORD_DATABASE
+
 export default {
   MONGO_DB_URL: process.env.MONGO_URL || 'mongodb://localhost:27017/node-api',
   PORT: Number(process.env.PORT) || port,
@@ -11,5 +16,10 @@ export default {
   AWS_BUCKET: process.env.AWS_BUCKET || 'tem-coleta-back-end-test',
   AWS_ACL: process.env.AWS_ACL || 'public-read',
   MODE: process.env.MODE || 'development',
-  HOST_STATIC_PATH: process.env.HOST_STATIC_PATH || `http://localhost:${port}/files/`
+  HOST_STATIC_PATH: process.env.HOST_STATIC_PATH || `http://localhost:${port}/files/`,
+  TYPEORM_DATABASE: database,
+  TYPEORM_HOST: hostDatabae,
+  TYPEORM_PORT: 5432,
+  TYPEORM_USER: userDatabase,
+  TYPEORM_PASSWORD: passwordDatabase
 }

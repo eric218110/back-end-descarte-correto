@@ -2,3 +2,4 @@ node_modulesdist
 *.js
 coverage
 globalConfig.json
+ormconfig.ts
