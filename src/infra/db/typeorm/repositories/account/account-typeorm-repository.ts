@@ -2,8 +2,10 @@ import { AddAccountRepository } from '@data/protocols/data/account/add-account-r
 import { AccountModelData, AddAccountModel } from '@data/models/account-model'
 import { Repository, getRepository } from 'typeorm'
 import { EntityAccount } from '../../entities/account.entity'
+import { LoadAccountByTokenRepository } from '@data/protocols/data/account/load-by-token-repository'
 
-export class AccountTypeOrmRepository implements AddAccountRepository {
+export class AccountTypeOrmRepository
+implements AddAccountRepository, LoadAccountByTokenRepository {
   private readonly AccountTypeOrmRepository: Repository<EntityAccount>
 
   constructor () {
@@ -14,5 +16,14 @@ export class AccountTypeOrmRepository implements AddAccountRepository {
     const createAccount = this.AccountTypeOrmRepository.create(account)
     await this.AccountTypeOrmRepository.save(createAccount)
     return createAccount
+  }
+
+  async loadByToken (token: string, role: string = 'user'): Promise<AccountModelData> {
+    const account = await this.AccountTypeOrmRepository
+      .createQueryBuilder('account')
+      .where(`account.accessToken = '${token}'`)
+      .andWhere(`(account.role = '${role}' OR account.role = 'admin')`)
+      .getOne()
+    return account
   }
 }
