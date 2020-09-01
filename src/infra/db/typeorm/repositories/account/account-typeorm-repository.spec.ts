@@ -127,5 +127,18 @@ describe('AccountTypeOrmRepository', () => {
         expect(account).toBeNull()
       })
     })
+
+    describe('loadByEmail', () => {
+      test('should return an account on loadByEmail sucess', async () => {
+        const { sut, fakeAddAccountModel } = makeSut()
+        await accountTypeOrmRepository.insert(fakeAddAccountModel)
+        const account = await sut.loadWithEmail(fakeAddAccountModel.email)
+        expect(account).toBeTruthy()
+        expect(account.id).toBeTruthy()
+        expect(account.name).toBe(fakeAddAccountModel.name)
+        expect(account.email).toBe(fakeAddAccountModel.email)
+        expect(account.password).toBe(fakeAddAccountModel.password)
+      })
+    })
   })
 })
