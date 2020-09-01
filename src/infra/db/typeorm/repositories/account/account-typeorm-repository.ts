@@ -24,6 +24,7 @@ implements AddAccountRepository, LoadAccountByTokenRepository {
       .where(`account.accessToken = '${token}'`)
       .andWhere(`(account.role = '${role}' OR account.role = 'admin')`)
       .getOne()
+    if (account === undefined) return null
     return account
   }
 }
