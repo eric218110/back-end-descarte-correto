@@ -92,5 +92,12 @@ describe('ItemTypeOrmRepository', () => {
       expect(item.title).toEqual(itemsFake[0].title)
       expect(item.image).toEqual(itemsFake[0].image)
     })
+
+    test('should return null if title is different', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemTypeOrmRepository.insert(itemsFake)
+      const item = await sut.loadByTitle('not_exist_title')
+      expect(item).toBeNull()
+    })
   })
 })
