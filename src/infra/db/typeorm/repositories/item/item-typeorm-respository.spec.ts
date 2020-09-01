@@ -81,4 +81,16 @@ describe('ItemTypeOrmRepository', () => {
       expect(item.image).toBe(itemsFake[0].image)
     })
   })
+
+  describe('LoadItemByToken', () => {
+    test('should return one item if title is equals', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemTypeOrmRepository.insert(itemsFake)
+      const item = await sut.loadByTitle(itemsFake[0].title)
+      expect(item).toBeTruthy()
+      expect(item.id).toBeTruthy()
+      expect(item.title).toEqual(itemsFake[0].title)
+      expect(item.image).toEqual(itemsFake[0].image)
+    })
+  })
 })
