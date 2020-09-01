@@ -1,11 +1,14 @@
-import { AddAccountRepository } from '@data/protocols/data/account/add-account-repository'
-import { AccountModelData, AddAccountModel } from '@data/models/account-model'
-import { Repository, getRepository } from 'typeorm'
-import { EntityAccount } from '../../entities/account.entity'
-import { LoadAccountByTokenRepository } from '@data/protocols/data/account/load-by-token-repository'
-import { LoadAccountByEmailRepository } from '@data/protocols/data/account/load-by-email-repository'
-import { UpdateAccessTokenRepository } from '@data/protocols/data/account/update-access-token-repository'
-
+import {
+  Repository,
+  getRepository,
+  EntityAccount,
+  AccountModelData,
+  AddAccountModel,
+  AddAccountRepository,
+  LoadAccountByEmailRepository,
+  LoadAccountByTokenRepository,
+  UpdateAccessTokenRepository
+} from './account-typeorm-repository-protocols'
 export class AccountTypeOrmRepository implements
 LoadAccountByEmailRepository,
 AddAccountRepository,

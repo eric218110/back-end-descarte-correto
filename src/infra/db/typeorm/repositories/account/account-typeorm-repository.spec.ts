@@ -1,8 +1,10 @@
-import { connectionDatabase } from '../../utils/create-connections'
-import { AddAccountModel } from '@domain/usecases/account/add-account'
-import { AccountTypeOrmRepository } from './account-typeorm-repository'
-import { Repository } from 'typeorm'
-import { EntityAccount } from '../../entities/account.entity'
+import {
+  AccountTypeOrmRepository,
+  connectionDatabase,
+  AddAccountModel,
+  Repository,
+  EntityAccount
+} from './account-typeorm-repository-protocols'
 
 let accountTypeOrmRepository: Repository<EntityAccount>
 
