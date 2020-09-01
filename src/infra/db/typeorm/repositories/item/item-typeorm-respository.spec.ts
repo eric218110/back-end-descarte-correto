@@ -1,18 +1,19 @@
-import { Repository } from 'typeorm'
-import { LoadItemModelData } from '@data/models/item-model'
-import { LoadItemsModel } from '@domain/usecases/item/load-items'
-import { EntityItem } from '../../entities/item.entity'
-import { connectionDatabase } from '../../utils/create-connections'
-import { ItemTypeOrmRepository } from './item-typeorm-repository'
+import {
+  Repository,
+  EntityItem,
+  ItemTypeOrmRepository,
+  LoadItemsModelData,
+  connectionDatabase
+} from './item-typeorm-repository-protocols'
 
 let itemTypeOrmRepository: Repository<EntityItem>
 
 interface SutTypes {
   sut: ItemTypeOrmRepository
-  itemsFake: LoadItemModelData[]
+  itemsFake: LoadItemsModelData
 }
 
-const makeLoadItemsFake = (): LoadItemsModel[] => ([
+const makeLoadItemsFake = (): LoadItemsModelData => ([
   { image: 'http://any_image_1.com', title: 'any_title_1' },
   { image: 'http://any_image_2.com', title: 'any_title_2' }
 ])

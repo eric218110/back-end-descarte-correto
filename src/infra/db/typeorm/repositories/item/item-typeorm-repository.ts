@@ -1,9 +1,14 @@
-import { Repository, getRepository } from 'typeorm'
-import { AddItemRepository } from '@data/protocols/data/items/add-items-repository'
-import { AddItemModelData, ItemModelData, LoadItemsModelData } from '@data/models/item-model'
-import { EntityItem } from '../../entities/item.entity'
-import { LoadItemsRepository } from '@data/protocols/data/items/load-items-repository'
-import { LoadItemByTitleRepository } from '@data/protocols/data/items/load-item-by-title-repository'
+import {
+  Repository,
+  getRepository,
+  AddItemRepository,
+  AddItemModelData,
+  ItemModelData,
+  LoadItemsModelData,
+  EntityItem,
+  LoadItemsRepository,
+  LoadItemByTitleRepository
+} from './item-typeorm-repository-protocols'
 
 export class ItemTypeOrmRepository implements
 AddItemRepository,
