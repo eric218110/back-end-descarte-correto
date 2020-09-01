@@ -55,4 +55,15 @@ describe('ItemTypeOrmRepository', () => {
       expect(newItem).toBeNull()
     })
   })
+
+  describe('LoadAllItems', () => {
+    test('should load all items on sucess', async () => {
+      const { sut, itemsFake } = makeSut()
+      await itemTypeOrmRepository.insert(itemsFake)
+      const items = await sut.loadAllItems()
+      expect(items.length).toBe(2)
+      expect(items[0].title).toBe(itemsFake[0].title)
+      expect(items[1].title).toBe(itemsFake[1].title)
+    })
+  })
 })
