@@ -1,7 +1,6 @@
 export { Repository, getRepository } from 'typeorm'
 export { AccountModelData, AddAccountModel } from '@data/models/account-model'
 export * from '@infra/db/typeorm/utils/create-connections'
-export * from '@domain/usecases/account/add-account'
 export * from './account-typeorm-repository'
 export * from '@infra/db/typeorm/entities/account.entity'
 export * from '@data/protocols/data/account/add-account-repository'
