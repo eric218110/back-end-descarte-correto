@@ -89,6 +89,19 @@ describe('AccountTypeOrmRepository', () => {
         expect(account.email).toBe(fakeAddAccountModel.email)
         expect(account.password).toBe(fakeAddAccountModel.password)
       })
+
+      test('should return null on loadByToken with invalid role', async () => {
+        const { sut } = makeSut()
+        await accountTypeOrmRepository.insert({
+          id: 'any_id',
+          name: 'any_name',
+          email: 'any_email@mail.com',
+          password: 'any_password',
+          accessToken: 'any_token'
+        })
+        const account = await sut.loadByToken('any_token', 'admin')
+        expect(account).toBeFalsy()
+      })
     })
   })
 })
