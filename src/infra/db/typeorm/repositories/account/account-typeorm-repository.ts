@@ -3,9 +3,12 @@ import { AccountModelData, AddAccountModel } from '@data/models/account-model'
 import { Repository, getRepository } from 'typeorm'
 import { EntityAccount } from '../../entities/account.entity'
 import { LoadAccountByTokenRepository } from '@data/protocols/data/account/load-by-token-repository'
+import { LoadAccountByEmailRepository } from '@data/protocols/data/account/load-by-email-repository'
 
-export class AccountTypeOrmRepository
-implements AddAccountRepository, LoadAccountByTokenRepository {
+export class AccountTypeOrmRepository implements
+AddAccountRepository,
+LoadAccountByTokenRepository,
+LoadAccountByEmailRepository {
   private readonly AccountTypeOrmRepository: Repository<EntityAccount>
 
   constructor () {
@@ -26,5 +29,9 @@ implements AddAccountRepository, LoadAccountByTokenRepository {
       .getOne()
     if (account === undefined) return null
     return account
+  }
+
+  async loadWithEmail (email: string): Promise<AccountModelData> {
+    return await this.AccountTypeOrmRepository.findOne({ email })
   }
 }
