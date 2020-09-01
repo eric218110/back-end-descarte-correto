@@ -146,5 +146,18 @@ describe('AccountTypeOrmRepository', () => {
         expect(account).toBeNull()
       })
     })
+
+    describe('UpdateAccessToken', () => {
+      test('should update the account accessToken on UpdateAccessToken success', async () => {
+        const { sut, fakeAddAccountModel } = makeSut()
+        const fakeAccount = await accountTypeOrmRepository.save(
+          accountTypeOrmRepository.create(fakeAddAccountModel)
+        )
+        expect(fakeAccount.accessToken).toBeFalsy()
+        await sut.updateAccessToken(fakeAccount.id, 'valid_token')
+        const account = await accountTypeOrmRepository.findOne({ id: fakeAccount.id })
+        expect(account.accessToken).toBe('valid_token')
+      })
+    })
   })
 })
