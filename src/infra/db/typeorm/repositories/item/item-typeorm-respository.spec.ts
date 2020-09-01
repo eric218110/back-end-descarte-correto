@@ -71,5 +71,14 @@ describe('ItemTypeOrmRepository', () => {
       const items = await sut.loadAllItems()
       expect(items.length).toBe(0)
     })
+
+    test('should return new item if add item on sucess', async () => {
+      const { sut, itemsFake } = makeSut()
+      const item = await sut.addNewItem(itemsFake[0])
+      expect(item).toBeTruthy()
+      expect(item.id).toBeTruthy()
+      expect(item.title).toBe(itemsFake[0].title)
+      expect(item.image).toBe(itemsFake[0].image)
+    })
   })
 })
