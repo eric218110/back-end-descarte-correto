@@ -27,11 +27,11 @@ LoadAccountByEmailRepository {
       .where(`account.accessToken = '${token}'`)
       .andWhere(`(account.role = '${role}' OR account.role = 'admin')`)
       .getOne()
-    if (account === undefined) return null
-    return account
+
+    return account || null
   }
 
   async loadWithEmail (email: string): Promise<AccountModelData> {
-    return await this.AccountTypeOrmRepository.findOne({ email })
+    return await this.AccountTypeOrmRepository.findOne({ email }) || null
   }
 }
