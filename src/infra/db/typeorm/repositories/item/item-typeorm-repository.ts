@@ -11,6 +11,8 @@ export class ItemTypeOrmRepository implements AddItemRepository {
   }
 
   async addNewItem (addItem: AddItemModelData): Promise<ItemModelData> {
+    const itemExist = await this.itemTypeOrmRepository.findOne({ title: addItem.title })
+    if (itemExist) return null
     const item = this.itemTypeOrmRepository.create(addItem)
     return await this.itemTypeOrmRepository.save(item) || null
   }
