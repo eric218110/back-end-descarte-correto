@@ -1,7 +1,9 @@
-import { connectionDatabase } from '../../utils/create-connections'
-import { Repository } from 'typeorm'
-import { EntityLogger } from '../../entities/logger.entity'
-import { LoggerTypeOrmRepository } from './logger-typeorm-repository'
+import {
+  connectionDatabase,
+  Repository,
+  EntityLogger,
+  LoggerTypeOrmRepository
+} from './logger-typeorm-repository-protocols'
 
 let loggerTypeOrmRepository: Repository<EntityLogger>
 

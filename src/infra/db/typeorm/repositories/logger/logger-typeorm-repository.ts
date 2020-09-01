@@ -1,6 +1,9 @@
-import { LoggerErrorRepository } from '@data/protocols/data/logger/logger-error-repository'
-import { EntityLogger } from '../../entities/logger.entity'
-import { Repository, getRepository } from 'typeorm'
+import {
+  LoggerErrorRepository,
+  EntityLogger,
+  Repository,
+  getRepository
+} from './logger-typeorm-repository-protocols'
 
 export class LoggerTypeOrmRepository implements LoggerErrorRepository {
   private readonly loggerTypeOrmRepository: Repository<EntityLogger>
