@@ -120,6 +120,12 @@ describe('AccountTypeOrmRepository', () => {
         expect(account.email).toBe(fakeAddAccountModel.email)
         expect(account.password).toBe(fakeAddAccountModel.password)
       })
+
+      test('should return null if loadByToken fails', async () => {
+        const { sut } = makeSut()
+        const account = await sut.loadByToken('any_token')
+        expect(account).toBeNull()
+      })
     })
   })
 })
