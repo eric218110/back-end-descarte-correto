@@ -1,8 +1,8 @@
 import { Controller } from '@presentation/protocols'
 import { LoggerControllerDecorator } from '@main/decorators/logger-decorator'
-import { LoggerMongoRepository } from '@infra/db/mongodb/logger/logger-mongo-repository'
+import { LoggerTypeOrmRepository } from '@infra/db/typeorm/repositories/logger/logger-typeorm-repository'
 
 export const makeLoggerControllerDecorator = (controller: Controller): Controller => {
-  const loggerMongoRepository = new LoggerMongoRepository()
-  return new LoggerControllerDecorator(controller, loggerMongoRepository)
+  const loggerTypeOrmRepository = new LoggerTypeOrmRepository()
+  return new LoggerControllerDecorator(controller, loggerTypeOrmRepository)
 }

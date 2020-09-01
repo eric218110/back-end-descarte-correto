@@ -1,8 +1,8 @@
 import { DbAddItemRepository } from '@data/usecases/items/add-items/db-add-item-repository'
-import { ItemMongoRepository } from '@infra/db/mongodb/item/item-mongo-repository'
+import { ItemTypeOrmRepository } from '@infra/db/typeorm/repositories/item/item-typeorm-repository'
 import { AddItem } from '@domain/usecases/item/add-item'
 
 export const makeDbAddItem = (): AddItem => {
-  const loadItemsMongoRepository = new ItemMongoRepository()
-  return new DbAddItemRepository(loadItemsMongoRepository)
+  const loadItemsTypOrmRepository = new ItemTypeOrmRepository()
+  return new DbAddItemRepository(loadItemsTypOrmRepository)
 }
