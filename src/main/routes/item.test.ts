@@ -7,17 +7,29 @@ import { EntityAccount } from '@infra/db/typeorm/entities/account.entity'
 import { hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import env from '@main/config/env'
+import { promises, readdirSync } from 'fs'
 
 let accountTypeOrmRepository: Repository<EntityAccount>
 
 beforeAll(async () => {
   const connection = await connectionDatabase.create()
   accountTypeOrmRepository = connection.getRepository(EntityAccount)
+  await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
+  await promises.writeFile(resolve('__test__', 'file', 'file-test.png'), ('Is image :)'))
+  await promises.writeFile(resolve('__test__', 'file', 'no-supported-test.txt'), ('File not suported'))
 })
 
 afterAll(async () => {
   await connectionDatabase.clear()
   await connectionDatabase.close()
+  readdirSync(`${resolve('temp', 'uploads')}`)
+    .map(async file => {
+      if (file.match(/-file-test.png/)) {
+        await promises.unlink(resolve('temp', 'uploads', file))
+      }
+    })
+  await promises.unlink(resolve('__test__', 'file', 'file-test.png'))
+  await promises.unlink(resolve('__test__', 'file', 'no-supported-test.txt'))
 })
 
 describe('Item Routes', () => {
