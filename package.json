@@ -14,7 +14,7 @@
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:unit:verbose": "MODE=test jest --watch -c jest-unit-config.js --runInBand --detectOpenHandles",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
-    "test:integration:verbose": "MODE=test jest --watch -c jest-unit-config.js --runInBand --detectOpenHandles",
+    "test:integration:verbose": "MODE=test jest --watch -c jest-integration-config.js --runInBand --detectOpenHandles",
     "test:staged": "npm test -- --findRelatedTests",
     "pretest:ci": "rimraf coverage",
     "test:ci": "npm test -- --coverage",
