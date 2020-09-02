@@ -14,10 +14,10 @@ afterEach(async () => {
 
 describe('CORS Middleware', () => {
   test('Should enable as request', async () => {
-    app.get('/test_cors', (req: Request, res: Response) => {
+    app().get('/test_cors', (req: Request, res: Response) => {
       res.send()
     })
-    await request(app)
+    await request(app())
       .get('/test_cors')
       .expect('access-control-allow-origin', '*')
       .expect('access-control-allow-methods', '*')

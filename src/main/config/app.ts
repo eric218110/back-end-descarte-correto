@@ -1,12 +1,13 @@
-import express from 'express'
+import express, { Express } from 'express'
 import middlewares from './middlewares'
 import routes from './routes'
 import { resolve } from 'path'
 
-const app = express()
+const appExpress = express()
 
-app.use('/files/', express.static(resolve('temp', 'uploads')))
-middlewares(app)
-routes(app)
-
-export default app
+export default (): Express => {
+  appExpress.use('/files/', express.static(resolve('temp', 'uploads')))
+  middlewares(appExpress)
+  routes(appExpress)
+  return appExpress
+}
