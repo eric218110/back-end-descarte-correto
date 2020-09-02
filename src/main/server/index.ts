@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import env from '../config/env'
 import { connectionDatabase } from '@infra/db/typeorm/utils/create-connections'
 

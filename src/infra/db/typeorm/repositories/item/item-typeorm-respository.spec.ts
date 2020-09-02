@@ -67,7 +67,7 @@ describe('ItemTypeOrmRepository', () => {
       expect(items[1].title).toBe(itemsFake[1].title)
     })
 
-    test('should ItemMongoRepository return [] if is empty', async () => {
+    test('should ItemTypeOrmRepository return [] if is empty', async () => {
       const { sut } = makeSut()
       const items = await sut.loadAllItems()
       expect(items.length).toBe(0)

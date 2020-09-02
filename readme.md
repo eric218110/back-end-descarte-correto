@@ -79,7 +79,9 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * Typescript
 * Git
 * Jest
-* MongoDb
+* TypeORM
+* PostgresSQL
+* Reflect Metadata
 * Travis CI
 * Bcrypt
 * Babel
@@ -100,7 +102,6 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * TS-node-dev
 * Nodemon
 * Rimraf
-* In-Memory MongoDb Server
 * MockDate
 * Npm Check
 * NPM
@@ -136,20 +137,16 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * Spies
 * Fakes
 
-> ## MongoDb
+> ## TypeORM
 
 * Connect e Reconnect
-* Collections
+* Repositories
+* Entity manager
+* Migrations
 * InsertOne e InserMany
 * Find, FindOne e FindOneAndUpdate
-* DeleteMany
-* UpdateOne
-* Aggregation (Match, Group, Unwind, Lookup, AddFields, Project, Sort)
-* ObjectId
-* Upsert e ReturnOriginal
-* Push, Divide, Multiply, ArrayElemAt, Cond, Sum
-* Filter, Map, Reduce, MergeObjects, ConcatArrays
-
+* Delete
+* Update
 ---
 
 <p style="color: grey" align="center">
