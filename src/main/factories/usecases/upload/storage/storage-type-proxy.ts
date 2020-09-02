@@ -22,8 +22,8 @@ export const makeStorageTypeProxy = (): RemovedImageStorage & SavedImageStorage 
     AWS_DEFAULT_REGION,
     AWS_SECRET_ACCESS_KEY
   })
-  if (MODE === 'development') {
-    return localTypeStorage
+  if (MODE === 'prodution') {
+    return awsTypeStorage
   }
-  return awsTypeStorage
+  return localTypeStorage
 }
