@@ -5,8 +5,8 @@ import { DbLoadItemsRepository } from '@data/usecases/items/load-items/db-load-i
 import { ItemTypeOrmRepository } from '@infra/db/typeorm/repositories/item/item-typeorm-repository'
 
 export const makeLoadItemController = (): Controller => {
-  const loadItemsMongoRepository = new ItemTypeOrmRepository()
-  const dbLoadItems = new DbLoadItemsRepository(loadItemsMongoRepository)
+  const loadItemsTypeOrmRepository = new ItemTypeOrmRepository()
+  const dbLoadItems = new DbLoadItemsRepository(loadItemsTypeOrmRepository)
   const loadItemsController = new LoadItemsController(dbLoadItems)
   return makeLoggerControllerDecorator(loadItemsController)
 }
