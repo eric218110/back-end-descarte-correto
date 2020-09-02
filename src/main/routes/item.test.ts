@@ -7,6 +7,7 @@ import { EntityAccount } from '@infra/db/typeorm/entities/account.entity'
 import { hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import env from '@main/config/env'
+import rimraf from 'rimraf'
 import { promises, readdirSync } from 'fs'
 
 let accountTypeOrmRepository: Repository<EntityAccount>
@@ -28,8 +29,7 @@ afterAll(async () => {
         await promises.unlink(resolve('temp', 'uploads', file))
       }
     })
-  await promises.unlink(resolve('__test__', 'file', 'file-test.png'))
-  await promises.unlink(resolve('__test__', 'file', 'no-supported-test.txt'))
+  rimraf.sync('__test__')
 })
 
 describe('Item Routes', () => {

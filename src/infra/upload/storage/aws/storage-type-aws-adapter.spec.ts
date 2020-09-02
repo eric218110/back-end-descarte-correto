@@ -1,6 +1,7 @@
 import { StorageTypeAwsAdapter } from './storage-type-aws-adapter'
 import { promises } from 'fs'
 import { resolve } from 'path'
+import rimraf from 'rimraf'
 
 type SutTypes = {
   sut: StorageTypeAwsAdapter
@@ -41,6 +42,10 @@ const makeSut = (): SutTypes => {
 beforeEach(async () => {
   await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
   await promises.writeFile(pathImage, ('Test remove file'))
+})
+
+afterAll(() => {
+  rimraf.sync('__test__')
 })
 
 describe('StorageTypeAwsAdapter', () => {
