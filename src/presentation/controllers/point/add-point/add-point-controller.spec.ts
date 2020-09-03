@@ -17,16 +17,22 @@ const fakeCreatePoint = (): PointModel => ({
   longitude: 'valid_longitude',
   state: 'valid_state',
   phone: 'valid_phone',
-  user: {
-    name: 'valid_user_name',
-    email: 'valid_email_user_create'
+  account: {
+    id: 'valid_id_user',
+    name: 'valid_name',
+    email: 'valid_email_user',
+    password: 'valid_password',
+    accessToken: 'valid_access_token',
+    role: 'valid_role'
   },
   items: [
     {
+      id: 'valid_id_item',
       image: 'http://valid_item_image_1_url.com.br',
       title: 'valid_item_image_1'
     },
     {
+      id: 'valid_id_item',
       image: 'http://valid_item_image_2_url.com.br',
       title: 'valid_item_image_2'
     }
@@ -35,6 +41,7 @@ const fakeCreatePoint = (): PointModel => ({
 
 const fakeRequest = (): HttpRequest => ({
   body: {
+    accountId: 'valid_account_id',
     name: 'any_name',
     city: 'any_city',
     image: 'any_image_url',
@@ -61,20 +68,26 @@ const fakeCallPointValid = (): AddPointModel => ({
   longitude: 'any_longitude',
   state: 'any_state',
   phone: 'any_phone',
+  account: {
+    id: 'valid_id_user',
+    name: 'valid_name',
+    email: 'valid_email_user',
+    password: 'valid_password',
+    accessToken: 'valid_access_token',
+    role: 'valid_role'
+  },
   items: [
     {
-      image: 'http://any_image_1_url.com.br',
-      title: 'any_title_1'
+      id: 'valid_id_item',
+      image: 'http://valid_item_image_1_url.com.br',
+      title: 'valid_item_image_1'
     },
     {
-      image: 'http://any_image_2_url.com.br',
-      title: 'any_title_2'
+      id: 'valid_id_item',
+      image: 'http://valid_item_image_2_url.com.br',
+      title: 'valid_item_image_2'
     }
-  ],
-  user: {
-    name: 'any_user_create_new_point',
-    email: 'any_email_create_new_point'
-  }
+  ]
 })
 
 const makeAddPointStub = (): AddPoint => {

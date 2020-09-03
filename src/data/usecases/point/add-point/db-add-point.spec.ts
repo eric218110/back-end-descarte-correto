@@ -3,9 +3,13 @@ import { AddPointRepository } from '@data/protocols/data/point/add-point-reposit
 import { DbAddPoint } from './db-add-point'
 
 const fakeAddPoint: AddPointModelData = {
-  user: {
+  account: {
+    id: 'any_id_account',
+    name: 'any_name',
     email: 'any_email',
-    name: 'any_name'
+    password: 'any_password',
+    accessToken: 'any_accessToken',
+    role: 'any_role'
   },
   name: 'any_name',
   phone: 'any_phone',
@@ -14,10 +18,12 @@ const fakeAddPoint: AddPointModelData = {
   image: 'any_image',
   items: [
     {
+      id: 'any_id_item_1',
       image: 'any_image_url_1',
       title: 'any_image_title_1'
     },
     {
+      id: 'any_id_item_2',
       image: 'any_image_url_2',
       title: 'any_image_title_2'
     }
@@ -28,9 +34,13 @@ const fakeAddPoint: AddPointModelData = {
 
 const fakeAddPointResult: PointModelData = {
   id: 'any_id',
-  user: {
+  account: {
+    id: 'any_id_account',
+    name: 'any_name',
     email: 'any_email',
-    name: 'any_name'
+    password: 'any_password',
+    accessToken: 'any_accessToken',
+    role: 'any_role'
   },
   name: 'any_name',
   phone: 'any_phone',
@@ -39,10 +49,12 @@ const fakeAddPointResult: PointModelData = {
   image: 'any_image',
   items: [
     {
+      id: 'any_id_item_1',
       image: 'any_image_url_1',
       title: 'any_image_title_1'
     },
     {
+      id: 'any_id_item_2',
       image: 'any_image_url_2',
       title: 'any_image_title_2'
     }

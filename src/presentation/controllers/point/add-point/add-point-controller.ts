@@ -6,27 +6,33 @@ export class AddPointController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     await this.addPoint.add({
+      name: 'any_name',
       city: 'any_city',
       image: 'any_image_url',
-      items: [
-        {
-          image: 'http://any_image_1_url.com.br',
-          title: 'any_title_1'
-        },
-        {
-          image: 'http://any_image_2_url.com.br',
-          title: 'any_title_2'
-        }
-      ],
       latitude: 'any_latitude',
       longitude: 'any_longitude',
-      name: 'any_name',
-      phone: 'any_phone',
       state: 'any_state',
-      user: {
-        email: 'any_email_create_new_point',
-        name: 'any_user_create_new_point'
-      }
+      phone: 'any_phone',
+      account: {
+        id: 'valid_id_user',
+        name: 'valid_name',
+        email: 'valid_email_user',
+        password: 'valid_password',
+        accessToken: 'valid_access_token',
+        role: 'valid_role'
+      },
+      items: [
+        {
+          id: 'valid_id_item',
+          image: 'http://valid_item_image_1_url.com.br',
+          title: 'valid_item_image_1'
+        },
+        {
+          id: 'valid_id_item',
+          image: 'http://valid_item_image_2_url.com.br',
+          title: 'valid_item_image_2'
+        }
+      ]
     })
     return null
   }

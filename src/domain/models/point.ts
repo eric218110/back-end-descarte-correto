@@ -1,12 +1,5 @@
-type Image = {
-  title: string
-  image: string
-}
-
-type User = {
-  email: string
-  name: string
-}
+import { AccountModel } from './account'
+import { ItemModel } from './item'
 
 export type PointModel = {
   id: string
@@ -17,6 +10,6 @@ export type PointModel = {
   state: string
   image: string
   phone: string
-  items: Image[]
-  user: User
+  items: ItemModel[]
+  account: AccountModel
 }
