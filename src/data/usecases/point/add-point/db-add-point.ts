@@ -6,7 +6,6 @@ export class DbAddPoint implements AddPoint {
   constructor(private readonly addPointRepository: AddPointRepository) {}
 
   async add(addPoint: AddPointModelData): Promise<PointModelData> {
-    await this.addPointRepository.addNewPoint(addPoint)
-    return null
+    return await this.addPointRepository.addNewPoint(addPoint)
   }
 }
