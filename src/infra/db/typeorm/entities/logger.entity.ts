@@ -8,7 +8,7 @@ import {
 
 @Entity('logger')
 export class EntityLogger implements LoggerModelData {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()

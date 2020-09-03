@@ -2,17 +2,25 @@ import { AddPointRepository } from '@data/protocols/data/point/add-point-reposit
 import { AddPointModelData, PointModelData } from '@data/models/point-model'
 import { Repository, getRepository } from 'typeorm'
 import { EntityPoint } from '../../entities/point.entity'
+import { EntityItem } from '../../entities/item.entity'
+import { EntityAccount } from '../../entities/account.entity'
 
 export class PointTypeOrmRepository implements AddPointRepository {
   private readonly pointTypeOrmRepository: Repository<EntityPoint>
+  private readonly itemTypeOrmRepository: Repository<EntityItem>
+  private readonly accountTypeOrmRepository: Repository<EntityAccount>
 
   constructor() {
     this.pointTypeOrmRepository = getRepository(EntityPoint)
+    this.itemTypeOrmRepository = getRepository(EntityItem)
+    this.accountTypeOrmRepository = getRepository(EntityAccount)
   }
 
   async addNewPoint(point: AddPointModelData): Promise<PointModelData> {
-    const createPoint = this.pointTypeOrmRepository.create(point)
-    const savePoint = await this.pointTypeOrmRepository.save(createPoint)
-    return savePoint
+    const accountExist = await this.accountTypeOrmRepository.findOne({
+      id: point.account.id
+    })
+
+    if (!accountExist) return null
   }
 }

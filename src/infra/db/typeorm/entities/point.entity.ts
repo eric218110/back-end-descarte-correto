@@ -12,7 +12,7 @@ import {
 
 @Entity('point')
 export class EntityPoint implements PointModelData {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()
