@@ -116,5 +116,15 @@ describe('PointTypeOrmRepository', () => {
       const point = await sut.addNewPoint(fakePoint)
       expect(point).toBeNull()
     })
+
+    test('should return point if add success', async () => {
+      const { sut } = makeSut()
+      const fakePoint = makeAddPointFake()
+      fakePoint.account = await makeFakeAccount()
+      fakePoint.items = await makeFakeItems()
+      const point = await sut.addNewPoint(fakePoint)
+      expect(point).toBeTruthy()
+      expect(point.id).toBeTruthy()
+    })
   })
 })
