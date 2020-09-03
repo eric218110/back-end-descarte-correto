@@ -22,5 +22,7 @@ export class PointTypeOrmRepository implements AddPointRepository {
     })
 
     if (!accountExist) return null
+
+    if (point.items.length === 0) return null
   }
 }
