@@ -82,6 +82,21 @@ describe('DbAddPoint', () => {
     expect(addNewPointSpy).toHaveBeenCalledWith(fakeAddPoint)
   })
 
+  test('should return Point if AddPointRepository on success', async () => {
+    const { sut } = makeSut()
+    const point = await sut.add(fakeAddPoint)
+    expect(point).toEqual(fakeAddPointResult)
+  })
+
+  test('should return null if AddPointRepository on fails', async () => {
+    const { sut, addPointRepositoryStub } = makeSut()
+    jest
+      .spyOn(addPointRepositoryStub, 'addNewPoint')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const point = await sut.add(fakeAddPoint)
+    expect(point).toBeNull()
+  })
+
   test('should throws if AddPointRepository throws', async () => {
     const { sut, addPointRepositoryStub } = makeSut()
     jest
