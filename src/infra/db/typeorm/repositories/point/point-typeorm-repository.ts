@@ -24,5 +24,9 @@ export class PointTypeOrmRepository implements AddPointRepository {
     if (!accountExist) return null
 
     if (point.items.length === 0) return null
+    const itemsExist = await this.itemTypeOrmRepository.findByIds(
+      point.items.map(item => item.id)
+    )
+    if (itemsExist.length !== point.items.length) return null
   }
 }
