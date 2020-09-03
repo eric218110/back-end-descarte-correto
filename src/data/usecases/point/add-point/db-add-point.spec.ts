@@ -2,7 +2,7 @@ import { AddPointModelData, PointModelData } from '@data/models/point-model'
 import { AddPointRepository } from '@data/protocols/data/point/add-point-repository'
 import { DbAddPoint } from './db-add-point'
 
-const fakePoint: AddPointModelData = {
+const fakeAddPoint: AddPointModelData = {
   user: {
     email: 'any_email',
     name: 'any_name'
@@ -26,7 +26,7 @@ const fakePoint: AddPointModelData = {
   longitude: '7865'
 }
 
-const fakePointResult: PointModelData = {
+const fakeAddPointResult: PointModelData = {
   id: 'any_id',
   user: {
     email: 'any_email',
@@ -59,7 +59,7 @@ type SutTypes = {
 const makeAddPointRepositoryStub = (): AddPointRepository => {
   class AddPointRepositoryStub implements AddPointRepository {
     async addNewPoint(point: AddPointModelData): Promise<PointModelData> {
-      return new Promise(resolve => resolve(fakePointResult))
+      return new Promise(resolve => resolve(fakeAddPointResult))
     }
   }
   return new AddPointRepositoryStub()
@@ -78,7 +78,18 @@ describe('DbAddPoint', () => {
   test('should call AddPointRepository with correct values', async () => {
     const { sut, addPointRepositoryStub } = makeSut()
     const addNewPointSpy = jest.spyOn(addPointRepositoryStub, 'addNewPoint')
-    await sut.add(fakePoint)
-    expect(addNewPointSpy).toHaveBeenCalledWith(fakePoint)
+    await sut.add(fakeAddPoint)
+    expect(addNewPointSpy).toHaveBeenCalledWith(fakeAddPoint)
+  })
+
+  test('should throws if AddPointRepository throws', async () => {
+    const { sut, addPointRepositoryStub } = makeSut()
+    jest
+      .spyOn(addPointRepositoryStub, 'addNewPoint')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.add(fakeAddPoint)
+    await expect(response).rejects.toThrow()
   })
 })
