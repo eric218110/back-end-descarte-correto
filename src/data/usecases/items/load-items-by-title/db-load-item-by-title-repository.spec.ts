@@ -9,12 +9,14 @@ type SutTypes = {
 
 const makeLoadItemByTitleRepositoryStub = (): LoadItemByTitleRepository => {
   class LoadItemByTitleRepositoryStub implements LoadItemByTitleRepository {
-    async loadByTitle (title: string): Promise<ItemModel> {
-      return new Promise(resolve => resolve({
-        id: 'any_id',
-        image: 'http://any_image.com',
-        title: 'any_title'
-      }))
+    async loadByTitle(title: string): Promise<ItemModel> {
+      return new Promise(resolve =>
+        resolve({
+          id: 'any_id',
+          image: 'http://any_image.com',
+          title: 'any_title'
+        })
+      )
     }
   }
   return new LoadItemByTitleRepositoryStub()
@@ -32,7 +34,10 @@ const makeSut = (): SutTypes => {
 describe('DbLoadItemByTitleRepository', () => {
   test('should call LoadItemByTitle correctly', async () => {
     const { sut, loadItemByTitleRepositoryStub } = makeSut()
-    const spyLoadByTitle = jest.spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
+    const spyLoadByTitle = jest.spyOn(
+      loadItemByTitleRepositoryStub,
+      'loadByTitle'
+    )
     await sut.load('any_title')
     expect(spyLoadByTitle).toHaveBeenCalledWith('any_title')
   })
@@ -49,7 +54,8 @@ describe('DbLoadItemByTitleRepository', () => {
 
   test('should return null if LoadItemByTitle returns null', async () => {
     const { sut, loadItemByTitleRepositoryStub } = makeSut()
-    jest.spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
+    jest
+      .spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const response = await sut.load('any_title')
     expect(response).toBeNull()
@@ -57,7 +63,8 @@ describe('DbLoadItemByTitleRepository', () => {
 
   test('should throws if LoadItemByTitle to throws', async () => {
     const { sut, loadItemByTitleRepositoryStub } = makeSut()
-    jest.spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
+    jest
+      .spyOn(loadItemByTitleRepositoryStub, 'loadByTitle')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )

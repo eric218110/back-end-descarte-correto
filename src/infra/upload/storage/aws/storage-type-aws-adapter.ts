@@ -2,8 +2,9 @@ import AWS, { S3 } from 'aws-sdk'
 import fs, { promises } from 'fs'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
-export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageStorage {
-  constructor (
+export class StorageTypeAwsAdapter
+  implements SavedImageStorage, RemovedImageStorage {
+  constructor(
     private readonly config: {
       AWS_ACCESS_KEY_ID: string
       AWS_SECRET_ACCESS_KEY: string
@@ -13,7 +14,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     }
   ) {}
 
-  private async validateRequest (request: any): Promise<boolean> {
+  private async validateRequest(request: any): Promise<boolean> {
     if (request === undefined) {
       throw TypeError('request is required')
     }
@@ -30,13 +31,13 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     return true
   }
 
-  private generateFileName (name: string): string {
+  private generateFileName(name: string): string {
     const hash = Date.now()
     const fileName = `${hash}-${name}`
     return fileName
   }
 
-  private getInstaceAWS (): AWS.S3 {
+  private getInstaceAWS(): AWS.S3 {
     const {
       AWS_ACCESS_KEY_ID,
       AWS_SECRET_ACCESS_KEY,
@@ -52,7 +53,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     return new AWS.S3()
   }
 
-  private getParamsUpload (request: any): AWS.S3.PutObjectRequest {
+  private getParamsUpload(request: any): AWS.S3.PutObjectRequest {
     return {
       ContentEncoding: request.file.encoding,
       ContentType: request.file.mimetype,
@@ -63,14 +64,14 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     }
   }
 
-  private getParamsRemove (key: string): AWS.S3.DeleteObjectRequest {
+  private getParamsRemove(key: string): AWS.S3.DeleteObjectRequest {
     return {
       Bucket: this.config.AWS_BUCKET,
       Key: key
     }
   }
 
-  async saveImage (request: any): Promise<string> {
+  async saveImage(request: any): Promise<string> {
     await this.validateRequest(request)
     const S3 = this.getInstaceAWS()
     const params = this.getParamsUpload(request)
@@ -84,7 +85,7 @@ export class StorageTypeAwsAdapter implements SavedImageStorage, RemovedImageSto
     }
   }
 
-  async removeImage (filePath: string): Promise<void> {
+  async removeImage(filePath: string): Promise<void> {
     const S3 = this.getInstaceAWS()
     const params = this.getParamsRemove(filePath)
     try {

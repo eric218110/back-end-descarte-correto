@@ -157,7 +157,9 @@ describe('AccountTypeOrmRepository', () => {
         )
         expect(fakeAccount.accessToken).toBeFalsy()
         await sut.updateAccessToken(fakeAccount.id, 'valid_token')
-        const account = await accountTypeOrmRepository.findOne({ id: fakeAccount.id })
+        const account = await accountTypeOrmRepository.findOne({
+          id: fakeAccount.id
+        })
         expect(account.accessToken).toBe('valid_token')
       })
     })

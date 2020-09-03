@@ -2,12 +2,11 @@ import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-st
 import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
 import { promises } from 'fs'
 
-export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageStorage {
-  constructor (
-    private readonly staticPathFilesUrl: string
-  ) {}
+export class StorageTypeLocalAdapter
+  implements SavedImageStorage, RemovedImageStorage {
+  constructor(private readonly staticPathFilesUrl: string) {}
 
-  async saveImage (request: any): Promise<string> {
+  async saveImage(request: any): Promise<string> {
     if (request === undefined) {
       throw TypeError('request is required')
     }
@@ -23,7 +22,7 @@ export class StorageTypeLocalAdapter implements SavedImageStorage, RemovedImageS
     return pathUrlFile
   }
 
-  async removeImage (filePath: string): Promise<void> {
+  async removeImage(filePath: string): Promise<void> {
     try {
       const fileExist = await promises.stat(filePath)
       if (fileExist) {

@@ -16,13 +16,15 @@ const makeFakeRequest = (): HttpRequest => ({
   body: { image: 'http://any_image_1.com', title: 'any_title_1' }
 })
 
-const makeItemFake = (): ItemModel => (
-  { id: 'any_id', image: 'http://any_image_1.com', title: 'any_title_1' }
-)
+const makeItemFake = (): ItemModel => ({
+  id: 'any_id',
+  image: 'http://any_image_1.com',
+  title: 'any_title_1'
+})
 
 const makeAdItemRepositoryStub = (): AddItemRepository => {
   class AddItemRepositoryStub implements AddItemRepository {
-    async addNewItem (addItem: AddItemModel): Promise<ItemModel> {
+    async addNewItem(addItem: AddItemModel): Promise<ItemModel> {
       return new Promise(resolve => resolve(makeItemFake()))
     }
   }
@@ -62,8 +64,10 @@ describe('DbAddItemRepository', () => {
 
   test('should throws if AddtemRepository throws', async () => {
     const { sut, addItemRepository, fakeRequest } = makeSut()
-    jest.spyOn(addItemRepository, 'addNewItem')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error()))
+    jest
+      .spyOn(addItemRepository, 'addNewItem')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
       )
     const response = sut.add(fakeRequest.body)
     await expect(response).rejects.toThrow()

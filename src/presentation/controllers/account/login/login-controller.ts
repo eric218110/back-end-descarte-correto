@@ -13,12 +13,12 @@ import {
 } from './login-controller-protocols'
 
 export class LoginController implements Controller {
-  constructor (
+  constructor(
     private readonly authentication: Authentication,
     private readonly validator: Validator
   ) {}
 
-  public async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  public async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const isError = this.validator.isValid(httpRequest.body)
       if (isError) {

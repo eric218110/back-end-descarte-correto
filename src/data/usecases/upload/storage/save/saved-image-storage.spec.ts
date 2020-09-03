@@ -9,7 +9,7 @@ type SutTypes = {
 
 const makeSavedImageStorageStub = (): SavedImageStorage => {
   class SavedImageStorageStub implements SavedImageStorage {
-    async saveImage (request: any): Promise<string> {
+    async saveImage(request: any): Promise<string> {
       return new Promise(resolve => resolve('http://image_url.com'))
     }
   }
@@ -46,7 +46,8 @@ describe('SavedImageStorage', () => {
 
   test('should throws if FileStorage throws', async () => {
     const { sut, savedImageStorage } = makeSut()
-    jest.spyOn(savedImageStorage, 'saveImage')
+    jest
+      .spyOn(savedImageStorage, 'saveImage')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )

@@ -7,11 +7,11 @@ import {
 
 export class LoggerTypeOrmRepository implements LoggerErrorRepository {
   private readonly loggerTypeOrmRepository: Repository<EntityLogger>
-  constructor () {
+  constructor() {
     this.loggerTypeOrmRepository = getRepository(EntityLogger)
   }
 
-  async logError (stack: string): Promise<void> {
+  async logError(stack: string): Promise<void> {
     const logger = this.loggerTypeOrmRepository.create({
       stack
     })

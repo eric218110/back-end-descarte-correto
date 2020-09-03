@@ -13,10 +13,10 @@ interface SutTypes {
   itemsFake: LoadItemsModelData
 }
 
-const makeLoadItemsFake = (): LoadItemsModelData => ([
+const makeLoadItemsFake = (): LoadItemsModelData => [
   { image: 'http://any_image_1.com', title: 'any_title_1' },
   { image: 'http://any_image_2.com', title: 'any_title_2' }
-])
+]
 
 const makeSut = (): SutTypes => {
   const sut = new ItemTypeOrmRepository()
@@ -46,12 +46,17 @@ describe('ItemTypeOrmRepository', () => {
     test('should add only one item', async () => {
       const { sut, itemsFake } = makeSut()
       await sut.addNewItem(itemsFake[0])
-      const itemExist = await itemTypeOrmRepository.find({ title: itemsFake[0].title })
+      const itemExist = await itemTypeOrmRepository.find({
+        title: itemsFake[0].title
+      })
       expect(itemExist.length).toBe(1)
     })
     test('should return null if title already exists', async () => {
       const { sut, itemsFake } = makeSut()
-      await itemTypeOrmRepository.insert({ title: itemsFake[0].title, image: itemsFake[1].image })
+      await itemTypeOrmRepository.insert({
+        title: itemsFake[0].title,
+        image: itemsFake[1].image
+      })
       const newItem = await sut.addNewItem(itemsFake[0])
       expect(newItem).toBeNull()
     })

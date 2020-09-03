@@ -16,7 +16,10 @@ const makeFileFake = (): FileProps => ({
 
 const makeImageFileUploaderStub = (): ImageFileUploader => {
   class ImageFileUploaderStub implements ImageFileUploader {
-    async imageUpload (fileImage: FileProps, saveFileStorage: SavedImageStorage): Promise<void> {
+    async imageUpload(
+      fileImage: FileProps,
+      saveFileStorage: SavedImageStorage
+    ): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
@@ -25,7 +28,7 @@ const makeImageFileUploaderStub = (): ImageFileUploader => {
 
 const makeSaveFileStorageStub = (): SavedImageStorage => {
   class SavedImageStorageStub implements SavedImageStorage {
-    async saveImage (request: any): Promise<string> {
+    async saveImage(request: any): Promise<string> {
       return new Promise(resolve => resolve())
     }
   }
@@ -47,7 +50,12 @@ const makeSut = (): SutTypes => {
 
 describe('SaveImage', () => {
   test('should call ImageFileUploader with SaveFileStorage', async () => {
-    const { sut, imageFileUploaderStub, fileFake, saveFileStorageStub } = makeSut()
+    const {
+      sut,
+      imageFileUploaderStub,
+      fileFake,
+      saveFileStorageStub
+    } = makeSut()
     const imageUploadSpy = jest.spyOn(imageFileUploaderStub, 'imageUpload')
     await sut.upload(fileFake)
     expect(imageUploadSpy).toHaveBeenCalledWith(fileFake, saveFileStorageStub)
@@ -55,7 +63,8 @@ describe('SaveImage', () => {
 
   test('should throws if ImageFileUploader throws', async () => {
     const { sut, imageFileUploaderStub, fileFake } = makeSut()
-    jest.spyOn(imageFileUploaderStub, 'imageUpload')
+    jest
+      .spyOn(imageFileUploaderStub, 'imageUpload')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )

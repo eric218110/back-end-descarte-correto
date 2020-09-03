@@ -11,11 +11,11 @@ export const connectionDatabase = {
     return connection
   },
 
-  async close (): Promise<void> {
+  async close(): Promise<void> {
     await getConnection().close()
   },
 
-  async clear (): Promise<void> {
+  async clear(): Promise<void> {
     const connection = getConnection()
     const entities = connection.entityMetadatas
 

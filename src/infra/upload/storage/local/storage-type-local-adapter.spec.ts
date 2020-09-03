@@ -34,7 +34,7 @@ const makeFileRequestFake = (): {} => ({
 beforeAll(async () => {
   await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
   const pathImage = resolve('__test__', 'file', 'file-test-remove.png')
-  await promises.writeFile(pathImage, ('Test remove file'))
+  await promises.writeFile(pathImage, 'Test remove file')
 })
 
 describe('StorageTypeLocalAdapter', () => {
@@ -42,7 +42,9 @@ describe('StorageTypeLocalAdapter', () => {
     test('should return url file correct', async () => {
       const { sut } = makeSut()
       const fileUrl = await sut.saveImage(makeFileRequestFake())
-      expect(fileUrl).toEqual('http://localhost:1995/files/valid_any_filename.jpg')
+      expect(fileUrl).toEqual(
+        'http://localhost:1995/files/valid_any_filename.jpg'
+      )
     })
 
     test('should return throws type error if request is undefined', async () => {
@@ -77,7 +79,9 @@ describe('StorageTypeLocalAdapter', () => {
         }
       }
       const fileUrl = sut.saveImage(fakeRequestInvalid)
-      await expect(fileUrl).rejects.toThrow(TypeError('field filename is required'))
+      await expect(fileUrl).rejects.toThrow(
+        TypeError('field filename is required')
+      )
     })
   })
 

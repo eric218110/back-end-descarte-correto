@@ -1,8 +1,5 @@
 import { DbLoadItemsRepository } from './db-load-items-repository'
-import {
-  LoadItemsModel,
-  LoadItemsRepository
-} from './db-load-items-protocols'
+import { LoadItemsModel, LoadItemsRepository } from './db-load-items-protocols'
 
 type SutTypes = {
   sut: DbLoadItemsRepository
@@ -10,15 +7,15 @@ type SutTypes = {
   itemsFake: LoadItemsModel[]
 }
 
-const makeLoadItemsFake = (): LoadItemsModel[] => ([
+const makeLoadItemsFake = (): LoadItemsModel[] => [
   { image: 'http://any_image_1.com', title: 'any_title_1' },
   { image: 'http://any_image_2.com', title: 'any_title_2' },
   { image: 'http://any_image_3.com', title: 'any_title_3' }
-])
+]
 
 const makeLoadItemsRepositoryStub = (): LoadItemsRepository => {
   class LoadItemsRepositoryStub implements LoadItemsRepository {
-    async loadAllItems (): Promise<LoadItemsModel[]> {
+    async loadAllItems(): Promise<LoadItemsModel[]> {
       return new Promise(resolve => resolve(makeLoadItemsFake()))
     }
   }
@@ -46,7 +43,8 @@ describe('DbLoadItemsRepository', () => {
 
   test('should return null if LoadItemRepositoty list is null', async () => {
     const { sut, loadItemsRepositoryStub } = makeSut()
-    jest.spyOn(loadItemsRepositoryStub, 'loadAllItems')
+    jest
+      .spyOn(loadItemsRepositoryStub, 'loadAllItems')
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const response = await sut.load()
     expect(response).toBeNull()
@@ -60,8 +58,10 @@ describe('DbLoadItemsRepository', () => {
 
   test('should throws if LoadItemRepositoty throws', async () => {
     const { sut, loadItemsRepositoryStub } = makeSut()
-    jest.spyOn(loadItemsRepositoryStub, 'loadAllItems')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error()))
+    jest
+      .spyOn(loadItemsRepositoryStub, 'loadAllItems')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
       )
     const response = sut.load()
     await expect(response).rejects.toThrow()

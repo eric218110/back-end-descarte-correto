@@ -21,14 +21,16 @@ const fakeCreatePoint = (): PointModel => ({
     name: 'valid_user_name',
     email: 'valid_email_user_create'
   },
-  items: [{
-    image: 'http://valid_item_image_1_url.com.br',
-    title: 'valid_item_image_1'
-  },
-  {
-    image: 'http://valid_item_image_2_url.com.br',
-    title: 'valid_item_image_2'
-  }]
+  items: [
+    {
+      image: 'http://valid_item_image_1_url.com.br',
+      title: 'valid_item_image_1'
+    },
+    {
+      image: 'http://valid_item_image_2_url.com.br',
+      title: 'valid_item_image_2'
+    }
+  ]
 })
 
 const fakeRequest = (): HttpRequest => ({
@@ -77,7 +79,7 @@ const fakeCallPointValid = (): AddPointModel => ({
 
 const makeAddPointStub = (): AddPoint => {
   class AddPointStub implements AddPoint {
-    async add (point: AddPointModel): Promise<PointModel> {
+    async add(point: AddPointModel): Promise<PointModel> {
       return new Promise(resolve => resolve(fakeCreatePoint()))
     }
   }

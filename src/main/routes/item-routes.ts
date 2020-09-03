@@ -10,5 +10,10 @@ export default (router: Router): void => {
   const adminAuthRouter = adaptMiddleware(makeAuthMiddleware('admin'))
   const uploadImage = adaptMiddleware(makeFileImageUploadMiddleware())
   router.get('/item', addpterRoute(makeLoadItemController()))
-  router.post('/item', uploadImage, adminAuthRouter, addpterRoute(makeAddItemController()))
+  router.post(
+    '/item',
+    uploadImage,
+    adminAuthRouter,
+    addpterRoute(makeAddItemController())
+  )
 }

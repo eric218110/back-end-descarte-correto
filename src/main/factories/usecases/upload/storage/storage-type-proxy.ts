@@ -4,7 +4,8 @@ import { StorageTypeAwsAdapter } from '@infra/upload/storage/aws/storage-type-aw
 import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
 
-export const makeStorageTypeProxy = (): RemovedImageStorage & SavedImageStorage => {
+export const makeStorageTypeProxy = (): RemovedImageStorage &
+  SavedImageStorage => {
   const {
     AWS_ACCESS_KEY_ID,
     AWS_ACL,

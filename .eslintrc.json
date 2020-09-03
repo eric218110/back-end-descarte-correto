@@ -1,11 +1,21 @@
 {
-  "extends": "standard-with-typescript",
+  "extends": [
+    "standard-with-typescript",
+    "prettier/@typescript-eslint",
+    "prettier/standard",
+    "prettier/react"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/return-await": "off",
-    "@typescript-eslint/consistent-type-definitions": "off"
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "prettier/prettier": "error"
   }
 }

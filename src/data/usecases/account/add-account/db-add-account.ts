@@ -8,7 +8,7 @@ import {
 } from './db-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
-  constructor (
+  constructor(
     private readonly encrypter: Encrypter,
     private readonly addAccountRepository: AddAccountRepository,
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository
@@ -17,13 +17,15 @@ export class DbAddAccount implements AddAccount {
     this.addAccountRepository = addAccountRepository
   }
 
-  async add (accountData: AddAccountModel): Promise<AccountModel> {
-    const accountExist = await this.loadAccountByEmailRepository.loadWithEmail(accountData.email)
+  async add(accountData: AddAccountModel): Promise<AccountModel> {
+    const accountExist = await this.loadAccountByEmailRepository.loadWithEmail(
+      accountData.email
+    )
     if (!accountExist) {
       const hashedPassword = await this.encrypter.encrypt(accountData.password)
       const newAccount = await this.addAccountRepository.add(
-        Object.assign({}, accountData, { password: hashedPassword }
-        ))
+        Object.assign({}, accountData, { password: hashedPassword })
+      )
       return newAccount
     }
     return null

@@ -31,9 +31,11 @@ const makeFakeHttpRequest = (): HttpRequest => ({
   }
 })
 
-const makeLoadAccountByTokenStub = (fakeAccountModel: AccountModel): LoadAccountByToken => {
+const makeLoadAccountByTokenStub = (
+  fakeAccountModel: AccountModel
+): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: string): Promise<AccountModel> {
+    async load(accessToken: string): Promise<AccountModel> {
       return new Promise(resolve => resolve(fakeAccountModel))
     }
   }
@@ -62,9 +64,9 @@ describe('AuthMiddleware', () => {
 
   test('should return 403 if LoadAccountByToken return null', async () => {
     const { sut, loadAccountByTokenStub, fakeHttpRequest } = makeSut()
-    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(
-      new Promise(resolve => resolve(null))
-    )
+    jest
+      .spyOn(loadAccountByTokenStub, 'load')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const httpResponse = await sut.handle(fakeHttpRequest)
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
@@ -85,7 +87,8 @@ describe('AuthMiddleware', () => {
 
   test('should return 500 if LoadAccountByToken throws', async () => {
     const { sut, fakeHttpRequest, loadAccountByTokenStub } = makeSut()
-    jest.spyOn(loadAccountByTokenStub, 'load')
+    jest
+      .spyOn(loadAccountByTokenStub, 'load')
       .mockImplementationOnce(async () => {
         return new Promise((resolve, reject) => reject(new Error()))
       })

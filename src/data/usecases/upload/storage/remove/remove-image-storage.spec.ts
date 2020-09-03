@@ -8,7 +8,7 @@ type SutTypes = {
 
 const makeRemovedImageStorageStub = (): RemovedImageStorage => {
   class RemovedImageStorageStub implements RemovedImageStorage {
-    async removeImage (pathImage: string): Promise<void> {
+    async removeImage(pathImage: string): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
@@ -34,7 +34,8 @@ describe('RemoveImageStorage', () => {
 
   test('should throws if RemovedImageStorage throws', async () => {
     const { sut, removedImageStorage } = makeSut()
-    jest.spyOn(removedImageStorage, 'removeImage')
+    jest
+      .spyOn(removedImageStorage, 'removeImage')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )

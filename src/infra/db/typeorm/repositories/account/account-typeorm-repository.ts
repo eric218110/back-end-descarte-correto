@@ -9,30 +9,35 @@ import {
   LoadAccountByTokenRepository,
   UpdateAccessTokenRepository
 } from './account-typeorm-repository-protocols'
-export class AccountTypeOrmRepository implements
-LoadAccountByEmailRepository,
-AddAccountRepository,
-LoadAccountByTokenRepository,
-UpdateAccessTokenRepository {
+export class AccountTypeOrmRepository
+  implements
+    LoadAccountByEmailRepository,
+    AddAccountRepository,
+    LoadAccountByTokenRepository,
+    UpdateAccessTokenRepository {
   private readonly AccountTypeOrmRepository: Repository<EntityAccount>
 
-  constructor () {
+  constructor() {
     this.AccountTypeOrmRepository = getRepository(EntityAccount)
   }
 
-  async add (account: AddAccountModel): Promise<AccountModelData> {
+  async add(account: AddAccountModel): Promise<AccountModelData> {
     const createAccount = this.AccountTypeOrmRepository.create(account)
     await this.AccountTypeOrmRepository.save(createAccount)
     return createAccount
   }
 
-  async loadWithEmail (email: string): Promise<AccountModelData> {
-    return await this.AccountTypeOrmRepository.findOne({ email }) || null
+  async loadWithEmail(email: string): Promise<AccountModelData> {
+    return (await this.AccountTypeOrmRepository.findOne({ email })) || null
   }
 
-  async loadByToken (token: string, role: string = 'user'): Promise<AccountModelData> {
-    const account = await this.AccountTypeOrmRepository
-      .createQueryBuilder('account')
+  async loadByToken(
+    token: string,
+    role: string = 'user'
+  ): Promise<AccountModelData> {
+    const account = await this.AccountTypeOrmRepository.createQueryBuilder(
+      'account'
+    )
       .where(`account.accessToken = '${token}'`)
       .andWhere(`(account.role = '${role}' OR account.role = 'admin')`)
       .getOne()
@@ -40,7 +45,7 @@ UpdateAccessTokenRepository {
     return account || null
   }
 
-  async updateAccessToken (id: string, token: string): Promise<void> {
+  async updateAccessToken(id: string, token: string): Promise<void> {
     const account = await this.AccountTypeOrmRepository.findOne({ id })
     if (account) {
       const { id } = account

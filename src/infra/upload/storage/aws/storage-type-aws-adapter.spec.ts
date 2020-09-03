@@ -41,7 +41,7 @@ const makeSut = (): SutTypes => {
 
 beforeEach(async () => {
   await promises.mkdir(resolve('__test__', 'file'), { recursive: true })
-  await promises.writeFile(pathImage, ('Test remove file'))
+  await promises.writeFile(pathImage, 'Test remove file')
 })
 
 afterAll(() => {
@@ -126,7 +126,9 @@ describe('StorageTypeAwsAdapter', () => {
         AWS_ACL: 'public-read'
       })
       const fileUrl = sut.removeImage('invalid_file')
-      await expect(fileUrl).rejects.toThrow(TypeError('Not remove file in cloud'))
+      await expect(fileUrl).rejects.toThrow(
+        TypeError('Not remove file in cloud')
+      )
     })
   })
 })

@@ -16,7 +16,7 @@ const makeFileRequest = (): any => ({
 
 const makeUploadImageStub = (): UploadImage => {
   class UploadImageStub implements UploadImage {
-    async upload (file: any): Promise<void> {
+    async upload(file: any): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
@@ -50,10 +50,9 @@ describe('UploadImageMiddleware', () => {
 
   test('should return 500 if UploadImage throws', async () => {
     const { sut, uploadImageStub } = makeSut()
-    jest.spyOn(uploadImageStub, 'upload')
-      .mockImplementationOnce(async () => {
-        return new Promise((resolve, reject) => reject(new Error()))
-      })
+    jest.spyOn(uploadImageStub, 'upload').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
     const fakeRequest = {
       file: makeFileRequest()
     }

@@ -1,5 +1,10 @@
 import { LoggerModelData } from '@data/models/logger-model'
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn
+} from 'typeorm'
 
 @Entity('logger')
 export class EntityLogger implements LoggerModelData {

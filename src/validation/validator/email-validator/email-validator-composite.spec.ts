@@ -3,8 +3,8 @@ import { EmailValidator } from '@validation/protocols/email-validator'
 import { InvalidParamError } from '@presentation/errors'
 
 const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator { // MOCK TYPE STUB
-    isValid (email: string): boolean {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
       return true
     }
   }

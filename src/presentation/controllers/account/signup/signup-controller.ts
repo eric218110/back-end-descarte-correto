@@ -5,18 +5,23 @@ import {
   AddAccount,
   Validator
 } from './signup-controller-protocols'
-import { badRequest, serverError, ok, forbidden } from '@presentation/helper/http/http-helper'
+import {
+  badRequest,
+  serverError,
+  ok,
+  forbidden
+} from '@presentation/helper/http/http-helper'
 import { Authentication } from '../login/login-controller-protocols'
 import { EmailInUserError } from '@presentation/errors'
 
 export class SignUpController implements Controller {
-  constructor (
+  constructor(
     private readonly addAccount: AddAccount,
     private readonly validator: Validator,
     private readonly authentication: Authentication
   ) {}
 
-  public async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  public async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const isError = this.validator.isValid(httpRequest.body)
       if (isError) {

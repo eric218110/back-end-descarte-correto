@@ -1,4 +1,7 @@
-import { ValidatorComposite, RequireFieldValidator } from '@validation/validator'
+import {
+  ValidatorComposite,
+  RequireFieldValidator
+} from '@validation/validator'
 import { Validator } from '@presentation/protocols'
 
 export const makeAddItemValidator = (): ValidatorComposite => {
