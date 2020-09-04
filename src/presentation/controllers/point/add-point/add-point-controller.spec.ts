@@ -4,8 +4,9 @@ import { HttpRequest } from '@presentation/protocols'
 import { AddPointController } from './add-point-controller'
 import { ItemModel } from '@domain/models/item'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
-import { badRequest } from '@presentation/helper/http/http-helper'
+import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
 import { ItemNotExistError } from '@presentation/errors/'
+import { AccessDeniedError } from '@presentation/errors/access-denied-error'
 
 type SutTypes = {
   sut: AddPointController
@@ -125,6 +126,33 @@ describe('AddPointController', () => {
         .mockReturnValueOnce(new Promise(resolve => resolve(null)))
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(badRequest(new ItemNotExistError()))
+    })
+  })
+
+  describe('Account', () => {
+    test('should return forbiden if account id is null', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle({
+        body: {
+          accountId: undefined,
+          name: 'any_name',
+          city: 'any_city',
+          image: 'any_image_url',
+          latitude: 'any_latitude',
+          longitude: 'any_longitude',
+          state: 'any_state',
+          phone: 'any_phone',
+          items: [
+            {
+              item: 'any_id_item_1'
+            },
+            {
+              item: 'any_id_item_2'
+            }
+          ]
+        }
+      })
+      expect(response).toEqual(forbidden(new AccessDeniedError()))
     })
   })
 })
