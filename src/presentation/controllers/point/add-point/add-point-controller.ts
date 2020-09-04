@@ -13,6 +13,7 @@ import {
   LoadAccountByToken,
   AddPointModel
 } from './add-point-controller-protocols'
+import { noContent } from '@presentation/helper/http/http-helper'
 
 export class AddPointController implements Controller {
   constructor(
@@ -65,7 +66,7 @@ export class AddPointController implements Controller {
 
       await this.addPoint.add(pointCreate)
 
-      return null
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
