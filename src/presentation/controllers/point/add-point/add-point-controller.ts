@@ -1,6 +1,8 @@
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
 import { AddPoint } from '@domain/usecases/point/add-point'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
+import { badRequest } from '@presentation/helper/http/http-helper'
+import { ItemNotExistError } from '@presentation/errors'
 
 export class AddPointController implements Controller {
   constructor(
@@ -10,7 +12,10 @@ export class AddPointController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const { items } = httpRequest.body
-    await this.loadItemByIds.loadItems(items.map(({ item }) => item))
+    const itemExist = await this.loadItemByIds.loadItems(
+      items.map(({ item }) => item)
+    )
+    if (!itemExist) return badRequest(new ItemNotExistError())
     await this.addPoint.add({
       name: 'any_name',
       city: 'any_city',
