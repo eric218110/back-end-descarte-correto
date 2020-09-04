@@ -16,6 +16,7 @@ import {
   AddPointModel,
   MissingParamsError
 } from './add-point-controller-protocols'
+import { noContent } from '@presentation/helper/http/http-helper'
 
 type SutTypes = {
   sut: AddPointController
@@ -284,6 +285,12 @@ describe('AddPointController', () => {
       const addSpy = jest.spyOn(addPointStub, 'add')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith(fakeAddPoint())
+    })
+
+    test('Should return 204 on success', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(noContent())
     })
   })
 })
