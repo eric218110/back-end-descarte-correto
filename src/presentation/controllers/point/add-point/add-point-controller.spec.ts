@@ -147,7 +147,7 @@ describe('AddPointController', () => {
       expect(addSpy).toHaveBeenCalledWith(['any_id_item_1', 'any_id_item_2'])
     })
 
-    test('should call return bad request if LoadItemByIds returns null', async () => {
+    test('should return bad request if LoadItemByIds returns null', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
       jest
         .spyOn(loadItemByIdsStub, 'loadItems')
@@ -187,6 +187,15 @@ describe('AddPointController', () => {
       const addSpy = jest.spyOn(loadAccountByTokenStub, 'load')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith('any_account_token_id')
+    })
+
+    test('should return forbidden if LoadAccountByToken returns null', async () => {
+      const { sut, loadAccountByTokenStub } = makeSut()
+      jest
+        .spyOn(loadAccountByTokenStub, 'load')
+        .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(forbidden(new AccessDeniedError()))
     })
   })
 })
