@@ -1,11 +1,11 @@
 import { PointModel } from '@domain/models/point'
 import { AddPoint, AddPointModel } from '@domain/usecases/point/add-point'
-import { HttpRequest } from '@presentation/protocols'
+import { HttpRequest, Validator } from '@presentation/protocols'
 import { AddPointController } from './add-point-controller'
 import { ItemModel } from '@domain/models/item'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
-import { ItemNotExistError } from '@presentation/errors/'
+import { ItemNotExistError, MissingParamsError } from '@presentation/errors/'
 import { AccessDeniedError } from '@presentation/errors/access-denied-error'
 import { LoadAccountByToken } from '@domain/usecases/account/load-accout-by-token'
 import { AccountModel } from '@domain/models/account'
@@ -15,6 +15,7 @@ type SutTypes = {
   loadAccountByTokenStub: LoadAccountByToken
   addPointStub: AddPoint
   loadItemByIdsStub: LoadItemByIds
+  validatorStub: Validator
 }
 
 const fakeCreatePoint = (): PointModel => ({
@@ -121,20 +122,32 @@ const makeLoadAccountByTokenStub = (): LoadAccountByToken => {
   return new LoadItemByIdsStub()
 }
 
+const makeValidatorStub = (): Validator => {
+  class ValidatorStub implements Validator {
+    isValid(input: any): Error {
+      return null
+    }
+  }
+  return new ValidatorStub()
+}
+
 const makeSut = (): SutTypes => {
   const addPointStub = makeAddPointStub()
   const loadItemByIdsStub = makeLoadItemByIdsStub()
   const loadAccountByTokenStub = makeLoadAccountByTokenStub()
+  const validatorStub = makeValidatorStub()
   const sut = new AddPointController(
     addPointStub,
     loadItemByIdsStub,
-    loadAccountByTokenStub
+    loadAccountByTokenStub,
+    validatorStub
   )
   return {
     sut,
     loadItemByIdsStub,
     addPointStub,
-    loadAccountByTokenStub
+    loadAccountByTokenStub,
+    validatorStub
   }
 }
 
@@ -196,6 +209,26 @@ describe('AddPointController', () => {
         .mockReturnValueOnce(new Promise(resolve => resolve(null)))
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(forbidden(new AccessDeniedError()))
+    })
+  })
+
+  describe('Validator', () => {
+    test('Should call Validator with correct value', async () => {
+      const { sut, validatorStub } = makeSut()
+      const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+      await sut.handle(fakeRequest())
+      expect(isValidSpy).toHaveBeenCalledWith(fakeRequest().body)
+    })
+
+    test('Should return 400 if Validator return Error', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest
+        .spyOn(validatorStub, 'isValid')
+        .mockReturnValueOnce(new MissingParamsError('any_field'))
+      const httpResponse = await sut.handle(fakeRequest())
+      expect(httpResponse).toEqual(
+        badRequest(new MissingParamsError('any_field'))
+      )
     })
   })
 })
