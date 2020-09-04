@@ -18,7 +18,7 @@ const connectionTest = {
 const connectionDevelopment = {
   name: 'default',
   type: 'postgres',
-  database: env.TYPEORM_DATABASE,
+  database: process.env.DATABASE,
   host: env.TYPEORM_HOST,
   port: env.TYPEORM_PORT,
   username: process.env.USER_DATABASE,
@@ -31,7 +31,7 @@ const connectionDevelopment = {
 const connectionProdution = {
   name: 'default',
   type: 'postgres',
-  database: env.TYPEORM_DATABASE,
+  database: process.env.DATABASE,
   host: env.TYPEORM_HOST,
   port: env.TYPEORM_PORT,
   username: process.env.USER_DATABASE,
