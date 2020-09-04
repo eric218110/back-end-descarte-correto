@@ -1,8 +1,9 @@
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
 import { AddPoint } from '@domain/usecases/point/add-point'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
-import { badRequest } from '@presentation/helper/http/http-helper'
+import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
 import { ItemNotExistError } from '@presentation/errors'
+import { AccessDeniedError } from '@presentation/errors/access-denied-error'
 
 export class AddPointController implements Controller {
   constructor(
@@ -16,6 +17,8 @@ export class AddPointController implements Controller {
       items.map(({ item }) => item)
     )
     if (!itemExist) return badRequest(new ItemNotExistError())
+    const { accountId } = httpRequest.body
+    if (!accountId) return forbidden(new AccessDeniedError())
     await this.addPoint.add({
       name: 'any_name',
       city: 'any_city',
