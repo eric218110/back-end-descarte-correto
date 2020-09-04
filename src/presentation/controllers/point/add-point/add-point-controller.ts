@@ -1,4 +1,9 @@
-import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
+import {
+  Controller,
+  HttpRequest,
+  HttpResponse,
+  Validator
+} from '@presentation/protocols'
 import { AddPoint } from '@domain/usecases/point/add-point'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
@@ -10,7 +15,8 @@ export class AddPointController implements Controller {
   constructor(
     private readonly addPoint: AddPoint,
     private readonly loadItemByIds: LoadItemByIds,
-    private readonly loadAccountByToken: LoadAccountByToken
+    private readonly loadAccountByToken: LoadAccountByToken,
+    private readonly validator: Validator
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -24,6 +30,11 @@ export class AddPointController implements Controller {
 
     const account = await this.loadAccountByToken.load(accountId)
     if (!account) return forbidden(new AccessDeniedError())
+
+    const isError = this.validator.isValid(httpRequest.body)
+    if (isError) {
+      return badRequest(isError)
+    }
 
     return null
   }
