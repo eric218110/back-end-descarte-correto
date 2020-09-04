@@ -80,7 +80,7 @@ const fakeLoadAccount = (): AccountModel => ({
 
 const fakeRequest = (): HttpRequest => ({
   body: {
-    accountId: 'any_account_token_id',
+    accountId: 'valid_access_token',
     name: 'any_name',
     city: 'any_city',
     image: 'any_image_url',
@@ -97,6 +97,18 @@ const fakeRequest = (): HttpRequest => ({
       }
     ]
   }
+})
+
+const fakeAddPoint = (): AddPointModel => ({
+  account: fakeLoadAccount(),
+  name: 'any_name',
+  city: 'any_city',
+  image: 'any_image_url',
+  latitude: 'any_latitude',
+  longitude: 'any_longitude',
+  state: 'any_state',
+  phone: 'any_phone',
+  items: fakeLoadItems()
 })
 
 const makeAddPointStub = (): AddPoint => {
@@ -186,7 +198,7 @@ describe('AddPointController', () => {
     })
   })
 
-  describe('Account', () => {
+  describe('Load Account', () => {
     test('should return forbiden if account id is null', async () => {
       const { sut } = makeSut()
       const response = await sut.handle({
@@ -215,7 +227,7 @@ describe('AddPointController', () => {
       const { sut, loadAccountByTokenStub } = makeSut()
       const addSpy = jest.spyOn(loadAccountByTokenStub, 'load')
       await sut.handle(fakeRequest())
-      expect(addSpy).toHaveBeenCalledWith('any_account_token_id')
+      expect(addSpy).toHaveBeenCalledWith('valid_access_token')
     })
 
     test('should return forbidden if LoadAccountByToken returns null', async () => {
@@ -263,6 +275,15 @@ describe('AddPointController', () => {
       })
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(serverError(new Error()))
+    })
+  })
+
+  describe('Add Point', () => {
+    test('should call Add Point with correct values', async () => {
+      const { sut, addPointStub } = makeSut()
+      const addSpy = jest.spyOn(addPointStub, 'add')
+      await sut.handle(fakeRequest())
+      expect(addSpy).toHaveBeenCalledWith(fakeAddPoint())
     })
   })
 })
