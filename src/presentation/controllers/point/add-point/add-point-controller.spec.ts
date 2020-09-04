@@ -2,10 +2,13 @@ import { PointModel } from '@domain/models/point'
 import { AddPoint, AddPointModel } from '@domain/usecases/point/add-point'
 import { HttpRequest } from '@presentation/protocols'
 import { AddPointController } from './add-point-controller'
+import { ItemModel } from '@domain/models/item'
+import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 
 type SutTypes = {
   sut: AddPointController
   addPointStub: AddPoint
+  loadItemByIdsStub: LoadItemByIds
 }
 
 const fakeCreatePoint = (): PointModel => ({
@@ -27,17 +30,30 @@ const fakeCreatePoint = (): PointModel => ({
   },
   items: [
     {
-      id: 'valid_id_item',
+      id: 'valid_id_item_1',
       image: 'http://valid_item_image_1_url.com.br',
       title: 'valid_item_image_1'
     },
     {
-      id: 'valid_id_item',
+      id: 'valid_id_item_2',
       image: 'http://valid_item_image_2_url.com.br',
       title: 'valid_item_image_2'
     }
   ]
 })
+
+const fakeLoadItems = (): ItemModel[] => [
+  {
+    id: 'valid_id_item_1',
+    image: 'http://valid_item_image_1_url.com.br',
+    title: 'valid_item_image_1'
+  },
+  {
+    id: 'valid_id_item_2',
+    image: 'http://valid_item_image_2_url.com.br',
+    title: 'valid_item_image_2'
+  }
+]
 
 const fakeRequest = (): HttpRequest => ({
   body: {
@@ -78,12 +94,12 @@ const fakeCallPointValid = (): AddPointModel => ({
   },
   items: [
     {
-      id: 'valid_id_item',
+      id: 'valid_id_item_1',
       image: 'http://valid_item_image_1_url.com.br',
       title: 'valid_item_image_1'
     },
     {
-      id: 'valid_id_item',
+      id: 'valid_id_item_2',
       image: 'http://valid_item_image_2_url.com.br',
       title: 'valid_item_image_2'
     }
@@ -100,11 +116,23 @@ const makeAddPointStub = (): AddPoint => {
   return new AddPointStub()
 }
 
+const makeLoadItemByIdsStub = (): LoadItemByIds => {
+  class LoadItemByIdsStub implements LoadItemByIds {
+    async loadItems(idsItems: string[]): Promise<ItemModel[]> {
+      return new Promise(resolve => resolve(fakeLoadItems()))
+    }
+  }
+
+  return new LoadItemByIdsStub()
+}
+
 const makeSut = (): SutTypes => {
+  const loadItemByIdsStub = makeLoadItemByIdsStub()
   const addPointStub = makeAddPointStub()
-  const sut = new AddPointController(addPointStub)
+  const sut = new AddPointController(addPointStub, loadItemByIdsStub)
   return {
     sut,
+    loadItemByIdsStub,
     addPointStub
   }
 }
@@ -116,6 +144,15 @@ describe('AddPointController', () => {
       const addSpy = jest.spyOn(addPointStub, 'add')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith(fakeCallPointValid())
+    })
+  })
+
+  describe('Load Items', () => {
+    test('should call LoadItemByIds with correct values', async () => {
+      const { sut, loadItemByIdsStub } = makeSut()
+      const addSpy = jest.spyOn(loadItemByIdsStub, 'loadItems')
+      await sut.handle(fakeRequest())
+      expect(addSpy).toHaveBeenCalledWith(['any_id_item_1', 'any_id_item_2'])
     })
   })
 })
