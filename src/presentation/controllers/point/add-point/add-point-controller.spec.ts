@@ -4,6 +4,8 @@ import { HttpRequest } from '@presentation/protocols'
 import { AddPointController } from './add-point-controller'
 import { ItemModel } from '@domain/models/item'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
+import { badRequest } from '@presentation/helper/http/http-helper'
+import { ItemNotExistError } from '@presentation/errors/'
 
 type SutTypes = {
   sut: AddPointController
@@ -76,36 +78,6 @@ const fakeRequest = (): HttpRequest => ({
   }
 })
 
-const fakeCallPointValid = (): AddPointModel => ({
-  name: 'any_name',
-  city: 'any_city',
-  image: 'any_image_url',
-  latitude: 'any_latitude',
-  longitude: 'any_longitude',
-  state: 'any_state',
-  phone: 'any_phone',
-  account: {
-    id: 'valid_id_user',
-    name: 'valid_name',
-    email: 'valid_email_user',
-    password: 'valid_password',
-    accessToken: 'valid_access_token',
-    role: 'valid_role'
-  },
-  items: [
-    {
-      id: 'valid_id_item_1',
-      image: 'http://valid_item_image_1_url.com.br',
-      title: 'valid_item_image_1'
-    },
-    {
-      id: 'valid_id_item_2',
-      image: 'http://valid_item_image_2_url.com.br',
-      title: 'valid_item_image_2'
-    }
-  ]
-})
-
 const makeAddPointStub = (): AddPoint => {
   class AddPointStub implements AddPoint {
     async add(point: AddPointModel): Promise<PointModel> {
@@ -138,21 +110,21 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddPointController', () => {
-  describe('Add Point', () => {
-    test('should call AddPoint with correct values', async () => {
-      const { sut, addPointStub } = makeSut()
-      const addSpy = jest.spyOn(addPointStub, 'add')
-      await sut.handle(fakeRequest())
-      expect(addSpy).toHaveBeenCalledWith(fakeCallPointValid())
-    })
-  })
-
   describe('Load Items', () => {
     test('should call LoadItemByIds with correct values', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
       const addSpy = jest.spyOn(loadItemByIdsStub, 'loadItems')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith(['any_id_item_1', 'any_id_item_2'])
+    })
+
+    test('should call return bad request if LoadItemByIds returns null', async () => {
+      const { sut, loadItemByIdsStub } = makeSut()
+      jest
+        .spyOn(loadItemByIdsStub, 'loadItems')
+        .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(badRequest(new ItemNotExistError()))
     })
   })
 })
