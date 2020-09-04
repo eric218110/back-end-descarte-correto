@@ -1,18 +1,21 @@
-import { PointModel } from '@domain/models/point'
-import { AddPoint, AddPointModel } from '@domain/usecases/point/add-point'
-import { HttpRequest, Validator } from '@presentation/protocols'
-import { AddPointController } from './add-point-controller'
-import { ItemModel } from '@domain/models/item'
-import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 import {
+  AddPointController,
+  HttpRequest,
+  PointModel,
+  Validator,
+  AddPoint,
+  LoadItemByIds,
   badRequest,
   forbidden,
-  serverError
-} from '@presentation/helper/http/http-helper'
-import { ItemNotExistError, MissingParamsError } from '@presentation/errors/'
-import { AccessDeniedError } from '@presentation/errors/access-denied-error'
-import { LoadAccountByToken } from '@domain/usecases/account/load-accout-by-token'
-import { AccountModel } from '@domain/models/account'
+  serverError,
+  ItemNotExistError,
+  AccessDeniedError,
+  LoadAccountByToken,
+  ItemModel,
+  AccountModel,
+  AddPointModel,
+  MissingParamsError
+} from './add-point-controller-protocols'
 
 type SutTypes = {
   sut: AddPointController

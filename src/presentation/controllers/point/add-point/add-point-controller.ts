@@ -2,18 +2,16 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
-  Validator
-} from '@presentation/protocols'
-import { AddPoint } from '@domain/usecases/point/add-point'
-import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
-import {
+  Validator,
+  AddPoint,
+  LoadItemByIds,
   badRequest,
   forbidden,
-  serverError
-} from '@presentation/helper/http/http-helper'
-import { ItemNotExistError } from '@presentation/errors'
-import { AccessDeniedError } from '@presentation/errors/access-denied-error'
-import { LoadAccountByToken } from '@domain/usecases/account/load-accout-by-token'
+  serverError,
+  ItemNotExistError,
+  AccessDeniedError,
+  LoadAccountByToken
+} from './add-point-controller-protocols'
 
 export class AddPointController implements Controller {
   constructor(
