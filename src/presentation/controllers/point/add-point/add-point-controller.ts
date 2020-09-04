@@ -37,7 +37,7 @@ export class AddPointController implements Controller {
         accountId
       } = httpRequest.body
 
-      const itemExist = await this.loadItemByIds.loadItems(
+      const itemExist = await this.loadItemByIds.load(
         items.map(({ item }) => item)
       )
       if (!itemExist) return badRequest(new ItemNotExistError())

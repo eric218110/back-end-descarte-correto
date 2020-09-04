@@ -124,7 +124,7 @@ const makeAddPointStub = (): AddPoint => {
 
 const makeLoadItemByIdsStub = (): LoadItemByIds => {
   class LoadItemByIdsStub implements LoadItemByIds {
-    async loadItems(idsItems: string[]): Promise<ItemModel[]> {
+    async load(idsItems: string[]): Promise<ItemModel[]> {
       return new Promise(resolve => resolve(fakeLoadItems()))
     }
   }
@@ -175,7 +175,7 @@ describe('AddPointController', () => {
   describe('Load Items', () => {
     test('should call LoadItemByIds with correct values', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
-      const addSpy = jest.spyOn(loadItemByIdsStub, 'loadItems')
+      const addSpy = jest.spyOn(loadItemByIdsStub, 'load')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith(['any_id_item_1', 'any_id_item_2'])
     })
@@ -183,7 +183,7 @@ describe('AddPointController', () => {
     test('should return bad request if LoadItemByIds returns null', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
       jest
-        .spyOn(loadItemByIdsStub, 'loadItems')
+        .spyOn(loadItemByIdsStub, 'load')
         .mockReturnValueOnce(new Promise(resolve => resolve(null)))
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(badRequest(new ItemNotExistError()))
@@ -191,7 +191,7 @@ describe('AddPointController', () => {
 
     test('should return 500 if LoadItemByIds throws', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
-      jest.spyOn(loadItemByIdsStub, 'loadItems').mockImplementationOnce(() => {
+      jest.spyOn(loadItemByIdsStub, 'load').mockImplementationOnce(() => {
         throw new Error()
       })
       const response = await sut.handle(fakeRequest())
