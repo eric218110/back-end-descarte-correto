@@ -1,10 +1,16 @@
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols'
 import { AddPoint } from '@domain/usecases/point/add-point'
+import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 
 export class AddPointController implements Controller {
-  constructor(private readonly addPoint: AddPoint) {}
+  constructor(
+    private readonly addPoint: AddPoint,
+    private readonly loadItemByIds: LoadItemByIds
+  ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    const { items } = httpRequest.body
+    await this.loadItemByIds.loadItems(items.map(({ item }) => item))
     await this.addPoint.add({
       name: 'any_name',
       city: 'any_city',
@@ -23,12 +29,12 @@ export class AddPointController implements Controller {
       },
       items: [
         {
-          id: 'valid_id_item',
+          id: 'valid_id_item_1',
           image: 'http://valid_item_image_1_url.com.br',
           title: 'valid_item_image_1'
         },
         {
-          id: 'valid_id_item',
+          id: 'valid_id_item_2',
           image: 'http://valid_item_image_2_url.com.br',
           title: 'valid_item_image_2'
         }
