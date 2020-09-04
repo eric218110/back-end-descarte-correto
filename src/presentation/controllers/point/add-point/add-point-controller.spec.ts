@@ -4,7 +4,11 @@ import { HttpRequest, Validator } from '@presentation/protocols'
 import { AddPointController } from './add-point-controller'
 import { ItemModel } from '@domain/models/item'
 import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
-import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
+import {
+  badRequest,
+  forbidden,
+  serverError
+} from '@presentation/helper/http/http-helper'
 import { ItemNotExistError, MissingParamsError } from '@presentation/errors/'
 import { AccessDeniedError } from '@presentation/errors/access-denied-error'
 import { LoadAccountByToken } from '@domain/usecases/account/load-accout-by-token'
@@ -229,6 +233,15 @@ describe('AddPointController', () => {
       expect(httpResponse).toEqual(
         badRequest(new MissingParamsError('any_field'))
       )
+    })
+
+    test('should return 500 if Validator throws', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(serverError(new Error()))
     })
   })
 })
