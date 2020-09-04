@@ -7,9 +7,12 @@ import { LoadItemByIds } from '@data/protocols/data/items/load-items-by-ids'
 import { badRequest, forbidden } from '@presentation/helper/http/http-helper'
 import { ItemNotExistError } from '@presentation/errors/'
 import { AccessDeniedError } from '@presentation/errors/access-denied-error'
+import { LoadAccountByToken } from '@domain/usecases/account/load-accout-by-token'
+import { AccountModel } from '@domain/models/account'
 
 type SutTypes = {
   sut: AddPointController
+  loadAccountByTokenStub: LoadAccountByToken
   addPointStub: AddPoint
   loadItemByIdsStub: LoadItemByIds
 }
@@ -58,9 +61,18 @@ const fakeLoadItems = (): ItemModel[] => [
   }
 ]
 
+const fakeLoadAccount = (): AccountModel => ({
+  id: 'valid_id',
+  email: 'valid_email',
+  name: 'valid_name',
+  password: 'valid_password',
+  accessToken: 'valid_access_token',
+  role: 'valid_role'
+})
+
 const fakeRequest = (): HttpRequest => ({
   body: {
-    accountId: 'valid_account_id',
+    accountId: 'any_account_token_id',
     name: 'any_name',
     city: 'any_city',
     image: 'any_image_url',
@@ -99,14 +111,30 @@ const makeLoadItemByIdsStub = (): LoadItemByIds => {
   return new LoadItemByIdsStub()
 }
 
+const makeLoadAccountByTokenStub = (): LoadAccountByToken => {
+  class LoadItemByIdsStub implements LoadAccountByToken {
+    async load(accessToken: string, role?: string): Promise<AccountModel> {
+      return new Promise(resolve => resolve(fakeLoadAccount()))
+    }
+  }
+
+  return new LoadItemByIdsStub()
+}
+
 const makeSut = (): SutTypes => {
-  const loadItemByIdsStub = makeLoadItemByIdsStub()
   const addPointStub = makeAddPointStub()
-  const sut = new AddPointController(addPointStub, loadItemByIdsStub)
+  const loadItemByIdsStub = makeLoadItemByIdsStub()
+  const loadAccountByTokenStub = makeLoadAccountByTokenStub()
+  const sut = new AddPointController(
+    addPointStub,
+    loadItemByIdsStub,
+    loadAccountByTokenStub
+  )
   return {
     sut,
     loadItemByIdsStub,
-    addPointStub
+    addPointStub,
+    loadAccountByTokenStub
   }
 }
 
@@ -134,7 +162,6 @@ describe('AddPointController', () => {
       const { sut } = makeSut()
       const response = await sut.handle({
         body: {
-          accountId: undefined,
           name: 'any_name',
           city: 'any_city',
           image: 'any_image_url',
@@ -153,6 +180,13 @@ describe('AddPointController', () => {
         }
       })
       expect(response).toEqual(forbidden(new AccessDeniedError()))
+    })
+
+    test('should call LoadAccountByToken with correct values', async () => {
+      const { sut, loadAccountByTokenStub } = makeSut()
+      const addSpy = jest.spyOn(loadAccountByTokenStub, 'load')
+      await sut.handle(fakeRequest())
+      expect(addSpy).toHaveBeenCalledWith('any_account_token_id')
     })
   })
 })
