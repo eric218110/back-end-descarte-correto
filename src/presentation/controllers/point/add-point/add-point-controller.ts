@@ -22,7 +22,8 @@ export class AddPointController implements Controller {
 
     if (!accountId) return forbidden(new AccessDeniedError())
 
-    await this.loadAccountByToken.load(accountId)
+    const account = await this.loadAccountByToken.load(accountId)
+    if (!account) return forbidden(new AccessDeniedError())
 
     return null
   }
