@@ -172,6 +172,15 @@ describe('AddPointController', () => {
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(badRequest(new ItemNotExistError()))
     })
+
+    test('should return 500 if LoadItemByIds throws', async () => {
+      const { sut, loadItemByIdsStub } = makeSut()
+      jest.spyOn(loadItemByIdsStub, 'loadItems').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(serverError(new Error()))
+    })
   })
 
   describe('Account', () => {
