@@ -10,7 +10,8 @@ import {
   serverError,
   ItemNotExistError,
   AccessDeniedError,
-  LoadAccountByToken
+  LoadAccountByToken,
+  AddPointModel
 } from './add-point-controller-protocols'
 
 export class AddPointController implements Controller {
@@ -23,7 +24,18 @@ export class AddPointController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { items, accountId } = httpRequest.body
+      const {
+        items,
+        name,
+        city,
+        image,
+        latitude,
+        longitude,
+        state,
+        phone,
+        accountId
+      } = httpRequest.body
+
       const itemExist = await this.loadItemByIds.loadItems(
         items.map(({ item }) => item)
       )
@@ -38,6 +50,20 @@ export class AddPointController implements Controller {
       if (isError) {
         return badRequest(isError)
       }
+
+      const pointCreate: AddPointModel = {
+        account,
+        items: itemExist,
+        city,
+        image,
+        latitude,
+        longitude,
+        name,
+        phone,
+        state
+      }
+
+      await this.addPoint.add(pointCreate)
 
       return null
     } catch (error) {
