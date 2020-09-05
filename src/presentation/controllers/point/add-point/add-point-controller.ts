@@ -24,10 +24,18 @@ export class AddPointController implements Controller {
     private readonly validator: Validator
   ) {}
 
+  private convertItemsStringToArray(items: string): string[] {
+    const arrayItems = items
+      .replace(/[ ]+/g, '')
+      .replace(/(\[)|(\])/g, '')
+      .split(',')
+    if (arrayItems.length === 0) return null
+    return arrayItems
+  }
+
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const {
-        items,
         name,
         city,
         file,
@@ -38,15 +46,16 @@ export class AddPointController implements Controller {
         accountId
       } = httpRequest.body
 
+      const { items } = httpRequest.body
       if (!httpRequest.body.file) {
         return badRequest(new UploadFileError(httpRequest.body.error))
       }
 
       if (!items) return badRequest(new ItemNotExistError())
 
-      const itemExist = await this.loadItemByIds.load(
-        items.map(({ item }) => item)
-      )
+      const arrayItemsIds: string[] = this.convertItemsStringToArray(items)
+
+      const itemExist = await this.loadItemByIds.load(arrayItemsIds)
       if (!itemExist) return badRequest(new ItemNotExistError())
 
       if (!accountId) return forbidden(new AccessDeniedError())
