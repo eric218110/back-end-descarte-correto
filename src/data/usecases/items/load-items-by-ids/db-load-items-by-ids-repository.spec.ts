@@ -73,4 +73,31 @@ describe('DbLoadItemsByIdsRepository', () => {
     ])
     expect(items).toBeNull()
   })
+
+  test('should return list item if LoadItemByIdsRepositoty success', async () => {
+    const { sut } = makeSut()
+    const items = await sut.loadItems([
+      'id_item_1',
+      'id_item_2',
+      'id_item_3',
+      'id_item_4'
+    ])
+    expect(items).toEqual(resultItems())
+  })
+
+  test('should throws if LoadItemByIdsRepositoty throws', async () => {
+    const { sut, loadItemsByIdsRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadItemsByIdsRepositoryStub, 'loadItems')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.loadItems([
+      'id_item_1',
+      'id_item_2',
+      'id_item_3',
+      'id_item_4'
+    ])
+    await expect(response).rejects.toThrow()
+  })
 })
