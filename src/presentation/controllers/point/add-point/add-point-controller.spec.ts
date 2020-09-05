@@ -46,12 +46,12 @@ const fakeCreatePoint = (): PointModel => ({
   },
   items: [
     {
-      id: 'valid_id_item_1',
+      id: 'any_item_id_1',
       image: 'http://valid_item_image_1_url.com.br',
       title: 'valid_item_image_1'
     },
     {
-      id: 'valid_id_item_2',
+      id: 'any_item_id_2',
       image: 'http://valid_item_image_2_url.com.br',
       title: 'valid_item_image_2'
     }
@@ -60,12 +60,12 @@ const fakeCreatePoint = (): PointModel => ({
 
 const fakeLoadItems = (): ItemModel[] => [
   {
-    id: 'valid_id_item_1',
+    id: 'any_item_id_1',
     image: 'http://valid_item_image_1_url.com.br',
     title: 'valid_item_image_1'
   },
   {
-    id: 'valid_id_item_2',
+    id: 'any_item_id_2',
     image: 'http://valid_item_image_2_url.com.br',
     title: 'valid_item_image_2'
   }
@@ -90,14 +90,7 @@ const fakeRequest = (): HttpRequest => ({
     longitude: 'any_longitude',
     state: 'any_state',
     phone: 'any_phone',
-    items: [
-      {
-        item: 'any_id_item_1'
-      },
-      {
-        item: 'any_id_item_2'
-      }
-    ]
+    items: 'any_item_id_1, any_item_id_2'
   }
 })
 
@@ -178,7 +171,7 @@ describe('AddPointController', () => {
       const { sut, loadItemByIdsStub } = makeSut()
       const addSpy = jest.spyOn(loadItemByIdsStub, 'load')
       await sut.handle(fakeRequest())
-      expect(addSpy).toHaveBeenCalledWith(['any_id_item_1', 'any_id_item_2'])
+      expect(addSpy).toHaveBeenCalledWith(['any_item_id_1', 'any_item_id_2'])
     })
 
     test('should return bad request if LoadItemByIds returns null', async () => {
@@ -194,6 +187,14 @@ describe('AddPointController', () => {
       const { sut } = makeSut()
       const request = fakeRequest()
       delete request.body.items
+      const response = await sut.handle(request)
+      expect(response).toEqual(badRequest(new ItemNotExistError()))
+    })
+
+    test('should return bad request if items poorly formatted', async () => {
+      const { sut } = makeSut()
+      const request = fakeRequest()
+      request.body.items = ''
       const response = await sut.handle(request)
       expect(response).toEqual(badRequest(new ItemNotExistError()))
     })
@@ -221,14 +222,7 @@ describe('AddPointController', () => {
           longitude: 'any_longitude',
           state: 'any_state',
           phone: 'any_phone',
-          items: [
-            {
-              item: 'any_id_item_1'
-            },
-            {
-              item: 'any_id_item_2'
-            }
-          ]
+          items: 'any_item_id_1, any_item_id_2'
         }
       })
       expect(response).toEqual(forbidden(new AccessDeniedError()))
