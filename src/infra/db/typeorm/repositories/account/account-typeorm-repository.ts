@@ -58,6 +58,7 @@ export class AccountTypeOrmRepository
 
   async loadById(id: string): Promise<AccountModelData> {
     const account = await this.AccountTypeOrmRepository.findOne({ id })
+    if (!account) return null
     return account
   }
 }
