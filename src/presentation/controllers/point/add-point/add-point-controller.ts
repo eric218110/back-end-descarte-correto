@@ -10,7 +10,6 @@ import {
   serverError,
   ItemNotExistError,
   AccessDeniedError,
-  LoadAccountByToken,
   AddPointModel
 } from './add-point-controller-protocols'
 import { noContent } from '@presentation/helper/http/http-helper'
@@ -22,7 +21,6 @@ export class AddPointController implements Controller {
     private readonly addPoint: AddPoint,
     private readonly loadItemByIds: LoadItemByIds,
     private readonly loadAccountById: LoadAccountById,
-    private readonly loadAccountByToken: LoadAccountByToken,
     private readonly validator: Validator
   ) {}
 

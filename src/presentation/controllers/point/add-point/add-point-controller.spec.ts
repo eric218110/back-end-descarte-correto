@@ -10,7 +10,7 @@ import {
   serverError,
   ItemNotExistError,
   AccessDeniedError,
-  LoadAccountByToken,
+  LoadAccountById,
   ItemModel,
   AccountModel,
   AddPointModel,
@@ -18,11 +18,9 @@ import {
   noContent,
   UploadFileError
 } from './add-point-controller-protocols'
-import { LoadAccountById } from '@domain/usecases/account/load-account-by-id'
 
 type SutTypes = {
   sut: AddPointController
-  loadAccountByTokenStub: LoadAccountByToken
   loadAccountByIdStub: LoadAccountById
   addPointStub: AddPoint
   loadItemByIdsStub: LoadItemByIds
@@ -128,16 +126,6 @@ const makeLoadItemByIdsStub = (): LoadItemByIds => {
   return new LoadItemByIdsStub()
 }
 
-const makeLoadAccountByTokenStub = (): LoadAccountByToken => {
-  class LoadItemByIdsStub implements LoadAccountByToken {
-    async load(accessToken: string, role?: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(fakeLoadAccount()))
-    }
-  }
-
-  return new LoadItemByIdsStub()
-}
-
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
     isValid(input: any): Error {
@@ -159,21 +147,18 @@ const makeLoadAccountByIdStub = (): LoadAccountById => {
 const makeSut = (): SutTypes => {
   const addPointStub = makeAddPointStub()
   const loadItemByIdsStub = makeLoadItemByIdsStub()
-  const loadAccountByTokenStub = makeLoadAccountByTokenStub()
   const validatorStub = makeValidatorStub()
   const loadAccountByIdStub = makeLoadAccountByIdStub()
   const sut = new AddPointController(
     addPointStub,
     loadItemByIdsStub,
     loadAccountByIdStub,
-    loadAccountByTokenStub,
     validatorStub
   )
   return {
     sut,
     loadItemByIdsStub,
     addPointStub,
-    loadAccountByTokenStub,
     validatorStub,
     loadAccountByIdStub
   }
