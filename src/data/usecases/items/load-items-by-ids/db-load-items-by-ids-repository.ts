@@ -1,5 +1,7 @@
-import { LoadItemsByIdsRepository } from '@data/protocols/data/items/load-items-by-ids-repository'
-import { ItemModel } from '../add-items/db-add-items-protocols'
+import {
+  LoadItemsByIdsRepository,
+  ItemModel
+} from './db-load-items-by-ids-protocols'
 
 export class DbLoadItemsByIdsRepository implements LoadItemsByIdsRepository {
   constructor(

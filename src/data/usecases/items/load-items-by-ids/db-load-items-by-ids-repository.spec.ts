@@ -1,6 +1,8 @@
 import { DbLoadItemsByIdsRepository } from './db-load-items-by-ids-repository'
-import { LoadItemsByIdsRepository } from '@data/protocols/data/items/load-items-by-ids-repository'
-import { ItemModel } from '@domain/models/item'
+import {
+  LoadItemsByIdsRepository,
+  ItemModel
+} from './db-load-items-by-ids-protocols'
 
 type SutTypes = {
   sut: DbLoadItemsByIdsRepository
