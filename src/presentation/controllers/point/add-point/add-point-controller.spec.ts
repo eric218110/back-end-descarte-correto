@@ -150,7 +150,7 @@ const makeValidatorStub = (): Validator => {
 const makeLoadAccountByIdStub = (): LoadAccountById => {
   class LoadAccountByIdStub implements LoadAccountById {
     async load(id: string): Promise<AccountModel> {
-      return null
+      return new Promise(resolve => resolve(fakeLoadAccount()))
     }
   }
   return new LoadAccountByIdStub()
@@ -241,37 +241,20 @@ describe('AddPointController', () => {
       })
       expect(response).toEqual(forbidden(new AccessDeniedError()))
     })
-
-    test('should call LoadAccountByToken with correct values', async () => {
-      const { sut, loadAccountByTokenStub } = makeSut()
-      const addSpy = jest.spyOn(loadAccountByTokenStub, 'load')
-      await sut.handle(fakeRequest())
-      expect(addSpy).toHaveBeenCalledWith('valid_access_token')
-    })
-
-    test('should return forbidden if LoadAccountByToken returns null', async () => {
-      const { sut, loadAccountByTokenStub } = makeSut()
-      jest
-        .spyOn(loadAccountByTokenStub, 'load')
-        .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-      const response = await sut.handle(fakeRequest())
-      expect(response).toEqual(forbidden(new AccessDeniedError()))
-    })
-
-    test('should return 500 if LoadAccountByToken throws', async () => {
-      const { sut, loadAccountByTokenStub } = makeSut()
-      jest.spyOn(loadAccountByTokenStub, 'load').mockImplementationOnce(() => {
-        throw new Error()
-      })
-      const response = await sut.handle(fakeRequest())
-      expect(response).toEqual(serverError(new Error()))
-    })
-
     test('should call LoadAccountById with correct values', async () => {
       const { sut, loadAccountByIdStub } = makeSut()
       const addSpy = jest.spyOn(loadAccountByIdStub, 'load')
       await sut.handle(fakeRequest())
       expect(addSpy).toHaveBeenCalledWith(fakeRequest().body.accountId)
+    })
+
+    test('should return forbidden if LoadAccountById returns null', async () => {
+      const { sut, loadAccountByIdStub } = makeSut()
+      jest
+        .spyOn(loadAccountByIdStub, 'load')
+        .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(forbidden(new AccessDeniedError()))
     })
   })
 
