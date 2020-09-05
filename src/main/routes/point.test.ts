@@ -16,7 +16,9 @@ beforeEach(async () => {
 })
 
 describe('POST SignUp Route', () => {
-  test('Should return 403 if user not logged', async () => {
-    await request(app()).post('/api/point').expect(403)
+  describe('Auth', () => {
+    test('Should return 403 if user not logged', async () => {
+      await request(app()).post('/api/point').expect(403)
+    })
   })
 })
