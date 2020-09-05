@@ -25,6 +25,8 @@ const resultItems = (): ItemModel[] => [
   }
 ]
 
+const fakeIdsItems = ['id_item_1', 'id_item_2', 'id_item_3', 'id_item_4']
+
 const makeLoadItemsByIdsRepository = (): LoadItemsByIdsRepository => {
   class LoadItemsByIdsRepositoryStub implements LoadItemsByIdsRepository {
     async loadItems(idsItems: string[]): Promise<ItemModel[]> {
@@ -50,7 +52,7 @@ describe('DbLoadItemsByIdsRepository', () => {
       loadItemsByIdsRepositoryStub,
       'loadItems'
     )
-    await sut.loadItems(['id_item_1', 'id_item_2', 'id_item_3', 'id_item_4'])
+    await sut.loadItems(fakeIdsItems)
     expect(loadAllItemsSpy).toBeCalled()
   })
 
@@ -65,23 +67,13 @@ describe('DbLoadItemsByIdsRepository', () => {
     jest
       .spyOn(loadItemsByIdsRepositoryStub, 'loadItems')
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const items = await sut.loadItems([
-      'id_item_1',
-      'id_item_2',
-      'id_item_3',
-      'id_item_4'
-    ])
+    const items = await sut.loadItems(fakeIdsItems)
     expect(items).toBeNull()
   })
 
   test('should return list item if LoadItemByIdsRepositoty success', async () => {
     const { sut } = makeSut()
-    const items = await sut.loadItems([
-      'id_item_1',
-      'id_item_2',
-      'id_item_3',
-      'id_item_4'
-    ])
+    const items = await sut.loadItems(fakeIdsItems)
     expect(items).toEqual(resultItems())
   })
 
@@ -92,12 +84,7 @@ describe('DbLoadItemsByIdsRepository', () => {
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )
-    const response = sut.loadItems([
-      'id_item_1',
-      'id_item_2',
-      'id_item_3',
-      'id_item_4'
-    ])
+    const response = sut.loadItems(fakeIdsItems)
     await expect(response).rejects.toThrow()
   })
 })
