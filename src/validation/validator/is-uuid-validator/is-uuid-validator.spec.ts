@@ -33,10 +33,18 @@ describe('UUID Validator Composite', () => {
     expect(error).toEqual(new InvalidParamError('accountId'))
   })
 
-  test('Should call uuid validator with correct accountID', () => {
+  test('Should call uuid validator with correct accountId', () => {
     const { sut, isUuidValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(isUuidValidatorStub, 'isValid')
     sut.isValid({ accountId: 'any_account_id' })
     expect(isValidSpy).toHaveBeenCalledWith('any_account_id')
+  })
+
+  test('Should return 500 is Uuid Valitador throws', () => {
+    const { sut, isUuidValidatorStub } = makeSut()
+    jest.spyOn(isUuidValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    expect(sut.isValid).toThrow()
   })
 })
