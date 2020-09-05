@@ -14,14 +14,16 @@ import {
   ItemModel,
   AccountModel,
   AddPointModel,
-  MissingParamsError
+  MissingParamsError,
+  noContent,
+  UploadFileError
 } from './add-point-controller-protocols'
-import { noContent } from '@presentation/helper/http/http-helper'
-import { UploadFileError } from '@presentation/errors'
+import { LoadAccountById } from '@domain/usecases/account/load-account-by-id'
 
 type SutTypes = {
   sut: AddPointController
   loadAccountByTokenStub: LoadAccountByToken
+  loadAccountByIdStub: LoadAccountById
   addPointStub: AddPoint
   loadItemByIdsStub: LoadItemByIds
   validatorStub: Validator
@@ -145,14 +147,25 @@ const makeValidatorStub = (): Validator => {
   return new ValidatorStub()
 }
 
+const makeLoadAccountByIdStub = (): LoadAccountById => {
+  class LoadAccountByIdStub implements LoadAccountById {
+    async load(id: string): Promise<AccountModel> {
+      return null
+    }
+  }
+  return new LoadAccountByIdStub()
+}
+
 const makeSut = (): SutTypes => {
   const addPointStub = makeAddPointStub()
   const loadItemByIdsStub = makeLoadItemByIdsStub()
   const loadAccountByTokenStub = makeLoadAccountByTokenStub()
   const validatorStub = makeValidatorStub()
+  const loadAccountByIdStub = makeLoadAccountByIdStub()
   const sut = new AddPointController(
     addPointStub,
     loadItemByIdsStub,
+    loadAccountByIdStub,
     loadAccountByTokenStub,
     validatorStub
   )
@@ -161,7 +174,8 @@ const makeSut = (): SutTypes => {
     loadItemByIdsStub,
     addPointStub,
     loadAccountByTokenStub,
-    validatorStub
+    validatorStub,
+    loadAccountByIdStub
   }
 }
 
@@ -251,6 +265,13 @@ describe('AddPointController', () => {
       })
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(serverError(new Error()))
+    })
+
+    test('should call LoadAccountById with correct values', async () => {
+      const { sut, loadAccountByIdStub } = makeSut()
+      const addSpy = jest.spyOn(loadAccountByIdStub, 'load')
+      await sut.handle(fakeRequest())
+      expect(addSpy).toHaveBeenCalledWith(fakeRequest().body.accountId)
     })
   })
 
