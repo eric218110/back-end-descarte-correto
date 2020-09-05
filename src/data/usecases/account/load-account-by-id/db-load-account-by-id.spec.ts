@@ -41,4 +41,10 @@ describe('DbLoadAccountById', () => {
     await sut.load('any_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should LoadAccountByIdRepository return account on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.load('any_id')
+    expect(response).toEqual(fakeResulAccount)
+  })
 })
