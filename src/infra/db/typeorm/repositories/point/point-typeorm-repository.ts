@@ -29,12 +29,8 @@ export class PointTypeOrmRepository implements AddPointRepository {
     )
     if (itemsExist.length !== point.items.length) return null
 
-    try {
-      const createPoint = this.pointTypeOrmRepository.create(point)
-      const savePoint = await this.pointTypeOrmRepository.save(createPoint)
-      return savePoint
-    } catch (error) {
-      return null
-    }
+    const createPoint = this.pointTypeOrmRepository.create(point)
+    const savePoint = await this.pointTypeOrmRepository.save(createPoint)
+    return savePoint
   }
 }
