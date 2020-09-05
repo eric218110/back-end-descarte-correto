@@ -9,11 +9,13 @@ import {
   LoadAccountByTokenRepository,
   UpdateAccessTokenRepository
 } from './account-typeorm-repository-protocols'
+import { LoadAccountByIdRepository } from '@data/protocols/data/account/load-by-id-repository'
 export class AccountTypeOrmRepository
   implements
     LoadAccountByEmailRepository,
     AddAccountRepository,
     LoadAccountByTokenRepository,
+    LoadAccountByIdRepository,
     UpdateAccessTokenRepository {
   private readonly AccountTypeOrmRepository: Repository<EntityAccount>
 
@@ -52,5 +54,10 @@ export class AccountTypeOrmRepository
       await this.AccountTypeOrmRepository.update({ id }, { accessToken: token })
     }
     return null
+  }
+
+  async loadById(id: string): Promise<AccountModelData> {
+    const account = await this.AccountTypeOrmRepository.findOne({ id })
+    return account
   }
 }
