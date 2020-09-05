@@ -10,5 +10,6 @@ export class DbLoadItemsByIdsRepository implements LoadItemsByIdsRepository {
     if (idsItems.length === 0) return null
     const items = await this.loadItemsByIdsRepository.loadItems(idsItems)
     if (!items) return null
+    return items
   }
 }
