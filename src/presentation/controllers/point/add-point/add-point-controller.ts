@@ -42,6 +42,8 @@ export class AddPointController implements Controller {
         return badRequest(new UploadFileError(httpRequest.body.error))
       }
 
+      if (!items) return badRequest(new ItemNotExistError())
+
       const itemExist = await this.loadItemByIds.load(
         items.map(({ item }) => item)
       )
