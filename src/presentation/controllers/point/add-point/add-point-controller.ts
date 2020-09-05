@@ -29,7 +29,6 @@ export class AddPointController implements Controller {
       .replace(/[ ]+/g, '')
       .replace(/(\[)|(\])/g, '')
       .split(',')
-    if (arrayItems.length === 0) return null
     return arrayItems
   }
 
@@ -50,7 +49,7 @@ export class AddPointController implements Controller {
       if (!httpRequest.body.file) {
         return badRequest(new UploadFileError(httpRequest.body.error))
       }
-
+      console.log(items)
       if (!items) return badRequest(new ItemNotExistError())
 
       const arrayItemsIds: string[] = this.convertItemsStringToArray(items)
