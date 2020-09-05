@@ -53,4 +53,10 @@ describe('DbLoadItemsByIdsRepository', () => {
     await sut.loadItems(['id_item_1', 'id_item_2', 'id_item_3', 'id_item_4'])
     expect(loadAllItemsSpy).toBeCalled()
   })
+
+  test('should return null if length item equals 0', async () => {
+    const { sut } = makeSut()
+    const items = await sut.loadItems([])
+    expect(items).toBeNull()
+  })
 })
