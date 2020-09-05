@@ -8,6 +8,7 @@ export class DbLoadItemsByIdsRepository implements LoadItemsByIdsRepository {
 
   async loadItems(idsItems: string[]): Promise<ItemModel[]> {
     if (idsItems.length === 0) return null
-    await this.loadItemsByIdsRepository.loadItems(idsItems)
+    const items = await this.loadItemsByIdsRepository.loadItems(idsItems)
+    if (!items) return null
   }
 }
