@@ -33,7 +33,10 @@ export class EntityPoint implements PointModelData {
   @Column()
   image: string
 
-  @Column()
+  @Column({
+    nullable: true,
+    default: 'uninformed'
+  })
   phone: string
 
   @ManyToMany(type => EntityItem)
