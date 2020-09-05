@@ -15,11 +15,13 @@ import {
 } from './add-point-controller-protocols'
 import { noContent } from '@presentation/helper/http/http-helper'
 import { UploadFileError } from '@presentation/errors'
+import { LoadAccountById } from '@domain/usecases/account/load-account-by-id'
 
 export class AddPointController implements Controller {
   constructor(
     private readonly addPoint: AddPoint,
     private readonly loadItemByIds: LoadItemByIds,
+    private readonly loadAccountById: LoadAccountById,
     private readonly loadAccountByToken: LoadAccountByToken,
     private readonly validator: Validator
   ) {}
@@ -60,6 +62,7 @@ export class AddPointController implements Controller {
 
       if (!accountId) return forbidden(new AccessDeniedError())
 
+      await this.loadAccountById.load(accountId)
       const account = await this.loadAccountByToken.load(accountId)
       if (!account) return forbidden(new AccessDeniedError())
 
