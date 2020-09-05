@@ -1,6 +1,6 @@
 {
   "name": "node-api",
-  "version": "2.3.2",
+  "version": "2.3.8",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
