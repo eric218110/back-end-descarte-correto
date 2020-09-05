@@ -149,6 +149,24 @@ describe('AccountTypeOrmRepository', () => {
       })
     })
 
+    describe('LoadAccountById', () => {
+      test('should return account if LoadById success', async () => {
+        const { sut, fakeAddAccountModel } = makeSut()
+        const createAccount = accountTypeOrmRepository.create(
+          fakeAddAccountModel
+        )
+        const saveAccount = await accountTypeOrmRepository.save(createAccount)
+        const account = await sut.loadById(saveAccount.id)
+        expect(account).toBeTruthy()
+        expect(account.id).toBeTruthy()
+        expect(account.name).toBe(saveAccount.name)
+        expect(account.email).toBe(saveAccount.email)
+        expect(account.password).toBe(saveAccount.password)
+        expect(account.accessToken).toBe(saveAccount.accessToken)
+        expect(account.role).toBe(saveAccount.role)
+      })
+    })
+
     describe('UpdateAccessToken', () => {
       test('should update the account accessToken on UpdateAccessToken success', async () => {
         const { sut, fakeAddAccountModel } = makeSut()
