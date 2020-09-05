@@ -9,9 +9,14 @@ import {
   LoadItemsRepository,
   LoadItemByTitleRepository
 } from './item-typeorm-repository-protocols'
+import { LoadItemsByIdsRepository } from '@data/protocols/data/items/load-items-by-ids-repository'
 
 export class ItemTypeOrmRepository
-  implements AddItemRepository, LoadItemsRepository, LoadItemByTitleRepository {
+  implements
+    AddItemRepository,
+    LoadItemsRepository,
+    LoadItemByTitleRepository,
+    LoadItemsByIdsRepository {
   private readonly itemTypeOrmRepository: Repository<EntityItem>
 
   constructor() {
@@ -33,5 +38,10 @@ export class ItemTypeOrmRepository
 
   async loadByTitle(title: string): Promise<ItemModelData> {
     return (await this.itemTypeOrmRepository.findOne({ title })) || null
+  }
+
+  async loadItemsByIds(idsItems: string[]): Promise<ItemModelData[]> {
+    const items = await this.itemTypeOrmRepository.findByIds(idsItems)
+    return items
   }
 }
