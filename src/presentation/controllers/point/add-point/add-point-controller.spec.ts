@@ -190,6 +190,14 @@ describe('AddPointController', () => {
       expect(response).toEqual(badRequest(new ItemNotExistError()))
     })
 
+    test('should return bad request if items in request is null', async () => {
+      const { sut } = makeSut()
+      const request = fakeRequest()
+      delete request.body.items
+      const response = await sut.handle(request)
+      expect(response).toEqual(badRequest(new ItemNotExistError()))
+    })
+
     test('should return 500 if LoadItemByIds throws', async () => {
       const { sut, loadItemByIdsStub } = makeSut()
       jest.spyOn(loadItemByIdsStub, 'load').mockImplementationOnce(() => {
