@@ -59,4 +59,18 @@ describe('DbLoadItemsByIdsRepository', () => {
     const items = await sut.loadItems([])
     expect(items).toBeNull()
   })
+
+  test('should return null if LoadItemByIdsRepositoty reruns null', async () => {
+    const { sut, loadItemsByIdsRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadItemsByIdsRepositoryStub, 'loadItems')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const items = await sut.loadItems([
+      'id_item_1',
+      'id_item_2',
+      'id_item_3',
+      'id_item_4'
+    ])
+    expect(items).toBeNull()
+  })
 })
