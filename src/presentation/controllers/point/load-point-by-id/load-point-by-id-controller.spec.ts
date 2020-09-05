@@ -1,12 +1,14 @@
 import { LoadPointById } from '@domain/usecases/point/load-point-by-id'
 import {
   PointModel,
-  HttpRequest
+  HttpRequest,
+  Validator
 } from '../add-point/add-point-controller-protocols'
 import { LoadPointByIdController } from './load-point-by-id-controller'
 
 type SutTypes = {
   sut: LoadPointByIdController
+  validatorStub: Validator
   loadPointByIdStub: LoadPointById
 }
 
@@ -56,20 +58,42 @@ const makeLoadPointByIdStub = (): LoadPointById => {
   return new LoadPointByIdStub()
 }
 
+const makeValidatorStub = (): Validator => {
+  class ValidatorStub implements Validator {
+    isValid(input: any): Error {
+      return null
+    }
+  }
+  return new ValidatorStub()
+}
+
 const makeSut = (): SutTypes => {
   const loadPointByIdStub = makeLoadPointByIdStub()
-  const sut = new LoadPointByIdController(loadPointByIdStub)
+  const validatorStub = makeValidatorStub()
+  const sut = new LoadPointByIdController(loadPointByIdStub, validatorStub)
   return {
     sut,
-    loadPointByIdStub
+    loadPointByIdStub,
+    validatorStub
   }
 }
 
 describe('LoadPointByIdController', () => {
-  test('should call LoadPointById with value correct', async () => {
-    const { sut, loadPointByIdStub } = makeSut()
-    const loadSpy = jest.spyOn(loadPointByIdStub, 'load')
-    await sut.handle(fakeRequest)
-    expect(loadSpy).toHaveBeenCalledWith('any_id_point')
+  describe('LoadPointById', () => {
+    test('should call LoadPointById with value correct', async () => {
+      const { sut, loadPointByIdStub } = makeSut()
+      const loadSpy = jest.spyOn(loadPointByIdStub, 'load')
+      await sut.handle(fakeRequest)
+      expect(loadSpy).toHaveBeenCalledWith('any_id_point')
+    })
+  })
+
+  describe('Validator', () => {
+    test('Should call Validator with correct value', async () => {
+      const { sut, validatorStub } = makeSut()
+      const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+      await sut.handle(fakeRequest)
+      expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.params)
+    })
   })
 })
