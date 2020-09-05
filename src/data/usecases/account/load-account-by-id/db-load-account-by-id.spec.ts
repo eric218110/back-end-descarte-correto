@@ -56,4 +56,15 @@ describe('DbLoadAccountById', () => {
     const response = await sut.load('any_id')
     expect(response).toBeNull()
   })
+
+  test('should throws if LoadAccoutByTokenRepository throws', async () => {
+    const { sut, loadAccountByIdRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadAccountByIdRepositoryStub, 'loadById')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.load('any_id')
+    await expect(response).rejects.toThrow()
+  })
 })
