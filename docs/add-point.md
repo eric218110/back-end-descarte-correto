@@ -5,7 +5,7 @@
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Recebe uma requisição do tipo **POST** na rota **/api/points**
 - <span style='font-size:15px;'>&#10060;</span>
-  <span style='font-size:16px;'>&#10140;</span> Ser acessada apenas por usuários logado, com token valido (middleware pattern PROXY)
+  <span style='font-size:16px;'>&#10140;</span> Ser acessada apenas por usuários logado, com token valido (middleware pattern PROXY) - **user** in Middleware
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber file image (middleware pattern PROXY - multer)
 - <span style='font-size:15px;'>&#10060;</span>
