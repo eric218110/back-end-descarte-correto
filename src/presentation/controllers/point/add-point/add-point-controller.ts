@@ -14,6 +14,7 @@ import {
   AddPointModel
 } from './add-point-controller-protocols'
 import { noContent } from '@presentation/helper/http/http-helper'
+import { UploadFileError } from '@presentation/errors'
 
 export class AddPointController implements Controller {
   constructor(
@@ -29,13 +30,17 @@ export class AddPointController implements Controller {
         items,
         name,
         city,
-        image,
+        file,
         latitude,
         longitude,
         state,
         phone,
         accountId
       } = httpRequest.body
+
+      if (!httpRequest.body.file) {
+        return badRequest(new UploadFileError(httpRequest.body.error))
+      }
 
       const itemExist = await this.loadItemByIds.load(
         items.map(({ item }) => item)
@@ -56,7 +61,7 @@ export class AddPointController implements Controller {
         account,
         items: itemExist,
         city,
-        image,
+        image: file,
         latitude,
         longitude,
         name,
