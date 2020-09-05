@@ -3,7 +3,8 @@ import {
   EntityItem,
   ItemTypeOrmRepository,
   LoadItemsModelData,
-  connectionDatabase
+  connectionDatabase,
+  AddItemModelData
 } from './item-typeorm-repository-protocols'
 
 let itemTypeOrmRepository: Repository<EntityItem>
@@ -16,6 +17,17 @@ interface SutTypes {
 const makeLoadItemsFake = (): LoadItemsModelData => [
   { image: 'http://any_image_1.com', title: 'any_title_1' },
   { image: 'http://any_image_2.com', title: 'any_title_2' }
+]
+
+const fakeItems: AddItemModelData[] = [
+  {
+    image: 'http://any_image_url_1.com',
+    title: 'Any title image 1'
+  },
+  {
+    image: 'http://any_image_url_2.com',
+    title: 'Any title image 2'
+  }
 ]
 
 const makeSut = (): SutTypes => {
@@ -104,6 +116,18 @@ describe('ItemTypeOrmRepository', () => {
       await itemTypeOrmRepository.insert(itemsFake)
       const item = await sut.loadByTitle('not_exist_title')
       expect(item).toBeNull()
+    })
+  })
+
+  describe('LoadItemsByIds', () => {
+    test('should return list of items', async () => {
+      const createFirstItem = itemTypeOrmRepository.create(fakeItems[0])
+      const createSecondItem = itemTypeOrmRepository.create(fakeItems[1])
+      const firstItem = await itemTypeOrmRepository.save(createFirstItem)
+      const secondItem = await itemTypeOrmRepository.save(createSecondItem)
+      const { sut } = makeSut()
+      const item = await sut.loadItemsByIds([firstItem.id, secondItem.id])
+      expect(item).toEqual([firstItem, secondItem])
     })
   })
 })
