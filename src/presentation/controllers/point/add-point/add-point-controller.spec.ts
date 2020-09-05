@@ -17,6 +17,7 @@ import {
   MissingParamsError
 } from './add-point-controller-protocols'
 import { noContent } from '@presentation/helper/http/http-helper'
+import { UploadFileError } from '@presentation/errors'
 
 type SutTypes = {
   sut: AddPointController
@@ -30,7 +31,7 @@ const fakeCreatePoint = (): PointModel => ({
   id: 'valid_id',
   name: 'valid_name',
   city: 'valid_city',
-  image: 'valid_image_url',
+  image: 'http://valid_image_url.com',
   latitude: 'valid_latitude',
   longitude: 'valid_longitude',
   state: 'valid_state',
@@ -84,7 +85,7 @@ const fakeRequest = (): HttpRequest => ({
     accountId: 'valid_access_token',
     name: 'any_name',
     city: 'any_city',
-    image: 'any_image_url',
+    file: 'http://any_image_url.com',
     latitude: 'any_latitude',
     longitude: 'any_longitude',
     state: 'any_state',
@@ -104,7 +105,7 @@ const fakeAddPoint = (): AddPointModel => ({
   account: fakeLoadAccount(),
   name: 'any_name',
   city: 'any_city',
-  image: 'any_image_url',
+  image: 'http://any_image_url.com',
   latitude: 'any_latitude',
   longitude: 'any_longitude',
   state: 'any_state',
@@ -206,6 +207,7 @@ describe('AddPointController', () => {
         body: {
           name: 'any_name',
           city: 'any_city',
+          file: 'http://any_image_url.com',
           image: 'any_image_url',
           latitude: 'any_latitude',
           longitude: 'any_longitude',
@@ -291,6 +293,20 @@ describe('AddPointController', () => {
       const { sut } = makeSut()
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(noContent())
+    })
+  })
+
+  describe('File Image', () => {
+    test('Should return 400 if field file not exist in request', async () => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle({
+        body: {
+          error: 'any_error_is_required'
+        }
+      })
+      expect(httpResponse).toEqual(
+        badRequest(new UploadFileError('any_error_is_required'))
+      )
     })
   })
 })
