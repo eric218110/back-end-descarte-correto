@@ -165,6 +165,12 @@ describe('AccountTypeOrmRepository', () => {
         expect(account.accessToken).toBe(saveAccount.accessToken)
         expect(account.role).toBe(saveAccount.role)
       })
+
+      test('should return null if loadByEmail fails', async () => {
+        const { sut } = makeSut()
+        const account = await sut.loadWithEmail('any_id')
+        expect(account).toBeNull()
+      })
     })
 
     describe('UpdateAccessToken', () => {
