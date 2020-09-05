@@ -3,9 +3,9 @@ import {
   EntityItem,
   ItemTypeOrmRepository,
   LoadItemsModelData,
-  connectionDatabase,
-  AddItemModelData
+  connectionDatabase
 } from './item-typeorm-repository-protocols'
+import { ItemModelData } from '@data/models/item-model'
 
 let itemTypeOrmRepository: Repository<EntityItem>
 
@@ -19,12 +19,14 @@ const makeLoadItemsFake = (): LoadItemsModelData => [
   { image: 'http://any_image_2.com', title: 'any_title_2' }
 ]
 
-const fakeItems: AddItemModelData[] = [
+const fakeItems: ItemModelData[] = [
   {
+    id: 'd968e70a-7493-4221-acaa-5225bf2be130',
     image: 'http://any_image_url_1.com',
     title: 'Any title image 1'
   },
   {
+    id: '6bf16e68-cf14-4b82-a357-4b24774e5d98',
     image: 'http://any_image_url_2.com',
     title: 'Any title image 2'
   }
@@ -120,14 +122,28 @@ describe('ItemTypeOrmRepository', () => {
   })
 
   describe('LoadItemsByIds', () => {
-    test('should return list of items', async () => {
+    test('should ItemTypeOrmRepository return list of items', async () => {
+      await connectionDatabase.clear()
       const createFirstItem = itemTypeOrmRepository.create(fakeItems[0])
       const createSecondItem = itemTypeOrmRepository.create(fakeItems[1])
-      const firstItem = await itemTypeOrmRepository.save(createFirstItem)
-      const secondItem = await itemTypeOrmRepository.save(createSecondItem)
+      await itemTypeOrmRepository.save(createFirstItem)
+      await itemTypeOrmRepository.save(createSecondItem)
       const { sut } = makeSut()
-      const item = await sut.loadItemsByIds([firstItem.id, secondItem.id])
-      expect(item).toEqual([firstItem, secondItem])
+      const item = await sut.loadItemsByIds([fakeItems[0].id, fakeItems[1].id])
+      expect(item[0]).toEqual(fakeItems[1])
+      expect(item[1]).toEqual(fakeItems[0])
+    })
+
+    test('should ItemTypeOrmRepository return null if one or more items not exist', async () => {
+      const createFirstItem = itemTypeOrmRepository.create({
+        id: 'c989d837-79ac-4f21-9e7a-a5889e0a59cf',
+        image: 'http://one_image.com',
+        title: 'One Title'
+      })
+      const firstItem = await itemTypeOrmRepository.save(createFirstItem)
+      const { sut } = makeSut()
+      const item = await sut.loadItemsByIds([firstItem.id, 'invalid_id_item'])
+      expect(item).toBeNull()
     })
   })
 })
