@@ -4,7 +4,7 @@ import {
   ValidatorComposite
 } from '@validation/validator'
 import { Validator } from '@presentation/protocols'
-import { EmailValidatorAdapter } from '@infra/validator/email-validator-adapter'
+import { EmailValidatorAdapter } from '@infra/validator/email-validator/email-validator-adapter'
 
 export const makeLoginValidator = (): ValidatorComposite => {
   const emailValidatorAdapter = new EmailValidatorAdapter()
