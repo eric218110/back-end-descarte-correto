@@ -42,6 +42,9 @@ export class ItemTypeOrmRepository
 
   async loadItemsByIds(idsItems: string[]): Promise<ItemModelData[]> {
     const items = await this.itemTypeOrmRepository.findByIds(idsItems)
-    return items
+    if (idsItems.length === items.length) {
+      return items
+    }
+    return null
   }
 }
