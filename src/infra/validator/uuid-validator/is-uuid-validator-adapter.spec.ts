@@ -24,4 +24,11 @@ describe('IsUuidValidatorAdapter', () => {
     const isValid = sut.isValid('any_uuid')
     expect(isValid).toBe(true)
   })
+
+  test('should call validator with correct field', () => {
+    const sut = makeSut()
+    const isUUIDSpy = jest.spyOn(validator, 'isUUID')
+    sut.isValid('any_email@mail.com')
+    expect(isUUIDSpy).toHaveBeenCalledWith('any_email@mail.com')
+  })
 })
