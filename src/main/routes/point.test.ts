@@ -46,6 +46,25 @@ describe('POST SignUp Route', () => {
     test('Should return 403 if user not logged', async () => {
       await request(app()).post('/api/point').expect(403)
     })
+
+    test('Should return 403 if user not user', async () => {
+      const account = accountTypeOrmRepository.create({
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: await hash('123', 12),
+        role: 'any'
+      })
+      const result = await accountTypeOrmRepository.save(account)
+      const { id } = result
+      const accessToken = sign({ id }, env.JWT_SECRET)
+      await accountTypeOrmRepository.update({ id }, { accessToken })
+      await request(app())
+        .post('/api/item')
+        .attach('file', resolve('__test__', 'file', 'file-test.png'))
+        .set('x-access-token', accessToken)
+        .field('title', 'any_title')
+        .expect(403)
+    })
   })
 
   describe('File', () => {
