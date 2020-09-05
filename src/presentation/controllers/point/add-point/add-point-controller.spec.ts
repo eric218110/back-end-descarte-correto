@@ -256,6 +256,15 @@ describe('AddPointController', () => {
       const response = await sut.handle(fakeRequest())
       expect(response).toEqual(forbidden(new AccessDeniedError()))
     })
+
+    test('should return 500 if LoadAccountById throws', async () => {
+      const { sut, loadAccountByIdStub } = makeSut()
+      jest.spyOn(loadAccountByIdStub, 'load').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(fakeRequest())
+      expect(response).toEqual(serverError(new Error()))
+    })
   })
 
   describe('Validator', () => {
