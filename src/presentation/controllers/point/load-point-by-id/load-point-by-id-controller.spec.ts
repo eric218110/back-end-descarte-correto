@@ -2,7 +2,9 @@ import { LoadPointById } from '@domain/usecases/point/load-point-by-id'
 import {
   PointModel,
   HttpRequest,
-  Validator
+  Validator,
+  MissingParamsError,
+  badRequest
 } from '../add-point/add-point-controller-protocols'
 import { LoadPointByIdController } from './load-point-by-id-controller'
 
@@ -94,6 +96,17 @@ describe('LoadPointByIdController', () => {
       const isValidSpy = jest.spyOn(validatorStub, 'isValid')
       await sut.handle(fakeRequest)
       expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.params)
+    })
+
+    test('Should return 400 if Validator return Error', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest
+        .spyOn(validatorStub, 'isValid')
+        .mockReturnValueOnce(new MissingParamsError('any_field'))
+      const httpResponse = await sut.handle(fakeRequest)
+      expect(httpResponse).toEqual(
+        badRequest(new MissingParamsError('any_field'))
+      )
     })
   })
 })
