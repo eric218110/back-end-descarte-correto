@@ -4,7 +4,8 @@ import {
   HttpRequest,
   Validator,
   MissingParamsError,
-  badRequest
+  badRequest,
+  serverError
 } from '../add-point/add-point-controller-protocols'
 import { LoadPointByIdController } from './load-point-by-id-controller'
 
@@ -107,6 +108,15 @@ describe('LoadPointByIdController', () => {
       expect(httpResponse).toEqual(
         badRequest(new MissingParamsError('any_field'))
       )
+    })
+
+    test('should return 500 if Validator throws', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(serverError(new Error()))
     })
   })
 })
