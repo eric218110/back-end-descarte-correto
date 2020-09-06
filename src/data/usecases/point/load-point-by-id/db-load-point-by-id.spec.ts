@@ -78,4 +78,15 @@ describe('DbLoadPointById', () => {
     const point = await sut.load('any_id')
     expect(point).toEqual(fakeResultPoint)
   })
+
+  test('should throws if LoadPointByIdRepository throws', async () => {
+    const { sut, loadPointByIdRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadPointByIdRepositoryStub, 'loadById')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.load('any_id')
+    await expect(response).rejects.toThrow()
+  })
 })
