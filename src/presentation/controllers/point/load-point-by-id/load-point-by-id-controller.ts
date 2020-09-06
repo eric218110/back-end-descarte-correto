@@ -3,7 +3,8 @@ import { Controller } from '@presentation/protocols/controller'
 import { LoadPointById } from '@domain/usecases/point/load-point-by-id'
 import {
   Validator,
-  badRequest
+  badRequest,
+  serverError
 } from '../add-point/add-point-controller-protocols'
 
 export class LoadPointByIdController implements Controller {
@@ -13,11 +14,15 @@ export class LoadPointByIdController implements Controller {
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const isError = this.validator.isValid(httpRequest.params)
-    if (isError) {
-      return badRequest(isError)
+    try {
+      const isError = this.validator.isValid(httpRequest.params)
+      if (isError) {
+        return badRequest(isError)
+      }
+      await this.loadPointById.load(httpRequest.params.id)
+      return null
+    } catch (error) {
+      return serverError(error)
     }
-    await this.loadPointById.load(httpRequest.params.id)
-    return null
   }
 }
