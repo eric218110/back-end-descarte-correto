@@ -4,6 +4,7 @@ import { adaptMiddleware } from '@main/adapters/express/express-middleware-adapt
 import { makeAuthMiddleware } from '@main/factories/middlewares/auth/auth-middleware-factory'
 import { makeFileImageUploadMiddleware } from '@main/factories/middlewares/upload/upload-image-middleware'
 import { makeAddPointController } from '@main/factories/controllers/point/add-point/add-point-controller-factory'
+import { makeLoadPointByIdController } from '@main/factories/controllers/point/load-point-by-id/load-point.by-id-controlle-factory'
 
 export default (router: Router): void => {
   const activeUserAuthRouter = adaptMiddleware(makeAuthMiddleware('user'))
@@ -14,4 +15,6 @@ export default (router: Router): void => {
     activeUserAuthRouter,
     addpterRoute(makeAddPointController())
   )
+
+  router.get('/point/:id', addpterRoute(makeLoadPointByIdController()))
 }

@@ -5,10 +5,10 @@ import {
 import { Validator } from '@presentation/protocols'
 import { IsUuidValidatorAdapter } from '@infra/validator/uuid-validator/is-uuid-validator-adapter'
 
-export const makeAddPointValidator = (): ValidatorComposite => {
+export const makeLoadPointByIdValidator = (): ValidatorComposite => {
   const validators: Validator[] = []
   validators.push(
-    new IsUuidValidatorComposite('accountId', new IsUuidValidatorAdapter())
+    new IsUuidValidatorComposite('id', new IsUuidValidatorAdapter())
   )
   return new ValidatorComposite(validators)
 }
