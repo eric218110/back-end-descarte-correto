@@ -2,7 +2,7 @@ import { PointModel } from '@domain/models/point'
 import { LoadPointByIdRepository } from '@data/protocols/data/point/load-point-by-id-repository'
 import { DbLoadPointById } from './db-load-point-by-id'
 
-const fakeAddPoint: PointModel = {
+const fakeResultPoint: PointModel = {
   id: 'any_id',
   account: {
     id: 'any_id_account',
@@ -41,7 +41,7 @@ type SutTypes = {
 const makeLoadPointByIdRepositoryStub = (): LoadPointByIdRepository => {
   class LoadPointByIdRepositoryStub implements LoadPointByIdRepository {
     async loadById(id: string): Promise<PointModel> {
-      return new Promise(resolve => resolve(fakeAddPoint))
+      return new Promise(resolve => resolve(fakeResultPoint))
     }
   }
   return new LoadPointByIdRepositoryStub()
@@ -71,5 +71,11 @@ describe('DbLoadPointById', () => {
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const point = await sut.load('any_id')
     expect(point).toBeNull()
+  })
+
+  test('should return point if LoadPointByIdRepository on success', async () => {
+    const { sut } = makeSut()
+    const point = await sut.load('any_id')
+    expect(point).toEqual(fakeResultPoint)
   })
 })
