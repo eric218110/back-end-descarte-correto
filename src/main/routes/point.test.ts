@@ -129,4 +129,10 @@ describe('GET /api/point/:id', () => {
   test('Should return 400 if params id not type UUID', async () => {
     await request(app()).get('/api/point/not_uuid').expect(400)
   })
+
+  test('Should return 204 no content if point not exist', async () => {
+    await request(app())
+      .get('/api/point/1011b475-b4ba-41c8-8acd-f0811847369a')
+      .expect(204)
+  })
 })
