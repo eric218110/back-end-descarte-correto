@@ -4,8 +4,10 @@ import { Repository, getRepository } from 'typeorm'
 import { EntityPoint } from '../../entities/point.entity'
 import { EntityItem } from '../../entities/item.entity'
 import { EntityAccount } from '../../entities/account.entity'
+import { LoadPointByIdRepository } from '@data/protocols/data/point/load-point-by-id-repository'
 
-export class PointTypeOrmRepository implements AddPointRepository {
+export class PointTypeOrmRepository
+  implements AddPointRepository, LoadPointByIdRepository {
   private readonly pointTypeOrmRepository: Repository<EntityPoint>
   private readonly itemTypeOrmRepository: Repository<EntityItem>
   private readonly accountTypeOrmRepository: Repository<EntityAccount>
@@ -32,5 +34,10 @@ export class PointTypeOrmRepository implements AddPointRepository {
     const createPoint = this.pointTypeOrmRepository.create(point)
     const savePoint = await this.pointTypeOrmRepository.save(createPoint)
     return savePoint
+  }
+
+  async loadById(id: string): Promise<PointModelData> {
+    const point = await this.pointTypeOrmRepository.findOne({ id })
+    return point || null
   }
 }
