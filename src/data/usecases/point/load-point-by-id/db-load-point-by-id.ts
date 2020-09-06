@@ -8,7 +8,7 @@ export class DbLoadPointById implements LoadPointById {
   ) {}
 
   async load(id: string): Promise<PointModel> {
-    await this.loadPointByIdRepository.loadById(id)
-    return null
+    const point = await this.loadPointByIdRepository.loadById(id)
+    return point
   }
 }
