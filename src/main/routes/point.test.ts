@@ -126,7 +126,7 @@ describe('POST /api/point Route', () => {
 })
 
 describe('GET /api/point/:id', () => {
-  test('Should return 404 if file not exists in request body', async () => {
-    await request(app()).post('/api/item/4').expect(404)
+  test('Should return 400 if params id not type UUID', async () => {
+    await request(app()).get('/api/point/not_uuid').expect(400)
   })
 })
