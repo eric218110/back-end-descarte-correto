@@ -8,6 +8,7 @@ import {
   serverError
 } from '../add-point/add-point-controller-protocols'
 import { LoadPointByIdController } from './load-point-by-id-controller'
+import { ok } from '@presentation/helper/http/http-helper'
 
 type SutTypes = {
   sut: LoadPointByIdController
@@ -48,7 +49,7 @@ const fakeResultPoint: PointModel = {
 
 const fakeRequest: HttpRequest = {
   params: {
-    id: 'any_id_point'
+    id: 'any_accounnt_id'
   }
 }
 
@@ -87,7 +88,13 @@ describe('LoadPointByIdController', () => {
       const { sut, loadPointByIdStub } = makeSut()
       const loadSpy = jest.spyOn(loadPointByIdStub, 'load')
       await sut.handle(fakeRequest)
-      expect(loadSpy).toHaveBeenCalledWith('any_id_point')
+      expect(loadSpy).toHaveBeenCalledWith('any_accounnt_id')
+    })
+
+    test('should return 200 if LoadPointById success', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(ok(fakeResultPoint))
     })
   })
 
