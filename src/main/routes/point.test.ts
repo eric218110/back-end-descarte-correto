@@ -41,7 +41,7 @@ beforeEach(async () => {
   await connectionDatabase.clear()
 })
 
-describe('POST SignUp Route', () => {
+describe('POST /api/point Route', () => {
   describe('Auth', () => {
     test('Should return 403 if user not logged', async () => {
       await request(app()).post('/api/point').expect(403)
@@ -122,5 +122,11 @@ describe('POST SignUp Route', () => {
         .field({ title: 'any_title' })
         .expect(400)
     })
+  })
+})
+
+describe('GET /api/point/:id', () => {
+  test('Should return 404 if file not exists in request body', async () => {
+    await request(app()).post('/api/item/4').expect(404)
   })
 })
