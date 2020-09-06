@@ -6,6 +6,7 @@ import {
   badRequest,
   serverError
 } from '../add-point/add-point-controller-protocols'
+import { ok } from '@presentation/helper/http/http-helper'
 
 export class LoadPointByIdController implements Controller {
   constructor(
@@ -19,8 +20,9 @@ export class LoadPointByIdController implements Controller {
       if (isError) {
         return badRequest(isError)
       }
-      await this.loadPointById.load(httpRequest.params.id)
-      return null
+      const point = await this.loadPointById.load(httpRequest.params.id)
+      if (!point) return null
+      return ok(point)
     } catch (error) {
       return serverError(error)
     }
