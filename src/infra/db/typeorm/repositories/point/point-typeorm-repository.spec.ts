@@ -75,10 +75,6 @@ afterAll(async () => {
   await connectionDatabase.close()
 })
 
-beforeEach(async () => {
-  await connectionDatabase.clear()
-})
-
 describe('PointTypeOrmRepository', () => {
   describe('Add', () => {
     test('should return null if account not exist in database', async () => {
@@ -118,6 +114,7 @@ describe('PointTypeOrmRepository', () => {
     })
 
     test('should return point if add success', async () => {
+      await connectionDatabase.clear()
       const { sut } = makeSut()
       const fakePoint = makeAddPointFake()
       fakePoint.account = await makeFakeAccount()
@@ -125,6 +122,14 @@ describe('PointTypeOrmRepository', () => {
       const point = await sut.addNewPoint(fakePoint)
       expect(point).toBeTruthy()
       expect(point.id).toBeTruthy()
+    })
+  })
+
+  describe('LoadById', () => {
+    test('should return null if point not exist', async () => {
+      const { sut } = makeSut()
+      const point = await sut.loadById('any_id')
+      expect(point).toBeNull()
     })
   })
 })
