@@ -37,7 +37,10 @@ export class PointTypeOrmRepository
   }
 
   async loadById(id: string): Promise<PointModelData> {
-    const point = await this.pointTypeOrmRepository.findOne({ id })
+    const point = await this.pointTypeOrmRepository.findOne({
+      relations: ['account', 'items'],
+      where: { id }
+    })
     return point || null
   }
 }
