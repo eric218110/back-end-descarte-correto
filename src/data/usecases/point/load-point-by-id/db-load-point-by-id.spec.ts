@@ -63,4 +63,13 @@ describe('DbLoadPointById', () => {
     await sut.load('any_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should return null if LoadPointByIdRepository returns null', async () => {
+    const { sut, loadPointByIdRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadPointByIdRepositoryStub, 'loadById')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const point = await sut.load('any_id')
+    expect(point).toBeNull()
+  })
 })
