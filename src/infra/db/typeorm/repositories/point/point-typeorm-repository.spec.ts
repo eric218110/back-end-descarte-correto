@@ -4,9 +4,11 @@ import { PointTypeOrmRepository } from './point-typeorm-repository'
 import { Repository } from 'typeorm'
 import { EntityItem } from '../../entities/item.entity'
 import { EntityAccount } from '../../entities/account.entity'
+import { EntityPoint } from '../../entities/point.entity'
 
 let itemTypeOrmRepository: Repository<EntityItem>
 let accountTypeOrmRepository: Repository<EntityAccount>
+let pointTypeOrmRepository: Repository<EntityPoint>
 
 interface SutTypes {
   sut: PointTypeOrmRepository
@@ -69,6 +71,7 @@ beforeAll(async () => {
   await connectionDatabase.clear()
   itemTypeOrmRepository = connection.getRepository(EntityItem)
   accountTypeOrmRepository = connection.getRepository(EntityAccount)
+  pointTypeOrmRepository = connection.getRepository(EntityPoint)
 })
 
 afterAll(async () => {
@@ -130,6 +133,49 @@ describe('PointTypeOrmRepository', () => {
       const { sut } = makeSut()
       const point = await sut.loadById('any_id')
       expect(point).toBeNull()
+    })
+
+    test('should return point if on success', async () => {
+      await itemTypeOrmRepository.query('DELETE FROM item')
+      const createFirstItem = itemTypeOrmRepository.create({
+        image: 'http://any_image_first_item.com',
+        title: 'Any First Item Image'
+      })
+      const createSecondItem = itemTypeOrmRepository.create({
+        image: 'http://any_image_Second_item.com',
+        title: 'Any Second Item Image'
+      })
+      const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
+      const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)
+
+      const createAccount = accountTypeOrmRepository.create({
+        name: 'any_name_account',
+        email: 'any_email_account',
+        password: 'any_password_account',
+        accessToken: 'any_accessToken_account',
+        role: 'any_role_account'
+      })
+
+      const saveAccount = await accountTypeOrmRepository.save(createAccount)
+
+      const createPoint = pointTypeOrmRepository.create({
+        account: saveAccount,
+        items: [saveFirstItem, saveSecondItem],
+        name: 'any_name',
+        city: 'any_city',
+        state: 'any_state',
+        image: 'any_image',
+        latitude: '7895',
+        longitude: '7865'
+      })
+
+      const savePoint = await pointTypeOrmRepository.save(createPoint)
+      const { sut } = makeSut()
+      const point = await sut.loadById(savePoint.id)
+      expect(point).toBeTruthy()
+      expect(point.id).toBeTruthy()
+      expect(point.account).toEqual(savePoint.account)
+      expect(point.items).toEqual(savePoint.items)
     })
   })
 })
