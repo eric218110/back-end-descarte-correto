@@ -18,7 +18,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "pretest:ci": "rimraf coverage",
     "test:ci": "npm test -- --coverage",
-    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
+    "test:coveralls": "COVERALLS_REPO_TOKEN=dPnetxO4JWOEEx7R9YJ2RX0RF5takHWbm npm run test:ci && coveralls < coverage/lcov.info"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
