@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "start": "MODE=prodution DATABASE=api_node node dist/main/server/index.js",
+    "start": "MODE=prodution node dist/main/server/index.js",
     "start:dev": "MODE=development DATABASE=api_node ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/main/server/index.ts",
     "pretest": "rimraf __test__",
     "test": "MODE=test DATABASE=test_api_node jest --passWithNoTests --silent --noStackTrace --runInBand",
