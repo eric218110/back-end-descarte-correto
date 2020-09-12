@@ -10,7 +10,7 @@
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber file image (middleware pattern PROXY - multer)
 - <span style='font-size:25px; color: green;'>&#10004;</span>
-  <span style='font-size:16px;'>&#10140;</span> Receber os dados via body **title**, **image**
+  <span style='font-size:16px;'>&#10140;</span> Receber os dados via body **title**, **image** **activeColor** **color**
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Valida dados obrigatórios **title**, **image**
 - <span style='font-size:25px; color: green;'>&#10004;</span>
