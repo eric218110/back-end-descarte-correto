@@ -46,14 +46,18 @@ const fakeCreatePoint = (): PointModel => ({
   },
   items: [
     {
-      id: 'any_item_id_1',
+      id: 'valid_item_id_1',
       image: 'http://valid_item_image_1_url.com.br',
-      title: 'valid_item_image_1'
+      title: 'valid_item_image_1',
+      activeColor: 'valid_active_color',
+      color: 'valid_color'
     },
     {
-      id: 'any_item_id_2',
+      id: 'valid_item_id_2',
       image: 'http://valid_item_image_2_url.com.br',
-      title: 'valid_item_image_2'
+      title: 'valid_item_image_2',
+      activeColor: 'valid_active_color',
+      color: 'valid_color'
     }
   ]
 })
@@ -62,12 +66,16 @@ const fakeLoadItems = (): ItemModel[] => [
   {
     id: 'any_item_id_1',
     image: 'http://valid_item_image_1_url.com.br',
-    title: 'valid_item_image_1'
+    title: 'valid_item_image_1',
+    activeColor: 'any_active_color',
+    color: 'any_color'
   },
   {
     id: 'any_item_id_2',
     image: 'http://valid_item_image_2_url.com.br',
-    title: 'valid_item_image_2'
+    title: 'valid_item_image_2',
+    activeColor: 'any_active_color',
+    color: 'any_color'
   }
 ]
 

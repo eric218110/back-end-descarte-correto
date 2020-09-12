@@ -9,6 +9,12 @@ export class EntityItem implements ItemModelData {
   @Column()
   image: string
 
+  @Column()
+  activeColor: string
+
+  @Column()
+  color: string
+
   @Column({
     unique: true
   })

@@ -104,6 +104,8 @@ describe('Item Routes', () => {
         .post('/api/item')
         .set('x-access-token', accessToken)
         .field({ title: 'any_title' })
+        .field({ activeColor: 'any_activeColor' })
+        .field({ color: 'any_color' })
         .field({ file: 'any_file' })
         .attach('file', resolve('__test__', 'file', 'file-test.png'))
         .expect(204)

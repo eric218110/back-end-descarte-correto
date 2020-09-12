@@ -141,11 +141,15 @@ describe('GET /api/point/:id', () => {
     await itemTypeOrmRepository.query('DELETE FROM item')
     const createFirstItem = itemTypeOrmRepository.create({
       image: 'http://any_image_first_item.com',
-      title: 'Any First Item Image'
+      title: 'Any First Item Image',
+      activeColor: 'anyActiveColor',
+      color: 'AnyColor'
     })
     const createSecondItem = itemTypeOrmRepository.create({
       image: 'http://any_image_Second_item.com',
-      title: 'Any Second Item Image'
+      title: 'Any Second Item Image',
+      activeColor: 'anyActiveColor',
+      color: 'AnyColor'
     })
     const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
     const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)

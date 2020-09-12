@@ -19,7 +19,9 @@ const makeFakeRequest = (): HttpRequest => ({
 const makeItemFake = (): ItemModel => ({
   id: 'any_id',
   image: 'http://any_image_1.com',
-  title: 'any_title_1'
+  title: 'any_title_1',
+  activeColor: 'any_activeColor',
+  color: 'any_color'
 })
 
 const makeAdItemRepositoryStub = (): AddItemRepository => {
@@ -52,8 +54,8 @@ describe('DbAddItemRepository', () => {
 
   test('should return item if AddtemRepository success', async () => {
     const { sut, fakeRequest } = makeSut()
-    const { title, image } = fakeRequest.body
-    const response = await sut.add({ title, image })
+    const { title, image, color, activeColor } = fakeRequest.body
+    const response = await sut.add({ title, image, color, activeColor })
     expect(response).toEqual(
       expect.objectContaining({
         image: 'http://any_image_1.com',

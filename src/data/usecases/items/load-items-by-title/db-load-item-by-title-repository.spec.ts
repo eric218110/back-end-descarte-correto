@@ -14,7 +14,9 @@ const makeLoadItemByTitleRepositoryStub = (): LoadItemByTitleRepository => {
         resolve({
           id: 'any_id',
           image: 'http://any_image.com',
-          title: 'any_title'
+          title: 'any_title',
+          activeColor: 'any_activeColor',
+          color: 'any_color'
         })
       )
     }
@@ -48,7 +50,9 @@ describe('DbLoadItemByTitleRepository', () => {
     expect(response).toEqual({
       id: 'any_id',
       image: 'http://any_image.com',
-      title: 'any_title'
+      title: 'any_title',
+      activeColor: 'any_activeColor',
+      color: 'any_color'
     })
   })
 

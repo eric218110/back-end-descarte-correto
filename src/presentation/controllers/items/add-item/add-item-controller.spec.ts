@@ -30,7 +30,9 @@ type SutTypes = {
 const fakeItem = (): ItemModel => ({
   id: 'any_id',
   image: 'http://any_image_1.com',
-  title: 'any_title_1'
+  title: 'any_title_1',
+  activeColor: 'any_activeColor',
+  color: 'any_color'
 })
 
 const fakeRequest = (): {} => ({

@@ -43,12 +43,16 @@ const makeSut = (): SutTypes => {
 const makeFakeItems = async (): Promise<EntityItem[]> => {
   const createFirstItem = itemTypeOrmRepository.create({
     image: 'http://any_image_first_item.com',
-    title: 'Any First Item Image'
+    title: 'Any First Item Image',
+    activeColor: 'activeColor',
+    color: 'color'
   })
   const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
   const createSecondItem = itemTypeOrmRepository.create({
     image: 'http://any_image_Second_item.com',
-    title: 'Any Second Item Image'
+    title: 'Any Second Item Image',
+    activeColor: 'activeColor',
+    color: 'color'
   })
   const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)
   return [saveFirstItem, saveSecondItem]
@@ -104,12 +108,16 @@ describe('PointTypeOrmRepository', () => {
         {
           id: 'first_invalid_id_item',
           image: 'http://first_invalid_image_url.com',
-          title: 'First Invalid Image'
+          title: 'First Invalid Image',
+          activeColor: 'activeColor',
+          color: 'color'
         },
         {
           id: 'seconf_invalid_id_item',
           image: 'http://seconf_invalid_image_url.com',
-          title: 'Seconf Invalid Image'
+          title: 'Seconf Invalid Image',
+          activeColor: 'activeColor',
+          color: 'color'
         }
       ]
       const point = await sut.addNewPoint(fakePoint)
@@ -139,11 +147,15 @@ describe('PointTypeOrmRepository', () => {
       await itemTypeOrmRepository.query('DELETE FROM item')
       const createFirstItem = itemTypeOrmRepository.create({
         image: 'http://any_image_first_item.com',
-        title: 'Any First Item Image'
+        title: 'Any First Item Image',
+        activeColor: 'activeColor',
+        color: 'color'
       })
       const createSecondItem = itemTypeOrmRepository.create({
         image: 'http://any_image_Second_item.com',
-        title: 'Any Second Item Image'
+        title: 'Any Second Item Image',
+        activeColor: 'activeColor',
+        color: 'color'
       })
       const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
       const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)

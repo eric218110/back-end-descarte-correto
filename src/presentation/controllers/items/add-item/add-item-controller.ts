@@ -32,13 +32,13 @@ export class AddItemController implements Controller {
         return badRequest(isError)
       }
 
-      const { title, file } = httpRequest.body
+      const { title, file, color, activeColor } = httpRequest.body
       const titleExist = await this.loadItemByTitle.load(title)
       if (titleExist) {
         await this.storageRemoveFile.remove(httpRequest.body.pathFile)
         return badRequest(new TitleAlreadyExistError())
       }
-      await this.addItem.add({ image: file, title })
+      await this.addItem.add({ image: file, title, color, activeColor })
 
       return noContent()
     } catch (error) {
