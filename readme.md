@@ -4,8 +4,8 @@
 [![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
 [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
 [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:alexandre.monteiro.bec@gmail.com)](mailto:ericsilvaccp@gmail.com)
-[![Build Status](https://travis-ci.org/eric218110/pattern-api-node-ts.svg?branch=master)](https://travis-ci.org/eric218110/pattern-api-node-ts)
-[![Coverage Status](https://coveralls.io/repos/github/eric218110/pattern-api-node-ts/badge.svg?branch=master)](https://coveralls.io/github/eric218110/pattern-api-node-ts?branch=master)
+[![Build Status](https://travis-ci.org/eric218110/back-end-tcc.svg?branch=master)](https://travis-ci.org/eric218110/back-end-tcc)
+[![Coverage Status](https://coveralls.io/repos/github/eric218110/back-end-tcc/badge.svg?branch=master)](https://coveralls.io/github/eric218110/pattern-api-node-ts?branch=master)
 [![dependencies Status](https://david-dm.org/eric218110/pattern-api-node-ts/status.svg)](https://david-dm.org/eric218110/pattern-api-node-ts)
 <img src="https://www.code-inspector.com/project/12545/score/svg">
 <img src="https://www.code-inspector.com/project/12545/status/svg">
