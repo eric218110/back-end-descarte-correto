@@ -50,11 +50,14 @@ export class PointTypeOrmRepository
     const points = await this.pointTypeOrmRepository.find({
       relations: ['account', 'items']
     })
-    points.map(point => {
-      delete point.account.password
-      delete point.account.role
-      delete point.account.accessToken
-    })
-    return points
+    if (points) {
+      points.map(point => {
+        delete point.account.password
+        delete point.account.role
+        delete point.account.accessToken
+      })
+      return points
+    }
+    return []
   }
 }
