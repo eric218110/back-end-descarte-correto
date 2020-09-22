@@ -235,5 +235,14 @@ describe('PointTypeOrmRepository', () => {
       expect(points[0].items[0].color).toEqual(fakePoint[0].items[0].color)
       expect(points[0].account.name).toEqual(fakePoint[0].account.name)
     })
+
+    test('should return [] if isEmpty', async () => {
+      await accountTypeOrmRepository.query('DELETE FROM item')
+      await pointTypeOrmRepository.query('DELETE FROM point')
+      await accountTypeOrmRepository.query('DELETE FROM account')
+      const { sut } = makeSut()
+      const points = await sut.loadAll()
+      expect(points).toEqual([])
+    })
   })
 })
