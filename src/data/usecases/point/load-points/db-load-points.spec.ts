@@ -20,8 +20,7 @@ const makeLoadPointsFake = (): LoadPointsModelData[] => [
     account: {
       id: 'avalid_id',
       email: 'avalid_email',
-      name: 'avalid_name',
-      accessToken: 'avalid_accessToken'
+      name: 'avalid_name'
     },
     items: [
       {
