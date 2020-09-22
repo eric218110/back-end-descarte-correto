@@ -1,5 +1,8 @@
 import { connectionDatabase } from '../../utils/create-connections'
-import { AddPointModelData } from '@data/models/point-model'
+import {
+  AddPointModelData,
+  LoadPointsModelData
+} from '@data/models/point-model'
 import { PointTypeOrmRepository } from './point-typeorm-repository'
 import { Repository } from 'typeorm'
 import { EntityItem } from '../../entities/item.entity'
@@ -33,6 +36,37 @@ const makeAddPointFake = (): AddPointModelData => ({
   longitude: '7865'
 })
 
+const makeFakePoint = async (): Promise<EntityPoint> => {
+  const fakeAccount = await makeFakeAccount()
+  const fakeItems = await makeFakeItems()
+  const fakePoint = {
+    account: fakeAccount,
+    name: 'any_name',
+    phone: 'any_phone',
+    city: 'any_city',
+    state: 'any_state',
+    image: 'any_image',
+    items: fakeItems,
+    latitude: '7895',
+    longitude: '7865'
+  }
+  const createFakePoint = pointTypeOrmRepository.create(fakePoint)
+  return await pointTypeOrmRepository.save(createFakePoint)
+}
+
+const makeFakePoints = async (): Promise<LoadPointsModelData[]> => {
+  const firstPoint = await makeFakePoint()
+  delete firstPoint.account.password
+  delete firstPoint.account.role
+  delete firstPoint.account.accessToken
+  const secondPoint = await makeFakePoint()
+  delete secondPoint.account.password
+  delete secondPoint.account.role
+  delete secondPoint.account.accessToken
+
+  return [firstPoint, secondPoint]
+}
+
 const makeSut = (): SutTypes => {
   const sut = new PointTypeOrmRepository()
   return {
@@ -43,14 +77,14 @@ const makeSut = (): SutTypes => {
 const makeFakeItems = async (): Promise<EntityItem[]> => {
   const createFirstItem = itemTypeOrmRepository.create({
     image: 'http://any_image_first_item.com',
-    title: 'Any First Item Image',
+    title: `Any First Item Image ${Date.now()}`,
     activeColor: 'activeColor',
     color: 'color'
   })
   const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
   const createSecondItem = itemTypeOrmRepository.create({
     image: 'http://any_image_Second_item.com',
-    title: 'Any Second Item Image',
+    title: `Any Second Item Image ${Date.now()}`,
     activeColor: 'activeColor',
     color: 'color'
   })
@@ -61,7 +95,7 @@ const makeFakeItems = async (): Promise<EntityItem[]> => {
 const makeFakeAccount = async (): Promise<EntityAccount> => {
   const createAccount = accountTypeOrmRepository.create({
     name: 'any_name_account',
-    email: 'any_email_account',
+    email: `any_email_account@${Date.now()}`,
     password: 'any_password_account',
     accessToken: 'any_accessToken_account',
     role: 'any_role_account'
@@ -144,7 +178,6 @@ describe('PointTypeOrmRepository', () => {
     })
 
     test('should return point if on success', async () => {
-      await itemTypeOrmRepository.query('DELETE FROM item')
       const createFirstItem = itemTypeOrmRepository.create({
         image: 'http://any_image_first_item.com',
         title: 'Any First Item Image',
@@ -192,11 +225,15 @@ describe('PointTypeOrmRepository', () => {
   })
 
   describe('LoadAll', () => {
-    test('should return [] if list is empty', async () => {
+    test('should return list points if success', async () => {
+      const fakePoint = await makeFakePoints()
       const { sut } = makeSut()
       const points = await sut.loadAll()
-      console.log(points)
-      expect(points).toEqual([])
+      expect(points[0].account.id).toBeTruthy()
+      expect(points[0].account.email).toBeTruthy()
+      expect(points[0].items).toBeTruthy()
+      expect(points[0].items[0].color).toEqual(fakePoint[0].items[0].color)
+      expect(points[0].account.name).toEqual(fakePoint[0].account.name)
     })
   })
 })
