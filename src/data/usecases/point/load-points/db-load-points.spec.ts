@@ -90,4 +90,10 @@ describe('DbLoadPoints', () => {
     const point = await sut.load()
     expect(point).toEqual([])
   })
+
+  test('should returns list of points if LoadPointRepository return list', async () => {
+    const { sut } = makeSut()
+    const points = await sut.load()
+    expect(points).toEqual(makeLoadPointsFake())
+  })
 })
