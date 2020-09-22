@@ -32,6 +32,8 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 <span style='font-size:16px;'>&#10140;</span> [Listar pontos de coletas a partir de filtros](./docs/list-filter-points.md)
 - <span style='font-size:25px; color: green;'>&#10004;</span>
 <span style='font-size:16px;'>&#10140;</span> [Listar um único ponto de coleta](./docs/list-id-point.md)
+- <span style='font-size:25px; color: green;'>&#10004;</span>
+<span style='font-size:16px;'>&#10140;</span> [Listar todos os pontos de coleta](./docs/list-points.md)
 
 > ## Princípios
 
