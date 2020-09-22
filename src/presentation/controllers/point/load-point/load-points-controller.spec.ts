@@ -2,7 +2,8 @@ import { LoadPointsController } from './load-points-controller'
 import {
   LoadPoints,
   LoadPointsModel,
-  noContent
+  noContent,
+  serverError
 } from './load-points-controller-protocols'
 
 type SutTypes = {
@@ -78,5 +79,14 @@ describe('LoadPointsController', () => {
       .mockReturnValueOnce(new Promise(resolve => resolve([])))
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(noContent())
+  })
+
+  test('should return 500 if LoadPoints throws', async () => {
+    const { sut, loadPointStub } = makeSut()
+    jest.spyOn(loadPointStub, 'load').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.handle({})
+    expect(response).toEqual(serverError(new Error()))
   })
 })
