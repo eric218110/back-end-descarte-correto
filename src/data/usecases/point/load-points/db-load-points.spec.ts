@@ -61,39 +61,41 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbLoadPoints', () => {
-  test('should call LoadPointsRepository', async () => {
-    const { sut, loadPointsRepositoryStub } = makeSut()
-    const loadPointsRepositorySpy = jest.spyOn(
-      loadPointsRepositoryStub,
-      'loadAll'
-    )
-    await sut.load()
-    expect(loadPointsRepositorySpy).toHaveBeenCalled()
-  })
-
-  test('should throws if LoadPointsRepository throws', async () => {
-    const { sut, loadPointsRepositoryStub } = makeSut()
-    jest
-      .spyOn(loadPointsRepositoryStub, 'loadAll')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
+  describe('LoadAll', () => {
+    test('should call LoadPointsRepository', async () => {
+      const { sut, loadPointsRepositoryStub } = makeSut()
+      const loadPointsRepositorySpy = jest.spyOn(
+        loadPointsRepositoryStub,
+        'loadAll'
       )
-    const response = sut.load()
-    await expect(response).rejects.toThrow()
-  })
+      await sut.load()
+      expect(loadPointsRepositorySpy).toHaveBeenCalled()
+    })
 
-  test('should return [] if LoadPointByIdRepository returns null', async () => {
-    const { sut, loadPointsRepositoryStub } = makeSut()
-    jest
-      .spyOn(loadPointsRepositoryStub, 'loadAll')
-      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const point = await sut.load()
-    expect(point).toEqual([])
-  })
+    test('should throws if LoadPointsRepository throws', async () => {
+      const { sut, loadPointsRepositoryStub } = makeSut()
+      jest
+        .spyOn(loadPointsRepositoryStub, 'loadAll')
+        .mockReturnValueOnce(
+          new Promise((resolve, reject) => reject(new Error()))
+        )
+      const response = sut.load()
+      await expect(response).rejects.toThrow()
+    })
 
-  test('should returns list of points if LoadPointRepository return list', async () => {
-    const { sut } = makeSut()
-    const points = await sut.load()
-    expect(points).toEqual(makeLoadPointsFake())
+    test('should return [] if LoadPointByIdRepository returns null', async () => {
+      const { sut, loadPointsRepositoryStub } = makeSut()
+      jest
+        .spyOn(loadPointsRepositoryStub, 'loadAll')
+        .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      const point = await sut.load()
+      expect(point).toEqual([])
+    })
+
+    test('should returns list of points if LoadPointRepository return list', async () => {
+      const { sut } = makeSut()
+      const points = await sut.load()
+      expect(points).toEqual(makeLoadPointsFake())
+    })
   })
 })
