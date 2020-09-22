@@ -70,4 +70,15 @@ describe('DbLoadPoints', () => {
     await sut.load()
     expect(loadPointsRepositorySpy).toHaveBeenCalled()
   })
+
+  test('should throws if LoadPointsRepository throws', async () => {
+    const { sut, loadPointsRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadPointsRepositoryStub, 'loadAll')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
+    const response = sut.load()
+    await expect(response).rejects.toThrow()
+  })
 })
