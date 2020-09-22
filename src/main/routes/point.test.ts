@@ -81,6 +81,17 @@ const makeFakePoint = async (): Promise<EntityPoint> => {
   return await pointTypeOrmRepository.save(createPoint)
 }
 
+const makeFakePoints = async (): Promise<void> => {
+  await makeFakePoint()
+  await makeFakePoint()
+}
+
+const clearTables = async (): Promise<void> => {
+  await itemTypeOrmRepository.query('DELETE FROM item')
+  await pointTypeOrmRepository.query('DELETE FROM point')
+  await accountTypeOrmRepository.query('DELETE FROM account')
+}
+
 describe('POST /api/point Route', () => {
   describe('Auth', () => {
     test('Should return 403 if user not logged', async () => {
@@ -183,9 +194,13 @@ describe('GET /api/point/:id', () => {
 
 describe('GET /api/points', () => {
   test('Should return 204 if list points is empty', async () => {
-    await itemTypeOrmRepository.query('DELETE FROM item')
-    await pointTypeOrmRepository.query('DELETE FROM point')
-    await accountTypeOrmRepository.query('DELETE FROM account')
+    await clearTables()
     await request(app()).get('/api/points').expect(204)
+  })
+
+  test('Should return 200 if list points no empty', async () => {
+    await clearTables()
+    await makeFakePoints()
+    await request(app()).get('/api/points').expect(200)
   })
 })
