@@ -65,28 +65,30 @@ const makeSut = (): SutTypes => {
 }
 
 describe('LoadPointsController', () => {
-  test('should call LoadPoints', async () => {
-    const { sut, loadPointStub } = makeSut()
-    const loadPointStubSpy = jest.spyOn(loadPointStub, 'load')
-    await sut.handle({})
-    expect(loadPointStubSpy).toHaveBeenCalled()
-  })
-
-  test('Should return 204 if LoadPoints return []', async () => {
-    const { sut, loadPointStub } = makeSut()
-    jest
-      .spyOn(loadPointStub, 'load')
-      .mockReturnValueOnce(new Promise(resolve => resolve([])))
-    const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(noContent())
-  })
-
-  test('should return 500 if LoadPoints throws', async () => {
-    const { sut, loadPointStub } = makeSut()
-    jest.spyOn(loadPointStub, 'load').mockImplementationOnce(() => {
-      throw new Error()
+  describe('LoadPoints', () => {
+    test('should call LoadPoints', async () => {
+      const { sut, loadPointStub } = makeSut()
+      const loadPointStubSpy = jest.spyOn(loadPointStub, 'load')
+      await sut.handle({})
+      expect(loadPointStubSpy).toHaveBeenCalled()
     })
-    const response = await sut.handle({})
-    expect(response).toEqual(serverError(new Error()))
+
+    test('Should return 204 if LoadPoints return []', async () => {
+      const { sut, loadPointStub } = makeSut()
+      jest
+        .spyOn(loadPointStub, 'load')
+        .mockReturnValueOnce(new Promise(resolve => resolve([])))
+      const httpResponse = await sut.handle({})
+      expect(httpResponse).toEqual(noContent())
+    })
+
+    test('should return 500 if LoadPoints throws', async () => {
+      const { sut, loadPointStub } = makeSut()
+      jest.spyOn(loadPointStub, 'load').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle({})
+      expect(response).toEqual(serverError(new Error()))
+    })
   })
 })
