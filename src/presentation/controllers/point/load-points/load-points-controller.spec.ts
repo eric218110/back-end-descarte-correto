@@ -1,3 +1,4 @@
+import { ok } from '../add-point/add-point-controller-protocols'
 import { LoadPointsController } from './load-points-controller'
 import {
   LoadPoints,
@@ -79,6 +80,12 @@ describe('LoadPointsController', () => {
         .mockReturnValueOnce(new Promise(resolve => resolve([])))
       const httpResponse = await sut.handle({})
       expect(httpResponse).toEqual(noContent([]))
+    })
+
+    test('should return 200 if LoadPoints success', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle({})
+      expect(response).toEqual(ok(makeLoadPointsFake()))
     })
 
     test('should return 500 if LoadPoints throws', async () => {
