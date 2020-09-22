@@ -79,7 +79,7 @@ describe('LoadPointsController', () => {
         .spyOn(loadPointStub, 'load')
         .mockReturnValueOnce(new Promise(resolve => resolve([])))
       const httpResponse = await sut.handle({})
-      expect(httpResponse).toEqual(noContent())
+      expect(httpResponse).toEqual(noContent([]))
     })
 
     test('should return 500 if LoadPoints throws', async () => {
