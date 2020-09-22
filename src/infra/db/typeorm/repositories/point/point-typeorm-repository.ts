@@ -58,6 +58,5 @@ export class PointTypeOrmRepository
       })
       return points
     }
-    return []
   }
 }
