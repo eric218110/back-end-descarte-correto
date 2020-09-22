@@ -190,4 +190,13 @@ describe('PointTypeOrmRepository', () => {
       expect(point.items).toBeTruthy()
     })
   })
+
+  describe('LoadAll', () => {
+    test('should return [] if list is empty', async () => {
+      const { sut } = makeSut()
+      const points = await sut.loadAll()
+      console.log(points)
+      expect(points).toEqual([])
+    })
+  })
 })
