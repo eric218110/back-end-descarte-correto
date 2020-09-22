@@ -81,4 +81,13 @@ describe('DbLoadPoints', () => {
     const response = sut.load()
     await expect(response).rejects.toThrow()
   })
+
+  test('should return [] if LoadPointByIdRepository returns null', async () => {
+    const { sut, loadPointsRepositoryStub } = makeSut()
+    jest
+      .spyOn(loadPointsRepositoryStub, 'loadAll')
+      .mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const point = await sut.load()
+    expect(point).toEqual([])
+  })
 })
