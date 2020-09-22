@@ -1,11 +1,10 @@
+import { noContent } from '../add-point/add-point-controller-protocols'
 import {
   Controller,
   HttpRequest,
   HttpResponse,
   LoadPoints,
-  serverError,
-  noContent,
-  ok
+  serverError
 } from './load-points-controller-protocols'
 
 export class LoadPointsController implements Controller {
@@ -15,7 +14,7 @@ export class LoadPointsController implements Controller {
     try {
       const points = await this.loadPoints.load()
       if (points.length === 0) return noContent()
-      return ok(points)
+      return null
     } catch (error) {
       return serverError(error)
     }
