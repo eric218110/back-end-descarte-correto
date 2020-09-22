@@ -22,9 +22,9 @@ export const ok = (data: any): HttpResponse => ({
   body: data
 })
 
-export const noContent = (): HttpResponse => ({
+export const noContent = (bodyIsValue: any = null): HttpResponse => ({
   statusCode: 204,
-  body: null
+  body: bodyIsValue
 })
 
 export const unauthorizedError = (): HttpResponse => ({
