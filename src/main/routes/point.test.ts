@@ -178,3 +178,12 @@ describe('GET /api/point/:id', () => {
     await request(app()).get(`/api/point/${id}`).expect(200)
   })
 })
+
+describe('GET /api/points', () => {
+  test('Should return 204 if list points is empty', async () => {
+    await itemTypeOrmRepository.query('DELETE FROM item')
+    await pointTypeOrmRepository.query('DELETE FROM point')
+    await accountTypeOrmRepository.query('DELETE FROM account')
+    await request(app()).get('/api/points').expect(204)
+  })
+})
