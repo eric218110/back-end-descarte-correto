@@ -5,7 +5,8 @@ export class DbLoadPoints implements LoadPoints {
   constructor(private readonly loadPointsRepository: LoadPointsRepository) {}
 
   async load(): Promise<LoadPointsModel[]> {
-    await this.loadPointsRepository.loadAll()
+    const points = await this.loadPointsRepository.loadAll()
+    if (!points) return []
     return null
   }
 }
