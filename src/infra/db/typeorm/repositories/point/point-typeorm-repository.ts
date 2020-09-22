@@ -5,9 +5,11 @@ import { EntityPoint } from '../../entities/point.entity'
 import { EntityItem } from '../../entities/item.entity'
 import { EntityAccount } from '../../entities/account.entity'
 import { LoadPointByIdRepository } from '@data/protocols/data/point/load-point-by-id-repository'
+import { LoadPointsRepository } from '@data/protocols/data/point/load-points-repositoty'
+import { LoadPointsModel } from '@domain/usecases/point/load-points'
 
 export class PointTypeOrmRepository
-  implements AddPointRepository, LoadPointByIdRepository {
+  implements AddPointRepository, LoadPointByIdRepository, LoadPointsRepository {
   private readonly pointTypeOrmRepository: Repository<EntityPoint>
   private readonly itemTypeOrmRepository: Repository<EntityItem>
   private readonly accountTypeOrmRepository: Repository<EntityAccount>
@@ -42,5 +44,9 @@ export class PointTypeOrmRepository
       where: { id }
     })
     return point || null
+  }
+
+  async loadAll(): Promise<LoadPointsModel[]> {
+    return []
   }
 }
