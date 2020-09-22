@@ -42,6 +42,45 @@ afterAll(async () => {
   rimraf.sync('__test__')
 })
 
+const makeFakePoint = async (): Promise<EntityPoint> => {
+  const createFirstItem = itemTypeOrmRepository.create({
+    image: 'http://any_image_first_item.com',
+    title: `Any First Item Image_${Date.now()}_`,
+    activeColor: 'anyActiveColor',
+    color: 'AnyColor'
+  })
+  const createSecondItem = itemTypeOrmRepository.create({
+    image: 'http://any_image_Second_item.com',
+    title: `Any Second Item Image_${Date.now()}_`,
+    activeColor: 'anyActiveColor',
+    color: 'AnyColor'
+  })
+  const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
+  const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)
+
+  const createAccount = accountTypeOrmRepository.create({
+    name: 'any_name_account',
+    email: `any_${Date.now()}_@any.com`,
+    password: 'any_password_account',
+    accessToken: 'any_accessToken_account',
+    role: 'any_role_account'
+  })
+
+  const saveAccount = await accountTypeOrmRepository.save(createAccount)
+
+  const createPoint = pointTypeOrmRepository.create({
+    account: saveAccount,
+    items: [saveFirstItem, saveSecondItem],
+    name: 'any_name',
+    city: 'any_city',
+    state: 'any_state',
+    image: 'any_image',
+    latitude: '7895',
+    longitude: '7865'
+  })
+  return await pointTypeOrmRepository.save(createPoint)
+}
+
 describe('POST /api/point Route', () => {
   describe('Auth', () => {
     test('Should return 403 if user not logged', async () => {
@@ -136,45 +175,8 @@ describe('GET /api/point/:id', () => {
       .get('/api/point/1011b475-b4ba-41c8-8acd-f0811847369a')
       .expect(204)
   })
-
   test('Should return 200 with list points if id point exist', async () => {
-    await itemTypeOrmRepository.query('DELETE FROM item')
-    const createFirstItem = itemTypeOrmRepository.create({
-      image: 'http://any_image_first_item.com',
-      title: 'Any First Item Image',
-      activeColor: 'anyActiveColor',
-      color: 'AnyColor'
-    })
-    const createSecondItem = itemTypeOrmRepository.create({
-      image: 'http://any_image_Second_item.com',
-      title: 'Any Second Item Image',
-      activeColor: 'anyActiveColor',
-      color: 'AnyColor'
-    })
-    const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
-    const saveSecondItem = await itemTypeOrmRepository.save(createSecondItem)
-
-    const createAccount = accountTypeOrmRepository.create({
-      name: 'any_name_account',
-      email: 'any_email_account',
-      password: 'any_password_account',
-      accessToken: 'any_accessToken_account',
-      role: 'any_role_account'
-    })
-
-    const saveAccount = await accountTypeOrmRepository.save(createAccount)
-
-    const createPoint = pointTypeOrmRepository.create({
-      account: saveAccount,
-      items: [saveFirstItem, saveSecondItem],
-      name: 'any_name',
-      city: 'any_city',
-      state: 'any_state',
-      image: 'any_image',
-      latitude: '7895',
-      longitude: '7865'
-    })
-    const { id } = await pointTypeOrmRepository.save(createPoint)
+    const { id } = await makeFakePoint()
     await request(app()).get(`/api/point/${id}`).expect(200)
   })
 })
