@@ -1,5 +1,9 @@
 import { LoadPointsController } from './load-points-controller'
-import { LoadPoints, LoadPointsModel } from './load-points-controller-protocols'
+import {
+  LoadPoints,
+  LoadPointsModel,
+  noContent
+} from './load-points-controller-protocols'
 
 type SutTypes = {
   sut: LoadPointsController
@@ -65,5 +69,14 @@ describe('LoadPointsController', () => {
     const loadPointStubSpy = jest.spyOn(loadPointStub, 'load')
     await sut.handle({})
     expect(loadPointStubSpy).toHaveBeenCalled()
+  })
+
+  test('Should return 204 if LoadPoints return []', async () => {
+    const { sut, loadPointStub } = makeSut()
+    jest
+      .spyOn(loadPointStub, 'load')
+      .mockReturnValueOnce(new Promise(resolve => resolve([])))
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(noContent())
   })
 })
