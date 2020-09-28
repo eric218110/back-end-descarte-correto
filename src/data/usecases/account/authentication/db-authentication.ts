@@ -6,6 +6,7 @@ import {
   UpdateAccessTokenRepository
 } from './db-authenticate-protocols'
 import { Encrypter } from '@data/protocols/criptography/encrypter'
+import { AuthenticationModelResponse } from '../add-account/db-add-account-protocols'
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
@@ -14,7 +15,9 @@ export class DbAuthentication implements Authentication {
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
-  async auth(authentication: AuthenticationModel): Promise<string> {
+  async auth(
+    authentication: AuthenticationModel
+  ): Promise<AuthenticationModelResponse> {
     const account = await this.loadAccountByEmailRepository.loadWithEmail(
       authentication.email
     )
@@ -29,7 +32,11 @@ export class DbAuthentication implements Authentication {
           account.id,
           accessToken
         )
-        return accessToken
+        return {
+          accessToken,
+          email: account.email,
+          name: account.name
+        }
       }
     }
     return null

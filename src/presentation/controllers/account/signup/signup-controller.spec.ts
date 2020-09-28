@@ -19,6 +19,7 @@ import {
   serverError,
   forbidden
 } from '@presentation/helper/http/http-helper'
+import { AuthenticationModelResponse } from '../login/login-controller-protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -33,7 +34,8 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email',
-  password: 'valid_password'
+  password: 'valid_password',
+  accessToken: 'valid_token'
 })
 
 const makeAddAccount = (): AddAccount => {
@@ -56,8 +58,16 @@ const makeValidatorStub = (): Validator => {
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationModel): Promise<string> {
-      return new Promise(resolve => resolve('valid_token'))
+    async auth(
+      authentication: AuthenticationModel
+    ): Promise<AuthenticationModelResponse> {
+      return new Promise(resolve =>
+        resolve({
+          accessToken: 'valid_token',
+          email: 'valid_email',
+          name: 'valid_name'
+        })
+      )
     }
   }
   return new AuthenticationStub()
@@ -123,7 +133,9 @@ describe('Signup Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(
       ok({
-        accessToken: 'valid_token'
+        accessToken: 'valid_token',
+        email: 'valid_email',
+        name: 'valid_name'
       })
     )
   })

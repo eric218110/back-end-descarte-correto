@@ -179,8 +179,12 @@ describe('DbAuthenticate use case', () => {
 
   test('should return accessToken if Encrypter encrypt correct toke with id valid', async () => {
     const { sut, fakeRequest, fakeToken } = makeSut()
-    const accessToken = await sut.auth(fakeRequest)
-    expect(accessToken).toBe(fakeToken)
+    const response = await sut.auth(fakeRequest)
+    expect(response).toEqual({
+      accessToken: fakeToken,
+      email: 'valid_mail@mail.com',
+      name: 'valid_name'
+    })
   })
 
   test('should call UpdateAccessTokenRepository with correct values', async () => {

@@ -1,7 +1,10 @@
 import { LoginController } from './login-controller'
 import { MissingParamsError } from '@presentation/errors'
 import { Authentication, Validator } from './login-controller-protocols'
-import { AuthenticationModel } from '@domain/usecases/account/authentication'
+import {
+  AuthenticationModel,
+  AuthenticationModelResponse
+} from '@domain/usecases/account/authentication'
 import {
   badRequest,
   serverError,
@@ -26,8 +29,16 @@ const makeValidatorStub = (): Validator => {
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationModel): Promise<string> {
-      return new Promise(resolve => resolve('valid_token'))
+    async auth(
+      authentication: AuthenticationModel
+    ): Promise<AuthenticationModelResponse> {
+      return new Promise(resolve =>
+        resolve({
+          accessToken: 'valid_token',
+          email: 'any_mail@mail.com',
+          name: 'any_name'
+        })
+      )
     }
   }
   return new AuthenticationStub()
@@ -92,7 +103,9 @@ describe('LoginController', () => {
     const response = await sut.handle(httpRequest)
     expect(response).toEqual(
       ok({
-        accessToken: 'valid_token'
+        accessToken: 'valid_token',
+        email: 'any_mail@mail.com',
+        name: 'any_name'
       })
     )
   })
