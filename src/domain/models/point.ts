@@ -9,7 +9,10 @@ export type PointModel = {
   city: string
   state: string
   image: string
-  phone: string
   items: ItemModel[]
   account: AccountModel
+  neighborhood: string
+  reference: string
+  street: string
+  zipCode: string
 }

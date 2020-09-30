@@ -41,7 +41,10 @@ export class AddPointController implements Controller {
         latitude,
         longitude,
         state,
-        phone,
+        neighborhood,
+        reference,
+        street,
+        zipCode,
         accountId
       } = httpRequest.body
 
@@ -74,8 +77,11 @@ export class AddPointController implements Controller {
         latitude,
         longitude,
         name,
-        phone,
-        state
+        state,
+        neighborhood,
+        reference,
+        street,
+        zipCode
       }
 
       await this.addPoint.add(pointCreate)

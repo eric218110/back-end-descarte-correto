@@ -12,7 +12,10 @@ const fakeAddPoint: AddPointModelData = {
     role: 'any_role'
   },
   name: 'any_name',
-  phone: 'any_phone',
+  neighborhood: 'any_neighborhood',
+  reference: 'any_reference',
+  street: 'any_street',
+  zipCode: 'any_zipCode',
   city: 'any_city',
   state: 'any_state',
   image: 'any_image',
@@ -47,7 +50,10 @@ const fakeAddPointResult: PointModelData = {
     role: 'any_role'
   },
   name: 'any_name',
-  phone: 'any_phone',
+  neighborhood: 'any_neighborhood',
+  reference: 'any_reference',
+  street: 'any_street',
+  zipCode: 'any_zipCode',
   city: 'any_city',
   state: 'any_state',
   image: 'any_image',

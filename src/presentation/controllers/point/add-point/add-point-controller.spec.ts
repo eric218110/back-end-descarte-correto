@@ -35,7 +35,10 @@ const fakeCreatePoint = (): PointModel => ({
   latitude: 'valid_latitude',
   longitude: 'valid_longitude',
   state: 'valid_state',
-  phone: 'valid_phone',
+  neighborhood: 'valide_neighborhood',
+  reference: 'valide_reference',
+  street: 'valide_street',
+  zipCode: 'valide_zipCode',
   account: {
     id: 'valid_id_user',
     name: 'valid_name',
@@ -97,7 +100,10 @@ const fakeRequest = (): HttpRequest => ({
     latitude: 'any_latitude',
     longitude: 'any_longitude',
     state: 'any_state',
-    phone: 'any_phone',
+    neighborhood: 'any_neighborhood',
+    reference: 'any_reference',
+    street: 'any_street',
+    zipCode: 'any_zipCode',
     items: 'any_item_id_1, any_item_id_2'
   }
 })
@@ -110,7 +116,10 @@ const fakeAddPoint = (): AddPointModel => ({
   latitude: 'any_latitude',
   longitude: 'any_longitude',
   state: 'any_state',
-  phone: 'any_phone',
+  neighborhood: 'any_neighborhood',
+  reference: 'any_reference',
+  street: 'any_street',
+  zipCode: 'any_zipCode',
   items: fakeLoadItems()
 })
 
@@ -228,7 +237,6 @@ describe('AddPointController', () => {
           latitude: 'any_latitude',
           longitude: 'any_longitude',
           state: 'any_state',
-          phone: 'any_phone',
           items: 'any_item_id_1, any_item_id_2'
         }
       })

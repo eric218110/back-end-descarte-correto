@@ -14,7 +14,11 @@ export const makeAddPointValidator = (): ValidatorComposite => {
     'longitude',
     'city',
     'state',
-    'items'
+    'items',
+    'neighborhood',
+    'reference',
+    'street',
+    'zipCode'
   ]) {
     validators.push(new RequireFieldValidator(field))
     validators.push(

@@ -76,7 +76,11 @@ const makeFakePoint = async (): Promise<EntityPoint> => {
     state: 'any_state',
     image: 'any_image',
     latitude: '7895',
-    longitude: '7865'
+    longitude: '7865',
+    neighborhood: 'Jardim Lacerda',
+    reference: 'Próx a saida',
+    street: 'Rua Francisco Alves Queirós',
+    zipCode: '58704'
   })
   return await pointTypeOrmRepository.save(createPoint)
 }

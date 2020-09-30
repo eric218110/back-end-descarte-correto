@@ -15,7 +15,7 @@
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Valida dados obrigatórios **name**, **latitude**, **longitude**, **city**, **state**, e **items**
 - <span style='font-size:25px; color: green;'>&#10004;</span>
-  <span style='font-size:16px;'>&#10140;</span> Além dos dados obrigatórios aceitar também os dados **image** e **phone**
+  <span style='font-size:16px;'>&#10140;</span> Além dos dados obrigatórios aceitar também os dados **image**
 - <span style='font-size:25px; color: green;'>&#10004;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber arquivo de image no campo **image** e realizar upload em algum serviço de storage
 - <span style='font-size:25px; color: green;'>&#10004;</span>

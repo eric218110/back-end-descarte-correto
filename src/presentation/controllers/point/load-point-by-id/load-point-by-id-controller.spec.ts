@@ -47,7 +47,10 @@ const fakeResultPoint: PointModel = {
   latitude: 'any_point_latitude',
   longitude: 'any_point_longitude',
   name: 'any_point_name',
-  phone: 'any_point_phone',
+  neighborhood: 'any_neighborhood',
+  reference: 'any_reference',
+  street: 'any_street',
+  zipCode: 'any_zipCode',
   state: 'any_point_state'
 }
 

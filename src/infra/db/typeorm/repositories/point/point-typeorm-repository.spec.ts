@@ -27,10 +27,13 @@ const makeAddPointFake = (): AddPointModelData => ({
     role: 'any_role'
   },
   name: 'any_name',
-  phone: 'any_phone',
   city: 'any_city',
   state: 'any_state',
   image: 'any_image',
+  neighborhood: 'any_neighborhood',
+  reference: 'any_reference',
+  street: 'any_street',
+  zipCode: 'any_zipCode',
   items: [],
   latitude: '7895',
   longitude: '7865'
@@ -42,7 +45,10 @@ const makeFakePoint = async (): Promise<EntityPoint> => {
   const fakePoint = {
     account: fakeAccount,
     name: 'any_name',
-    phone: 'any_phone',
+    neighborhood: 'any_neighborhood',
+    reference: 'any_reference',
+    street: 'any_street',
+    zipCode: 'any_zipCode',
     city: 'any_city',
     state: 'any_state',
     image: 'any_image',
@@ -210,8 +216,12 @@ describe('PointTypeOrmRepository', () => {
         city: 'any_city',
         state: 'any_state',
         image: 'any_image',
-        latitude: '7895',
-        longitude: '7865'
+        latitude: '-7.0235686',
+        longitude: '-37.2872277',
+        neighborhood: 'Jardim Lacerda',
+        reference: 'Prox a saida',
+        street: 'Rua Francisco Alves Queirós',
+        zipCode: '58704'
       })
 
       const savePoint = await pointTypeOrmRepository.save(createPoint)

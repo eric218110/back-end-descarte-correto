@@ -19,6 +19,9 @@ export class EntityPoint implements PointModelData {
   name: string
 
   @Column()
+  image: string
+
+  @Column()
   latitude: string
 
   @Column()
@@ -31,13 +34,16 @@ export class EntityPoint implements PointModelData {
   state: string
 
   @Column()
-  image: string
+  neighborhood: string
 
-  @Column({
-    nullable: true,
-    default: 'uninformed'
-  })
-  phone: string
+  @Column()
+  reference: string
+
+  @Column()
+  street: string
+
+  @Column()
+  zipCode: string
 
   @ManyToMany(type => EntityItem)
   @JoinTable()
