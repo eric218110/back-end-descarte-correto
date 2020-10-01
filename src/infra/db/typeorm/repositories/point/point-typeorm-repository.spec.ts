@@ -255,4 +255,15 @@ describe('PointTypeOrmRepository', () => {
       expect(points).toEqual([])
     })
   })
+
+  describe('FilterItemByItem', () => {
+    test('should return [] if isEmpty', async () => {
+      await accountTypeOrmRepository.query('DELETE FROM item')
+      await pointTypeOrmRepository.query('DELETE FROM point')
+      await accountTypeOrmRepository.query('DELETE FROM account')
+      const { sut } = makeSut()
+      const points = await sut.loadAll()
+      expect(points).toEqual([])
+    })
+  })
 })

@@ -7,9 +7,15 @@ import { EntityAccount } from '../../entities/account.entity'
 import { LoadPointByIdRepository } from '@data/protocols/data/point/load-point-by-id-repository'
 import { LoadPointsRepository } from '@data/protocols/data/point/load-points-repositoty'
 import { LoadPointsModel } from '@domain/usecases/point/load-points'
+import { FilterPointsByItemsRepository } from '@data/protocols/data/point/filter-points-repositoty'
+import { PointModel } from '@domain/models/point'
 
 export class PointTypeOrmRepository
-  implements AddPointRepository, LoadPointByIdRepository, LoadPointsRepository {
+  implements
+    AddPointRepository,
+    LoadPointByIdRepository,
+    LoadPointsRepository,
+    FilterPointsByItemsRepository {
   private readonly pointTypeOrmRepository: Repository<EntityPoint>
   private readonly itemTypeOrmRepository: Repository<EntityItem>
   private readonly accountTypeOrmRepository: Repository<EntityAccount>
@@ -58,5 +64,9 @@ export class PointTypeOrmRepository
       })
       return points
     }
+  }
+
+  async filterByItemsIds(itemsIds: string[]): Promise<PointModel[]> {
+    return []
   }
 }
