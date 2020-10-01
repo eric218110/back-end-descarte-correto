@@ -1,7 +1,9 @@
 import { FilterPoint } from '@domain/usecases/point/filter-point'
+import { noContent, ok } from '@presentation/helper/http/http-helper'
 import {
   HttpRequest,
-  PointModel
+  PointModel,
+  serverError
 } from '../add-point/add-point-controller-protocols'
 import { FilterPointController } from './filter-point-controller'
 
@@ -48,12 +50,15 @@ const fakeResultPoint = (fakeId: string): PointModel => ({
   state: `any_point_state_id:${fakeId}`
 })
 
+const fakeListPointsResult = (): PointModel[] => {
+  const arrayIds = ['1', '2']
+  return arrayIds.map(value => fakeResultPoint(value))
+}
+
 const makeFilterPointStub = (): FilterPoint => {
   class FilterPointStub implements FilterPoint {
     async filter(idItem: string[]): Promise<PointModel[]> {
-      return new Promise(resolve =>
-        resolve(['1', '2', '3', '4'].map(value => fakeResultPoint(value)))
-      )
+      return new Promise(resolve => resolve(fakeListPointsResult()))
     }
   }
   return new FilterPointStub()
@@ -84,6 +89,30 @@ describe('FilterPointController', () => {
         'any_accounnt_id_2',
         'any_accounnt_id_3'
       ])
+    })
+
+    test('should return 200 if FilterPoint success', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(ok(fakeListPointsResult()))
+    })
+
+    test('should return 204 if FilterPoints return []', async () => {
+      const { sut, filterPointStub } = makeSut()
+      jest
+        .spyOn(filterPointStub, 'filter')
+        .mockReturnValueOnce(new Promise(resolve => resolve([])))
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(noContent())
+    })
+
+    test('should return 500 if FilterPoint throws', async () => {
+      const { sut, filterPointStub } = makeSut()
+      jest.spyOn(filterPointStub, 'filter').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = await sut.handle(fakeRequest)
+      expect(response).toEqual(serverError(new Error()))
     })
   })
 })

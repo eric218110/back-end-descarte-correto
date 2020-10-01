@@ -1,7 +1,7 @@
 import { FilterPoint } from '@domain/usecases/point/filter-point'
 import { Controller } from '@presentation/protocols/controller'
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http'
-import { ok } from '@presentation/helper/http/http-helper'
+import { noContent, ok } from '@presentation/helper/http/http-helper'
 import { serverError } from '../add-point/add-point-controller-protocols'
 
 export class FilterPointController implements Controller {
@@ -13,7 +13,7 @@ export class FilterPointController implements Controller {
       const itemsId = itemsParams.replace(' ', '').trim().split(',')
       const filterPoints = await this.filterPoint.filter(itemsId)
       if (filterPoints.length > 0) return ok(filterPoints)
-      return new Promise(resolve => resolve(null))
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
