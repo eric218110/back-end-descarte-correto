@@ -8,7 +8,10 @@ export class DbFilterPointByItems implements FilterPoint {
   ) {}
 
   async filter(itemsIds: string[]): Promise<PointModel[]> {
-    await this.filterPointsByItemsRepository.filterByItemsIds(itemsIds)
+    const pointsFiltes = await this.filterPointsByItemsRepository.filterByItemsIds(
+      itemsIds
+    )
+    if (pointsFiltes.length === 0) return []
     return new Promise(resolve => resolve(null))
   }
 }
