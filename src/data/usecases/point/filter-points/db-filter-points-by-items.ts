@@ -1,0 +1,14 @@
+import { PointModel } from '@domain/models/point'
+import { FilterPoint } from '@domain/usecases/point/filter-point'
+import { FilterPointsByItemsRepository } from '@data/protocols/data/point/filter-points-repositoty'
+
+export class DbFilterPointByItems implements FilterPoint {
+  constructor(
+    private readonly filterPointsByItemsRepository: FilterPointsByItemsRepository
+  ) {}
+
+  async filter(itemsIds: string[]): Promise<PointModel[]> {
+    await this.filterPointsByItemsRepository.filterByItemsIds(itemsIds)
+    return new Promise(resolve => resolve(null))
+  }
+}
