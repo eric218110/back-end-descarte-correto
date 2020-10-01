@@ -12,6 +12,6 @@ export class DbFilterPointByItems implements FilterPoint {
       itemsIds
     )
     if (pointsFiltes.length === 0) return []
-    return new Promise(resolve => resolve(null))
+    return pointsFiltes
   }
 }
