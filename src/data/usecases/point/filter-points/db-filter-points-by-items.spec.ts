@@ -81,5 +81,15 @@ describe('DbFilterPointByItems', () => {
       await sut.filter(fakeIds)
       expect(filterPointsByItemsRepositorySpy).toHaveBeenLastCalledWith(fakeIds)
     })
+
+    test('should return [] if FilterPointsByItemsRepository return []', async () => {
+      const { sut, filterPointsByItemsRepositoryStub } = makeSut()
+      jest
+        .spyOn(filterPointsByItemsRepositoryStub, 'filterByItemsIds')
+        .mockReturnValueOnce(new Promise(resolve => resolve([])))
+      const fakeIds = ['any_id_item', 'any_id_item_2']
+      const points = await sut.filter(fakeIds)
+      expect(points).toEqual([])
+    })
   })
 })
