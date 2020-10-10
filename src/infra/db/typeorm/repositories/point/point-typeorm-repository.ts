@@ -1,6 +1,6 @@
 import { AddPointRepository } from '@data/protocols/data/point/add-point-repository'
 import { AddPointModelData, PointModelData } from '@data/models/point-model'
-import { Repository, getRepository } from 'typeorm'
+import { Repository, getRepository, getConnection } from 'typeorm'
 import { EntityPoint } from '../../entities/point.entity'
 import { EntityItem } from '../../entities/item.entity'
 import { EntityAccount } from '../../entities/account.entity'
@@ -67,6 +67,76 @@ export class PointTypeOrmRepository
   }
 
   async filterByItemsIds(itemsIds: string[]): Promise<PointModel[]> {
-    return []
+    if (itemsIds.length === 0) return []
+    const pointsMap: EntityPoint[] = []
+    const points = await getConnection().query(
+      `
+      SELECT 
+      DISTINCT 
+      "point"."id" AS "point_id", 
+      "point"."name" AS "point_name", 
+      "point"."image" AS "point_image", 
+      "point"."latitude" AS "point_latitude", 
+      "point"."longitude" AS "point_longitude", 
+      "point"."city" AS "point_city", 
+      "point"."state" AS "point_state", 
+      "point"."neighborhood" AS "point_neighborhood", 
+      "point"."reference" AS "point_reference", 
+      "point"."street" AS "point_street", 
+      "point"."zipCode" AS "point_zipCode", 
+      "point"."accountId" AS "point_accountId", 
+      "item"."id" AS "item_id", 
+      "item"."image" AS "item_image", 
+      "item"."activeColor" AS "item_activeColor", 
+      "item"."color" AS "item_color", 
+      "item"."title" AS "item_title", 
+      "account"."id" AS "account_id", 
+      "account"."name" AS "account_name", 
+      "account"."email" AS "account_email", 
+      "account"."password" AS "account_password", 
+      "account"."accessToken" AS "account_accessToken", 
+      "account"."role" AS "account_role" 
+      FROM "point" "point" 
+      LEFT JOIN "point_items_item" "point_item" ON "point_item"."pointId"="point"."id" 
+      LEFT JOIN "item" "item" ON "item"."id"="point_item"."itemId"  
+      LEFT JOIN "account" "account" ON "account"."id"="point"."accountId" 
+      WHERE "point_item"."itemId" IN (${itemsIds
+        .map(point => `'${point}'`)
+        .join()})
+    `
+    )
+    points.map((point: any) => {
+      pointsMap.push({
+        account: {
+          id: point.account_id,
+          name: point.account_name,
+          email: point.account_email,
+          password: point.account_password,
+          accessToken: point.account_accessToken,
+          role: point.account_role
+        },
+        items: [
+          {
+            id: point.item_id,
+            activeColor: point.item_activeColor,
+            color: point.item_color,
+            image: point.item_image,
+            title: point.item_title
+          }
+        ],
+        id: point.point_id,
+        name: point.point_name,
+        image: point.point_image,
+        latitude: point.point_latitude,
+        longitude: point.point_longitude,
+        city: point.point_city,
+        state: point.point_state,
+        neighborhood: point.point_neighborhood,
+        reference: point.point_reference,
+        street: point.point_street,
+        zipCode: point.point_zipCode
+      })
+    })
+    return pointsMap
   }
 }
