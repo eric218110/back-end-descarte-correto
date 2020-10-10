@@ -257,6 +257,20 @@ describe('PointTypeOrmRepository', () => {
   })
 
   describe('FilterItemByItem', () => {
+    test('should return list points if success', async () => {
+      const fakePoint = await makeFakePoints()
+      const idItemOne = fakePoint[0].items[0].id
+      const idItemSecond = fakePoint[0].items[1].id
+      const resultPoints = [fakePoint[0], fakePoint[1]]
+      const { sut } = makeSut()
+      const points = await sut.filterByItemsIds([idItemOne, idItemSecond])
+      expect(points[0].account.id).toBeTruthy()
+      expect(points[0].account.email).toBeTruthy()
+      expect(points[0].items).toBeTruthy()
+      expect(points[0].items[0].color).toEqual(resultPoints[0].items[0].color)
+      expect(points[0].account.name).toEqual(resultPoints[0].account.name)
+    })
+
     test('should return [] if isEmpty', async () => {
       await accountTypeOrmRepository.query('DELETE FROM item')
       await pointTypeOrmRepository.query('DELETE FROM point')
