@@ -1,20 +1,17 @@
 import { FilterPoint } from '@domain/usecases/point/filter-point'
-import {
-  badRequest,
-  noContent,
-  ok
-} from '@presentation/helper/http/http-helper'
+import { noContent, ok } from '@presentation/helper/http/http-helper'
 import {
   HttpRequest,
-  InvalidParamError,
   PointModel,
-  serverError
+  serverError,
+  Validator
 } from '../add-point/add-point-controller-protocols'
 import { FilterPointController } from './filter-point-controller'
 
 type SutType = {
   sut: FilterPointController
   filterPointStub: FilterPoint
+  validatorStub: Validator
 }
 
 const fakeResultPoint = (fakeId: string): PointModel => ({
@@ -60,6 +57,15 @@ const fakeListPointsResult = (): PointModel[] => {
   return arrayIds.map(value => fakeResultPoint(value))
 }
 
+const makeValidatorStub = (): Validator => {
+  class ValidatorStub implements Validator {
+    isValid(input: any): Error {
+      return null
+    }
+  }
+  return new ValidatorStub()
+}
+
 const makeFilterPointStub = (): FilterPoint => {
   class FilterPointStub implements FilterPoint {
     async filter(idItem: string[]): Promise<PointModel[]> {
@@ -71,10 +77,12 @@ const makeFilterPointStub = (): FilterPoint => {
 
 const makeSut = (): SutType => {
   const filterPointStub = makeFilterPointStub()
-  const sut = new FilterPointController(filterPointStub)
+  const validatorStub = makeValidatorStub()
+  const sut = new FilterPointController(filterPointStub, validatorStub)
   return {
     sut,
-    filterPointStub
+    filterPointStub,
+    validatorStub
   }
 }
 const fakeRequest: HttpRequest = {
@@ -119,11 +127,14 @@ describe('FilterPointController', () => {
       const response = await sut.handle(fakeRequest)
       expect(response).toEqual(serverError(new Error()))
     })
+  })
 
-    test('should return 404 if not params ', async () => {
-      const { sut } = makeSut()
-      const response = await sut.handle({})
-      expect(response).toEqual(badRequest(new InvalidParamError('items')))
+  describe('Validator', () => {
+    test('Should call Validator with correct value', async () => {
+      const { sut, validatorStub } = makeSut()
+      const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+      await sut.handle(fakeRequest)
+      expect(isValidSpy).toHaveBeenCalledWith(fakeRequest.params)
     })
   })
 })
