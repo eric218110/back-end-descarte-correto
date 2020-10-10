@@ -7,17 +7,21 @@ import {
   ok
 } from '@presentation/helper/http/http-helper'
 import {
-  InvalidParamError,
-  serverError
+  serverError,
+  Validator
 } from '../add-point/add-point-controller-protocols'
 
 export class FilterPointController implements Controller {
-  constructor(private readonly filterPoint: FilterPoint) {}
+  constructor(
+    private readonly filterPoint: FilterPoint,
+    private readonly validator: Validator
+  ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      if (!httpRequest.params) {
-        return badRequest(new InvalidParamError('items'))
+      const isError = this.validator.isValid(httpRequest.params)
+      if (isError) {
+        return badRequest(isError)
       }
       const itemsParams: string = httpRequest.params.items
       const itemsId = itemsParams.replace(' ', '').trim().split(',')
