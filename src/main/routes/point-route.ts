@@ -6,6 +6,7 @@ import { makeFileImageUploadMiddleware } from '@main/factories/middlewares/uploa
 import { makeAddPointController } from '@main/factories/controllers/point/add-point/add-point-controller-factory'
 import { makeLoadPointByIdController } from '@main/factories/controllers/point/load-point-by-id/load-point.by-id-controlle-factory'
 import { makeLoadPointsController } from '@main/factories/controllers/point/load-points/load-points-controller-factory'
+import { makeFilterPointsController } from '@main/factories/controllers/point/filter-points/filter-points-controller-factory'
 
 export default (router: Router): void => {
   const activeUserAuthRouter = adaptMiddleware(makeAuthMiddleware('user'))
@@ -20,4 +21,9 @@ export default (router: Router): void => {
   router.get('/point/:id', addpterRoute(makeLoadPointByIdController()))
 
   router.get('/points', addpterRoute(makeLoadPointsController()))
+
+  router.get(
+    '/points/filter/:items',
+    addpterRoute(makeFilterPointsController())
+  )
 }
