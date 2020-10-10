@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 - <span style='font-size:15px;'>&#10060;</span>
-  <span style='font-size:16px;'>&#10140;</span> Recebe uma requisição do tipo **GET** na rota **/api/points**
+  <span style='font-size:16px;'>&#10140;</span> Recebe uma requisição do tipo **GET** na rota **/api/points/filter**
 - <span style='font-size:15px;'>&#10060;</span>
   <span style='font-size:16px;'>&#10140;</span> Receber os dados via query **city**, **state**, **items**
 - <span style='font-size:15px;'>&#10060;</span>
