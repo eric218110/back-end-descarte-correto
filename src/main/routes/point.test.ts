@@ -208,3 +208,10 @@ describe('GET /api/points', () => {
     await request(app()).get('/api/points').expect(200)
   })
 })
+
+describe('GET /api/points/filter', () => {
+  test('should return 404 if params not exist', async () => {
+    await clearTables()
+    await request(app()).get('/api/points/filter').expect(404)
+  })
+})

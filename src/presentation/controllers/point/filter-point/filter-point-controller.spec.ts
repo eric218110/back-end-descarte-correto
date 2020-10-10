@@ -1,7 +1,12 @@
 import { FilterPoint } from '@domain/usecases/point/filter-point'
-import { noContent, ok } from '@presentation/helper/http/http-helper'
+import {
+  badRequest,
+  noContent,
+  ok
+} from '@presentation/helper/http/http-helper'
 import {
   HttpRequest,
+  InvalidParamError,
   PointModel,
   serverError
 } from '../add-point/add-point-controller-protocols'
@@ -113,6 +118,12 @@ describe('FilterPointController', () => {
       })
       const response = await sut.handle(fakeRequest)
       expect(response).toEqual(serverError(new Error()))
+    })
+
+    test('should return 404 if not params ', async () => {
+      const { sut } = makeSut()
+      const response = await sut.handle({})
+      expect(response).toEqual(badRequest(new InvalidParamError('items')))
     })
   })
 })
