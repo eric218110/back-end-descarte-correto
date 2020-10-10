@@ -210,8 +210,15 @@ describe('GET /api/points', () => {
 })
 
 describe('GET /api/points/filter', () => {
-  test('should return 400 if params not exist', async () => {
+  test('should return 400 if params not is invalid', async () => {
     await clearTables()
     await request(app()).get('/api/points/filter/invalid_params').expect(400)
+  })
+
+  test('should return 204 if params not exist', async () => {
+    await clearTables()
+    await request(app())
+      .get('/api/points/filter/a1d82888-6e1c-46ef-aa07-4cb65a6053a2')
+      .expect(204)
   })
 })
