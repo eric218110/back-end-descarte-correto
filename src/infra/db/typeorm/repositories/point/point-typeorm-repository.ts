@@ -67,7 +67,6 @@ export class PointTypeOrmRepository
   }
 
   async filterByItemsIds(itemsIds: string[]): Promise<PointModel[]> {
-    if (itemsIds.length === 0) return []
     return await this.pointTypeOrmRepository
       .createQueryBuilder('point')
       .innerJoinAndSelect('point.account', 'account')
