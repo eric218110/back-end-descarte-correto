@@ -177,13 +177,14 @@ describe('DbAuthenticate use case', () => {
     await expect(response).rejects.toThrow()
   })
 
-  test('should return accessToken if Encrypter encrypt correct toke with id valid', async () => {
+  test('should return accessToken if Encrypter encrypt correct token with id valid', async () => {
     const { sut, fakeRequest, fakeToken } = makeSut()
     const response = await sut.auth(fakeRequest)
     expect(response).toEqual({
       accessToken: fakeToken,
       email: 'valid_mail@mail.com',
-      name: 'valid_name'
+      name: 'valid_name',
+      role: 'valid_role'
     })
   })
 

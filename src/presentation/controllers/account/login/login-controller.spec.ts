@@ -36,7 +36,8 @@ const makeAuthenticationStub = (): Authentication => {
         resolve({
           accessToken: 'valid_token',
           email: 'any_mail@mail.com',
-          name: 'any_name'
+          name: 'any_name',
+          role: 'any_role'
         })
       )
     }
@@ -105,7 +106,8 @@ describe('LoginController', () => {
       ok({
         accessToken: 'valid_token',
         email: 'any_mail@mail.com',
-        name: 'any_name'
+        name: 'any_name',
+        role: 'any_role'
       })
     )
   })

@@ -7,6 +7,7 @@ export type AuthenticationModelResponse = {
   accessToken: string
   email: string
   name: string
+  role: string
 }
 
 export interface Authentication {

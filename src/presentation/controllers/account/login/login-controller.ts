@@ -35,7 +35,8 @@ export class LoginController implements Controller {
       return ok({
         accessToken: account.accessToken,
         email: account.email,
-        name: account.name
+        name: account.name,
+        role: account.role
       })
     } catch (error) {
       return serverError(error)

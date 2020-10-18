@@ -65,7 +65,8 @@ const makeAuthenticationStub = (): Authentication => {
         resolve({
           accessToken: 'valid_token',
           email: 'valid_email',
-          name: 'valid_name'
+          name: 'valid_name',
+          role: 'any_role'
         })
       )
     }
@@ -135,7 +136,8 @@ describe('Signup Controller', () => {
       ok({
         accessToken: 'valid_token',
         email: 'valid_email',
-        name: 'valid_name'
+        name: 'valid_name',
+        role: 'any_role'
       })
     )
   })
