@@ -19,14 +19,14 @@ const fakeResultPoint = (fakeId: string): PointModelData => ({
   items: [
     {
       id: `any_first_item_id_id:${fakeId}`,
-      image: `any_first_item_image_id:${fakeId}`,
+      description: `any_description_item_id:${fakeId}`,
       title: `any_first_item_title_id:${fakeId}`,
       activeColor: `any_activeColor_id:${fakeId}`,
       color: `any_color`
     },
     {
       id: `any_second_item_id_id:${fakeId}`,
-      image: `any_second_item_image_id:${fakeId}`,
+      description: `any_description_item_id:${fakeId}`,
       title: `any_second_item_title_id:${fakeId}`,
       activeColor: `any_activeColor_id:${fakeId}`,
       color: `any_color`

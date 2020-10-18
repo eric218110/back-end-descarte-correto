@@ -28,14 +28,14 @@ const fakeResultPoint: PointModel = {
   items: [
     {
       id: 'any_first_item_id',
-      image: 'any_first_item_image',
+      description: 'any_description_item',
       title: 'any_first_item_title',
       activeColor: 'any_activeColor',
       color: 'any_color'
     },
     {
       id: 'any_second_item_id',
-      image: 'any_second_item_image',
+      description: 'any_description_item',
       title: 'any_second_item_title',
       activeColor: 'any_activeColor',
       color: 'any_color'

@@ -13,7 +13,7 @@ const makeLoadItemByTitleRepositoryStub = (): LoadItemByTitleRepository => {
       return new Promise(resolve =>
         resolve({
           id: 'any_id',
-          image: 'http://any_image.com',
+          description: 'any_description',
           title: 'any_title',
           activeColor: 'any_activeColor',
           color: 'any_color'
@@ -49,7 +49,7 @@ describe('DbLoadItemByTitleRepository', () => {
     const response = await sut.load('any_title')
     expect(response).toEqual({
       id: 'any_id',
-      image: 'http://any_image.com',
+      description: 'any_description',
       title: 'any_title',
       activeColor: 'any_activeColor',
       color: 'any_color'

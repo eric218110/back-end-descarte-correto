@@ -7,7 +7,7 @@ export class EntityItem implements ItemModelData {
   id: string
 
   @Column()
-  image: string
+  description: string
 
   @Column()
   activeColor: string

@@ -12,11 +12,9 @@ import {
 } from '@presentation/helper/http/http-helper'
 import {
   MissingParamsError,
-  UploadFileError,
   TitleAlreadyExistError
 } from '@presentation/errors'
 import { LoadItemByTitle } from '@domain/usecases/item/load-item-by-title'
-import { StorageRemoveFile } from '@domain/usecases/upload/storage/storage-remove-file'
 
 type SutTypes = {
   addItemStub: AddItem
@@ -24,20 +22,21 @@ type SutTypes = {
   fakeRequest: HttpRequest
   validatorStub: Validator
   loadItemByTitleStub: LoadItemByTitle
-  storageRemoveFileStub: StorageRemoveFile
 }
 
 const fakeItem = (): ItemModel => ({
   id: 'any_id',
-  image: 'http://any_image_1.com',
+  description: 'any_description',
   title: 'any_title_1',
   activeColor: 'any_activeColor',
   color: 'any_color'
 })
 
 const fakeRequest = (): {} => ({
-  title: 'any_title_1',
-  file: 'any_filename.png'
+  activeColor: 'any color',
+  color: 'any secundary color',
+  description: 'any description',
+  title: 'any_title'
 })
 
 const fakeHttpRequest = (): HttpRequest => ({
@@ -71,25 +70,14 @@ const makeLoadItemByTitleStub = (): LoadItemByTitle => {
   return new AddItemStub()
 }
 
-const makeStorageRemoveFileStub = (): StorageRemoveFile => {
-  class StorageRemoveFileStub implements StorageRemoveFile {
-    async remove(filePath: string): Promise<void> {
-      return new Promise(resolve => resolve())
-    }
-  }
-  return new StorageRemoveFileStub()
-}
-
 const makeSut = (): SutTypes => {
   const loadItemByTitleStub = makeLoadItemByTitleStub()
   const addItemStub = makeAddItemStub()
   const validatorStub = makeValidatorStub()
-  const storageRemoveFileStub = makeStorageRemoveFileStub()
   const sut = new AddItemController(
     addItemStub,
     validatorStub,
-    loadItemByTitleStub,
-    storageRemoveFileStub
+    loadItemByTitleStub
   )
   const fakeRequest = fakeHttpRequest()
   return {
@@ -97,8 +85,7 @@ const makeSut = (): SutTypes => {
     fakeRequest,
     addItemStub,
     validatorStub,
-    loadItemByTitleStub,
-    storageRemoveFileStub
+    loadItemByTitleStub
   }
 }
 
@@ -108,10 +95,7 @@ describe('AddItemController', () => {
       const { sut, addItemStub, fakeRequest } = makeSut()
       const addSpy = jest.spyOn(addItemStub, 'add')
       await sut.handle(fakeRequest)
-      expect(addSpy).toHaveBeenCalledWith({
-        image: fakeRequest.body.file,
-        title: fakeRequest.body.title
-      })
+      expect(addSpy).toHaveBeenCalledWith(fakeRequest.body)
     })
 
     test('should return 500 if AddItem throws', async () => {
@@ -159,32 +143,6 @@ describe('AddItemController', () => {
     })
   })
 
-  describe('File', () => {
-    test('Should return 400 if field file not exist in request', async () => {
-      const { sut } = makeSut()
-      const httpResponse = await sut.handle({
-        body: {
-          title: 'any_title_1',
-          error: 'any_error_is_required'
-        }
-      })
-      expect(httpResponse).toEqual(
-        badRequest(new UploadFileError('any_error_is_required'))
-      )
-    })
-
-    test('Should return 400 if error in save file', async () => {
-      const { sut } = makeSut()
-      const httpResponse = await sut.handle({
-        body: {
-          title: 'any_title_1',
-          error: 'any_error'
-        }
-      })
-      expect(httpResponse).toEqual(badRequest(new UploadFileError('any_error')))
-    })
-  })
-
   describe('LoadItemByTitle', () => {
     test('should call LoadItemByTitle with values correctly', async () => {
       const { sut, loadItemByTitleStub, fakeRequest } = makeSut()
@@ -217,43 +175,6 @@ describe('AddItemController', () => {
       const { sut, fakeRequest } = makeSut()
       const response = await sut.handle(fakeRequest)
       expect(response).toEqual(noContent())
-    })
-  })
-
-  describe('Storage', () => {
-    test('should call RemoveFileStorage with correct values if Error on save file', async () => {
-      const { sut, loadItemByTitleStub, storageRemoveFileStub } = makeSut()
-      jest
-        .spyOn(loadItemByTitleStub, 'load')
-        .mockReturnValueOnce(new Promise(resolve => resolve(fakeItem())))
-      const removeSpy = jest.spyOn(storageRemoveFileStub, 'remove')
-      await sut.handle({
-        body: {
-          title: 'any_title_1',
-          file: 'any_filename.png',
-          pathFile: 'any_path_url.file'
-        }
-      })
-      expect(removeSpy).toHaveBeenCalledWith('any_path_url.file')
-    })
-
-    test('should return 500 if RemoveFileStorage throws', async () => {
-      const { sut, storageRemoveFileStub } = makeSut()
-      jest
-        .spyOn(storageRemoveFileStub, 'remove')
-        .mockImplementationOnce(async () => {
-          throw new UploadFileError('any_error_is_required')
-        })
-      const response = await sut.handle({
-        body: {
-          title: 'any_title_1',
-          error: 'any_error_is_required',
-          pathFile: 'any_path_url.file'
-        }
-      })
-      expect(response).toEqual(
-        badRequest(new UploadFileError('any_error_is_required'))
-      )
     })
   })
 })

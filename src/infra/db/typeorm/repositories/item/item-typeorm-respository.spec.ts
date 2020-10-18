@@ -16,14 +16,14 @@ interface SutTypes {
 
 const makeLoadItemsFake = (): LoadItemsModelData => [
   {
-    image: 'http://any_image_1.com',
     title: 'any_title_1',
+    description: 'Description Item',
     activeColor: 'active_color',
     color: 'color'
   },
   {
-    image: 'http://any_image_2.com',
     title: 'any_title_2',
+    description: 'Description Item',
     activeColor: 'active_color',
     color: 'color'
   }
@@ -32,14 +32,14 @@ const makeLoadItemsFake = (): LoadItemsModelData => [
 const fakeItems: ItemModelData[] = [
   {
     id: 'd968e70a-7493-4221-acaa-5225bf2be130',
-    image: 'http://any_image_url_1.com',
+    description: 'Description Item',
     title: 'Any title image 1',
     activeColor: 'activeColor',
     color: 'color'
   },
   {
     id: '6bf16e68-cf14-4b82-a357-4b24774e5d98',
-    image: 'http://any_image_url_2.com',
+    description: 'Description Item',
     title: 'Any title image 2',
     activeColor: 'activeColor',
     color: 'color'
@@ -83,7 +83,7 @@ describe('ItemTypeOrmRepository', () => {
       const { sut, itemsFake } = makeSut()
       await itemTypeOrmRepository.insert({
         title: itemsFake[0].title,
-        image: itemsFake[1].image,
+        description: itemsFake[1].description,
         activeColor: itemsFake[1].activeColor,
         color: itemsFake[1].color
       })
@@ -114,7 +114,6 @@ describe('ItemTypeOrmRepository', () => {
       expect(item).toBeTruthy()
       expect(item.id).toBeTruthy()
       expect(item.title).toBe(itemsFake[0].title)
-      expect(item.image).toBe(itemsFake[0].image)
     })
   })
 
@@ -126,7 +125,6 @@ describe('ItemTypeOrmRepository', () => {
       expect(item).toBeTruthy()
       expect(item.id).toBeTruthy()
       expect(item.title).toEqual(itemsFake[0].title)
-      expect(item.image).toEqual(itemsFake[0].image)
     })
 
     test('should return null if title is different', async () => {
@@ -153,7 +151,7 @@ describe('ItemTypeOrmRepository', () => {
     test('should ItemTypeOrmRepository return null if one or more items not exist', async () => {
       const createFirstItem = itemTypeOrmRepository.create({
         id: 'c989d837-79ac-4f21-9e7a-a5889e0a59cf',
-        image: 'http://one_image.com',
+        description: 'Description Item',
         title: 'One Title',
         color: 'color',
         activeColor: 'activeColor'

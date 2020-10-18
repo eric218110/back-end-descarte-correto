@@ -33,16 +33,16 @@ const makeLoadPointsFake = (): LoadPointsModel[] => [
     items: [
       {
         id: 'any_id_1',
-        image: 'any_image_1',
-        color: 'any_color_1',
         title: 'any_title_1',
+        description: 'any_description_1',
+        color: 'any_color_1',
         activeColor: 'any_activeColor_1'
       },
       {
         id: 'any_id_2',
-        image: 'any_image_2',
-        color: 'any_color_2',
         title: 'any_title_2',
+        description: 'any_description_2',
+        color: 'any_color_2',
         activeColor: 'any_activeColor_2'
       }
     ]

@@ -1,7 +1,7 @@
 export type ItemModel = {
   id: string
-  image: string
   title: string
+  description: string
   color: string
   activeColor: string
 }

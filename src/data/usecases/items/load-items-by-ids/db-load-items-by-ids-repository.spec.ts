@@ -12,21 +12,21 @@ type SutTypes = {
 const resultItems = (): ItemModel[] => [
   {
     id: 'valid_id_1',
-    image: 'http://valid_image_1.com',
+    description: 'description_item_1.com',
     title: 'valid_title_1',
     activeColor: 'valid_activeColor',
     color: 'valid_color'
   },
   {
     id: 'valid_id_2',
-    image: 'http://valid_image_2.com',
+    description: 'description_item_2.com',
     title: 'valid_title_2',
     activeColor: 'valid_activeColor',
     color: 'valid_color'
   },
   {
     id: 'valid_id_3',
-    image: 'http://valid_image_3.com',
+    description: 'description_item_3.com',
     title: 'valid_title_3',
     activeColor: 'valid_activeColor',
     color: 'valid_color'

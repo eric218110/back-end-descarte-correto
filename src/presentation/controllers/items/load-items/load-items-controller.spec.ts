@@ -14,20 +14,20 @@ type SutType = {
 
 const makeLoadItemsFake = (): LoadItemsModel[] => [
   {
-    image: 'http://any_image_1.com',
     title: 'any_title_1',
+    description: 'Any description',
     activeColor: 'any_activeColor',
     color: 'any_color'
   },
   {
-    image: 'http://any_image_2.com',
     title: 'any_title_2',
+    description: 'Any description',
     activeColor: 'any_activeColor',
     color: 'any_color'
   },
   {
-    image: 'http://any_image_3.com',
     title: 'any_title_3',
+    description: 'Any description',
     activeColor: 'any_activeColor',
     color: 'any_color'
   }

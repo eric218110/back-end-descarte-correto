@@ -82,15 +82,15 @@ const makeSut = (): SutTypes => {
 
 const makeFakeItems = async (): Promise<EntityItem[]> => {
   const createFirstItem = itemTypeOrmRepository.create({
-    image: 'http://any_image_first_item.com',
     title: `Any First Item Image ${Date.now()}`,
+    description: 'Description imte',
     activeColor: 'activeColor',
     color: 'color'
   })
   const saveFirstItem = await itemTypeOrmRepository.save(createFirstItem)
   const createSecondItem = itemTypeOrmRepository.create({
-    image: 'http://any_image_Second_item.com',
     title: `Any Second Item Image ${Date.now()}`,
+    description: 'Description imte',
     activeColor: 'activeColor',
     color: 'color'
   })
@@ -147,15 +147,15 @@ describe('PointTypeOrmRepository', () => {
       fakePoint.items = [
         {
           id: 'first_invalid_id_item',
-          image: 'http://first_invalid_image_url.com',
           title: 'First Invalid Image',
+          description: 'Description Item',
           activeColor: 'activeColor',
           color: 'color'
         },
         {
           id: 'seconf_invalid_id_item',
-          image: 'http://seconf_invalid_image_url.com',
           title: 'Seconf Invalid Image',
+          description: 'Description Item',
           activeColor: 'activeColor',
           color: 'color'
         }
@@ -185,14 +185,14 @@ describe('PointTypeOrmRepository', () => {
 
     test('should return point if on success', async () => {
       const createFirstItem = itemTypeOrmRepository.create({
-        image: 'http://any_image_first_item.com',
         title: 'Any First Item Image',
+        description: 'Description Item',
         activeColor: 'activeColor',
         color: 'color'
       })
       const createSecondItem = itemTypeOrmRepository.create({
-        image: 'http://any_image_Second_item.com',
         title: 'Any Second Item Image',
+        description: 'Description Item',
         activeColor: 'activeColor',
         color: 'color'
       })

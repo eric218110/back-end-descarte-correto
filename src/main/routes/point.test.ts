@@ -44,14 +44,14 @@ afterAll(async () => {
 
 const makeFakePoint = async (): Promise<EntityPoint> => {
   const createFirstItem = itemTypeOrmRepository.create({
-    image: 'http://any_image_first_item.com',
     title: `Any First Item Image_${Date.now()}_`,
+    description: 'Any description Item',
     activeColor: 'anyActiveColor',
     color: 'AnyColor'
   })
   const createSecondItem = itemTypeOrmRepository.create({
-    image: 'http://any_image_Second_item.com',
     title: `Any Second Item Image_${Date.now()}_`,
+    description: 'Any description Item',
     activeColor: 'anyActiveColor',
     color: 'AnyColor'
   })
