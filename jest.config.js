@@ -9,6 +9,7 @@ module.exports = {
     '!<rootDir>/src/**/*-protocols.ts',
     '!<rootDir>/src/main/**',
     '!<rootDir>/src/**/protocols/**',
+    '!<rootDir>/src/**/multer-adapter/**',
   ],
   coverageDirectory: "coverage",
   testEnvironment: "node",
