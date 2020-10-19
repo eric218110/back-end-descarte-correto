@@ -12,9 +12,10 @@ const fakeResultPoint: PointModel = {
     accessToken: 'any_accessToken',
     role: 'any_role'
   },
-  name: 'any_name',
+  placeName: 'any_placeName',
   neighborhood: 'any_neighborhood',
-  reference: 'any_reference',
+  referencePoint: 'any_referencePoint',
+  locationType: 'any_locationType',
   street: 'any_street',
   zipCode: 'any_zipCode',
   city: 'any_city',

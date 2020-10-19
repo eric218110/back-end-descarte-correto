@@ -26,12 +26,13 @@ const makeAddPointFake = (): AddPointModelData => ({
     accessToken: 'any_accessToken',
     role: 'any_role'
   },
-  name: 'any_name',
+  placeName: 'valid_name',
+  referencePoint: 'valid referenve point',
+  locationType: 'valid_location_type',
   city: 'any_city',
   state: 'any_state',
   image: 'any_image',
   neighborhood: 'any_neighborhood',
-  reference: 'any_reference',
   street: 'any_street',
   zipCode: 'any_zipCode',
   items: [],
@@ -44,9 +45,10 @@ const makeFakePoint = async (): Promise<EntityPoint> => {
   const fakeItems = await makeFakeItems()
   const fakePoint = {
     account: fakeAccount,
-    name: 'any_name',
+    placeName: 'any_name',
+    referencePoint: 'any referenve point',
+    locationType: 'any_location_type',
     neighborhood: 'any_neighborhood',
-    reference: 'any_reference',
     street: 'any_street',
     zipCode: 'any_zipCode',
     city: 'any_city',
@@ -212,14 +214,15 @@ describe('PointTypeOrmRepository', () => {
       const createPoint = pointTypeOrmRepository.create({
         account: saveAccount,
         items: [saveFirstItem, saveSecondItem],
-        name: 'any_name',
+        placeName: 'any_name',
+        locationType: 'any_location_type',
         city: 'any_city',
         state: 'any_state',
         image: 'any_image',
         latitude: '-7.0235686',
         longitude: '-37.2872277',
         neighborhood: 'Jardim Lacerda',
-        reference: 'Prox a saida',
+        referencePoint: 'Prox a saida',
         street: 'Rua Francisco Alves Queirós',
         zipCode: '58704'
       })

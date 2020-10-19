@@ -35,14 +35,15 @@ export class AddPointController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const {
-        name,
+        placeName,
+        locationType,
+        referencePoint,
         city,
         file,
         latitude,
         longitude,
         state,
         neighborhood,
-        reference,
         street,
         zipCode,
         accountId
@@ -76,10 +77,11 @@ export class AddPointController implements Controller {
         image: file,
         latitude,
         longitude,
-        name,
+        placeName,
+        locationType,
+        referencePoint,
         state,
         neighborhood,
-        reference,
         street,
         zipCode
       }

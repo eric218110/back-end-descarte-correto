@@ -16,7 +16,13 @@ export class EntityPoint implements PointModelData {
   id: string
 
   @Column()
-  name: string
+  placeName: string
+
+  @Column()
+  referencePoint: string
+
+  @Column()
+  locationType: string
 
   @Column()
   image: string
@@ -35,9 +41,6 @@ export class EntityPoint implements PointModelData {
 
   @Column()
   neighborhood: string
-
-  @Column()
-  reference: string
 
   @Column()
   street: string

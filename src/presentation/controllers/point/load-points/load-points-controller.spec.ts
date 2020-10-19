@@ -15,10 +15,11 @@ type SutTypes = {
 const makeLoadPointsFake = (): LoadPointsModel[] => [
   {
     id: 'any_id',
-    name: 'any_name',
+    placeName: 'any_placeName',
     state: 'any_state',
     neighborhood: 'valide_neighborhood',
-    reference: 'valide_reference',
+    referencePoint: 'valide_referencePoint',
+    locationType: 'valide_locationType',
     street: 'valide_street',
     zipCode: 'valide_zipCode',
     image: 'any_image',

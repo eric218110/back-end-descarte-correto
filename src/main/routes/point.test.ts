@@ -71,14 +71,15 @@ const makeFakePoint = async (): Promise<EntityPoint> => {
   const createPoint = pointTypeOrmRepository.create({
     account: saveAccount,
     items: [saveFirstItem, saveSecondItem],
-    name: 'any_name',
+    placeName: 'any_name',
+    referencePoint: 'Próx a saida',
+    locationType: 'company',
     city: 'any_city',
     state: 'any_state',
     image: 'any_image',
     latitude: '7895',
     longitude: '7865',
     neighborhood: 'Jardim Lacerda',
-    reference: 'Próx a saida',
     street: 'Rua Francisco Alves Queirós',
     zipCode: '58704'
   })

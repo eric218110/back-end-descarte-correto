@@ -9,14 +9,15 @@ import { IsUuidValidatorAdapter } from '@infra/validator/uuid-validator/is-uuid-
 export const makeAddPointValidator = (): ValidatorComposite => {
   const validators: Validator[] = []
   for (const field of [
-    'name',
+    'placeName',
+    'referencePoint',
+    'locationType',
     'latitude',
     'longitude',
     'city',
     'state',
     'items',
     'neighborhood',
-    'reference',
     'street',
     'zipCode'
   ]) {

@@ -3,7 +3,9 @@ import { ItemModel } from './item'
 
 export type PointModel = {
   id: string
-  name: string
+  placeName: string
+  referencePoint: string
+  locationType: string
   latitude: string
   longitude: string
   city: string
@@ -12,7 +14,6 @@ export type PointModel = {
   items: ItemModel[]
   account: AccountModel
   neighborhood: string
-  reference: string
   street: string
   zipCode: string
 }

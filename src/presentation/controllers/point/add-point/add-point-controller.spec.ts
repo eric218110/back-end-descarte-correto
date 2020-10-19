@@ -29,14 +29,15 @@ type SutTypes = {
 
 const fakeCreatePoint = (): PointModel => ({
   id: 'valid_id',
-  name: 'valid_name',
+  placeName: 'valid_name',
+  referencePoint: 'valid referenve point',
+  locationType: 'valid_location_type',
   city: 'valid_city',
   image: 'http://valid_image_url.com',
   latitude: 'valid_latitude',
   longitude: 'valid_longitude',
   state: 'valid_state',
   neighborhood: 'valide_neighborhood',
-  reference: 'valide_reference',
   street: 'valide_street',
   zipCode: 'valide_zipCode',
   account: {
@@ -94,14 +95,15 @@ const fakeLoadAccount = (): AccountModel => ({
 const fakeRequest = (): HttpRequest => ({
   body: {
     accountId: 'valid_access_token',
-    name: 'any_name',
+    placeName: 'valid_name',
+    referencePoint: 'valid referenve point',
+    locationType: 'valid_location_type',
     city: 'any_city',
     file: 'http://any_image_url.com',
     latitude: 'any_latitude',
     longitude: 'any_longitude',
     state: 'any_state',
     neighborhood: 'any_neighborhood',
-    reference: 'any_reference',
     street: 'any_street',
     zipCode: 'any_zipCode',
     items: 'any_item_id_1, any_item_id_2'
@@ -110,14 +112,15 @@ const fakeRequest = (): HttpRequest => ({
 
 const fakeAddPoint = (): AddPointModel => ({
   account: fakeLoadAccount(),
-  name: 'any_name',
+  placeName: 'valid_name',
+  referencePoint: 'valid referenve point',
+  locationType: 'valid_location_type',
   city: 'any_city',
   image: 'http://any_image_url.com',
   latitude: 'any_latitude',
   longitude: 'any_longitude',
   state: 'any_state',
   neighborhood: 'any_neighborhood',
-  reference: 'any_reference',
   street: 'any_street',
   zipCode: 'any_zipCode',
   items: fakeLoadItems()
