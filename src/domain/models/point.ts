@@ -8,12 +8,7 @@ export type PointModel = {
   locationType: string
   latitude: string
   longitude: string
-  city: string
-  state: string
   image: string
   items: ItemModel[]
   account: AccountModel
-  neighborhood: string
-  street: string
-  zipCode: string
 }

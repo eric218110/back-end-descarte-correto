@@ -45,17 +45,12 @@ const fakeResultPoint = (fakeId: string): PointModel => ({
     }
   ],
   id: `any_point_id_id:${fakeId}`,
-  city: `any_point_city_id:${fakeId}`,
   locationType: `any_point_locationType_id:${fakeId}`,
   image: `any_point_image_id:${fakeId}`,
   latitude: `any_point_latitude_id:${fakeId}`,
   longitude: `any_point_longitude_id:${fakeId}`,
   placeName: `any_point_placeName_id:${fakeId}`,
-  neighborhood: `any_neighborhood_id:${fakeId}`,
-  referencePoint: `any_referencePoint_id:${fakeId}`,
-  street: `any_street_id:${fakeId}`,
-  zipCode: `any_zipCode_id:${fakeId}`,
-  state: `any_point_state_id:${fakeId}`
+  referencePoint: `any_referencePoint_id:${fakeId}`
 })
 
 const fakeListPointsResult = (): PointModel[] => {

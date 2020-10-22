@@ -33,21 +33,6 @@ export class EntityPoint implements PointModelData {
   @Column()
   longitude: string
 
-  @Column()
-  city: string
-
-  @Column()
-  state: string
-
-  @Column()
-  neighborhood: string
-
-  @Column()
-  street: string
-
-  @Column()
-  zipCode: string
-
   @ManyToMany(type => EntityItem)
   @JoinTable()
   items: EntityItem[]

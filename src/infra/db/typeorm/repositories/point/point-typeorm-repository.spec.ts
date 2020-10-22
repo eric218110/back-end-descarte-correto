@@ -29,12 +29,7 @@ const makeAddPointFake = (): AddPointModelData => ({
   placeName: 'valid_name',
   referencePoint: 'valid referenve point',
   locationType: 'valid_location_type',
-  city: 'any_city',
-  state: 'any_state',
   image: 'any_image',
-  neighborhood: 'any_neighborhood',
-  street: 'any_street',
-  zipCode: 'any_zipCode',
   items: [],
   latitude: '7895',
   longitude: '7865'
@@ -216,15 +211,10 @@ describe('PointTypeOrmRepository', () => {
         items: [saveFirstItem, saveSecondItem],
         placeName: 'any_name',
         locationType: 'any_location_type',
-        city: 'any_city',
-        state: 'any_state',
         image: 'any_image',
         latitude: '-7.0235686',
         longitude: '-37.2872277',
-        neighborhood: 'Jardim Lacerda',
-        referencePoint: 'Prox a saida',
-        street: 'Rua Francisco Alves Queirós',
-        zipCode: '58704'
+        referencePoint: 'Prox a saida'
       })
 
       const savePoint = await pointTypeOrmRepository.save(createPoint)

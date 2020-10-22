@@ -38,14 +38,9 @@ export class AddPointController implements Controller {
         placeName,
         locationType,
         referencePoint,
-        city,
         file,
         latitude,
         longitude,
-        state,
-        neighborhood,
-        street,
-        zipCode,
         accountId
       } = httpRequest.body
 
@@ -73,17 +68,12 @@ export class AddPointController implements Controller {
       const pointCreate: AddPointModel = {
         account,
         items: itemExist,
-        city,
         image: file,
         latitude,
         longitude,
         placeName,
         locationType,
-        referencePoint,
-        state,
-        neighborhood,
-        street,
-        zipCode
+        referencePoint
       }
 
       await this.addPoint.add(pointCreate)

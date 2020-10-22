@@ -32,14 +32,9 @@ const fakeCreatePoint = (): PointModel => ({
   placeName: 'valid_name',
   referencePoint: 'valid referenve point',
   locationType: 'valid_location_type',
-  city: 'valid_city',
   image: 'http://valid_image_url.com',
   latitude: 'valid_latitude',
   longitude: 'valid_longitude',
-  state: 'valid_state',
-  neighborhood: 'valide_neighborhood',
-  street: 'valide_street',
-  zipCode: 'valide_zipCode',
   account: {
     id: 'valid_id_user',
     name: 'valid_name',
@@ -115,14 +110,9 @@ const fakeAddPoint = (): AddPointModel => ({
   placeName: 'valid_name',
   referencePoint: 'valid referenve point',
   locationType: 'valid_location_type',
-  city: 'any_city',
   image: 'http://any_image_url.com',
   latitude: 'any_latitude',
   longitude: 'any_longitude',
-  state: 'any_state',
-  neighborhood: 'any_neighborhood',
-  street: 'any_street',
-  zipCode: 'any_zipCode',
   items: fakeLoadItems()
 })
 

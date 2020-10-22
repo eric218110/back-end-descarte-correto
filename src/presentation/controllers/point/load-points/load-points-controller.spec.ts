@@ -16,16 +16,11 @@ const makeLoadPointsFake = (): LoadPointsModel[] => [
   {
     id: 'any_id',
     placeName: 'any_placeName',
-    state: 'any_state',
-    neighborhood: 'valide_neighborhood',
     referencePoint: 'valide_referencePoint',
     locationType: 'valide_locationType',
-    street: 'valide_street',
-    zipCode: 'valide_zipCode',
     image: 'any_image',
     latitude: 'any_latitude',
     longitude: 'any_longitude',
-    city: 'any_city',
     account: {
       id: 'any_id',
       email: 'any_email',

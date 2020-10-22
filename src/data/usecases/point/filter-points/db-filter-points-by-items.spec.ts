@@ -33,16 +33,12 @@ const fakeResultPoint = (fakeId: string): PointModelData => ({
     }
   ],
   id: `any_point_id_id:${fakeId}`,
-  city: `any_point_city_id:${fakeId}`,
   image: `any_point_image_id:${fakeId}`,
   latitude: `any_point_latitude_id:${fakeId}`,
   longitude: `any_point_longitude_id:${fakeId}`,
-  name: `any_point_name_id:${fakeId}`,
-  neighborhood: `any_neighborhood_id:${fakeId}`,
-  reference: `any_reference_id:${fakeId}`,
-  street: `any_street_id:${fakeId}`,
-  zipCode: `any_zipCode_id:${fakeId}`,
-  state: `any_point_state_id:${fakeId}`
+  referencePoint: `any_reference_point_id:${fakeId}`,
+  locationType: `any_location_type_id:${fakeId}`,
+  placeName: `any_place_name_id:${fakeId}`
 })
 
 const fakeListPointsResult = (): PointModelData[] => {

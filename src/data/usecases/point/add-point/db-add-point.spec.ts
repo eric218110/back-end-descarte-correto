@@ -12,13 +12,8 @@ const fakeAddPoint: AddPointModelData = {
     role: 'any_role'
   },
   placeName: 'any_placeName',
-  neighborhood: 'any_neighborhood',
   referencePoint: 'any_referencePoint',
   locationType: 'any_locationType',
-  street: 'any_street',
-  zipCode: 'any_zipCode',
-  city: 'any_city',
-  state: 'any_state',
   image: 'any_image',
   items: [
     {
@@ -51,13 +46,8 @@ const fakeAddPointResult: PointModelData = {
     role: 'any_role'
   },
   placeName: 'any_placeName',
-  neighborhood: 'any_neighborhood',
   referencePoint: 'any_referencePoint',
   locationType: 'any_locationType',
-  street: 'any_street',
-  zipCode: 'any_zipCode',
-  city: 'any_city',
-  state: 'any_state',
   image: 'any_image',
   items: [
     {
