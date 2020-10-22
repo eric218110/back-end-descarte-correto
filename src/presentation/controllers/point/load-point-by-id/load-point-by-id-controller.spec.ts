@@ -42,17 +42,12 @@ const fakeResultPoint: PointModel = {
     }
   ],
   id: 'any_point_id',
-  city: 'any_point_city',
   image: 'any_point_image',
   latitude: 'any_point_latitude',
   longitude: 'any_point_longitude',
   placeName: 'any_point_placeName',
-  neighborhood: 'any_neighborhood',
   referencePoint: 'any_referencePoint',
-  locationType: 'any_locationType',
-  street: 'any_street',
-  zipCode: 'any_zipCode',
-  state: 'any_point_state'
+  locationType: 'any_locationType'
 }
 
 const fakeRequest: HttpRequest = {
