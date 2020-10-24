@@ -1,5 +1,5 @@
 
-<h1 style="display: flex; align-item: center; justify-content: center; font-weight: bold" align="center">Node api - Tem coleta <img style='margin-left: 10px; width: 40px' src="./docs/logo.png"/></h1>
+<img src="./docs/logo-header.png"/></h1>
 
 [![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link=https://github.com/monteiro-alexandre)](https://github.com/eric218110)
 [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alexandre-monteiro-9a03371a5/)](https://www.linkedin.com/in/eric-silva-mendes-8a6716143/)
