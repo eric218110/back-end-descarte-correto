@@ -31,40 +31,42 @@ const removeFile = [
   'yarn.lock', 
 ]
 
+const {log} = console
+
 exec('yarn install', (error) => {
-  console.log('\x1b[1m', `\x1b[34mBuild MODE PRODUTION \x1b[0m` ,'\x1b[0m');
+  log('\x1b[1m', `\x1b[34mBuild MODE PRODUTION \x1b[0m` ,'\x1b[0m');
   if(error) {
-    console.log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
+    log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
   }else {
     const rimraf = require('rimraf')
-    console.log('\x1b[1m', `\x1b[32mInstall dependencies: OK \x1b[0m` ,'\x1b[0m')
+    log('\x1b[1m', `\x1b[32mInstall dependencies: OK \x1b[0m` ,'\x1b[0m')
     exec('yarn build', (error, stdout, stderr) => {
-      console.log(stdout);
+      log(stdout);
       if(error) {
-        console.log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
+        log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
       }else {
-        console.log('\x1b[1m', `\x1b[32mProcess build: OK \x1b[0m` ,'\x1b[0m')
+        log('\x1b[1m', `\x1b[32mProcess build: OK \x1b[0m` ,'\x1b[0m')
         removeFile.map(file => {
           rimraf(file, (error) => {
             if(error) {
-              console.log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
+              log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
             }else {
-              console.log('\x1b[1m', `\x1b[32mRemove ${file}: OK \x1b[0m` ,'\x1b[0m')
+              log('\x1b[1m', `\x1b[32mRemove ${file}: OK \x1b[0m` ,'\x1b[0m')
             }
           })
         })
         exec('yarn install --production=true', (error) => {
-          console.log('\x1b[1m', `\x1b[32mInstalling production packages \x1b[0m` ,'\x1b[0m')
+          log('\x1b[1m', `\x1b[32mInstalling production packages \x1b[0m` ,'\x1b[0m')
           if (error) {
-            console.log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
+            log('\x1b[1m', `\x1b[31mERRO: ${error} \x1b[0m` ,'\x1b[0m');
           } else {
             
           }
-          console.log('\x1b[1m', `\x1b[34m----------------------------- \x1b[0m` ,'\x1b[0m')
-          console.log('\x1b[1m', `\x1b[32mBuild complete :) \x1b[0m` ,'\x1b[0m')
+          log('\x1b[1m', `\x1b[34m----------------------------- \x1b[0m` ,'\x1b[0m')
+          log('\x1b[1m', `\x1b[32mBuild complete :) \x1b[0m` ,'\x1b[0m')
           exec('pm2 start ecosystem.config.js', (error) => {
-            console.log('\x1b[1m', `\x1b[32mServer Running with PM2 \x1b[0m` ,'\x1b[0m')
-            console.log('\x1b[1m', `\x1b[32mDetails execute pm2 status or pm2 log \x1b[0m` ,'\x1b[0m')
+            log('\x1b[1m', `\x1b[32mServer Running with PM2 \x1b[0m` ,'\x1b[0m')
+            log('\x1b[1m', `\x1b[32mDetails execute pm2 status or pm2 log \x1b[0m` ,'\x1b[0m')
           })
         })
       }

@@ -1,10 +1,16 @@
 const path = require('path')
-const pathMode = process.env.MODE === 'prodution' ? 'dist' : 'src'
+const pathMode = process.env.MODE === 'production' ? 'dist' : 'src'
 const env = require('./'+ pathMode +'/main/config/env')
 
 const DATABASE_ENTITIES = [path.resolve(
   pathMode, 'infra', 'db', 'typeorm', 'entities', '*.entity.*'
 )]
+
+enum modeConnection {
+  TEST="test",
+  DEVELOPMENT="development",
+  PRODUCTION="production"
+}
 
 const connectionTest = {
   type: 'sqlite',
@@ -28,7 +34,7 @@ const connectionDevelopment = {
   logging : ['error'],
 }
 
-const connectionProdution = {
+const connectionProduction = {
   name: 'default',
   type: 'postgres',
   database: process.env.DATABASE,
@@ -41,9 +47,9 @@ const connectionProdution = {
 }
 
 function getConnectionType() {
-  if (process.env.MODE === 'test') return connectionTest
-  if (process.env.MODE === 'development') return connectionDevelopment
-  if (process.env.MODE === 'prodution') return connectionProdution
+  if (process.env.MODE === modeConnection.TEST) return connectionTest
+  if (process.env.MODE === modeConnection.DEVELOPMENT) return connectionDevelopment
+  if (process.env.MODE === modeConnection.PRODUCTION) return connectionProduction
 }
 
 module.exports = getConnectionType()
