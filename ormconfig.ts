@@ -6,10 +6,10 @@ const DATABASE_ENTITIES = [path.resolve(
   pathMode, 'infra', 'db', 'typeorm', 'entities', '*.entity.*'
 )]
 
-enum modeConnection {
-  TEST="test",
-  DEVELOPMENT="development",
-  PRODUCTION="production"
+const modeConnection = {
+  TEST:"test",
+  DEVELOPMENT:"development",
+  PRODUCTION:"production"
 }
 
 const connectionTest = {
