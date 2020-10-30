@@ -6,4 +6,5 @@ globalConfig.json
 temp/*
 !temp/.gitkeep
 .env
+.watchman-cookie-Desktop-49889-228
 __test__
