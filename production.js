@@ -64,8 +64,7 @@ exec('yarn install', (error) => {
           }
           log('\x1b[1m', `\x1b[34m----------------------------- \x1b[0m` ,'\x1b[0m')
           log('\x1b[1m', `\x1b[32mBuild complete :) \x1b[0m` ,'\x1b[0m')
-          // exec('pm2 start ecosystem.config.js', (error) => {
-          exec('yarn start', (error) => {
+          exec('pm2 start ecosystem.config.js', (error) => {
             log('\x1b[1m', `\x1b[32mServer Running with PM2 \x1b[0m` ,'\x1b[0m')
             log('\x1b[1m', `\x1b[32mDetails execute pm2 status or pm2 log \x1b[0m` ,'\x1b[0m')
           })
