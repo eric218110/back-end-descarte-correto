@@ -3,6 +3,7 @@ import { StorageTypeLocalAdapter } from '@infra/upload/storage/local/storage-typ
 import { StorageTypeAwsAdapter } from '@infra/upload/storage/aws/storage-type-aws-adapter'
 import { RemovedImageStorage } from '@data/protocols/upload/storage/remove-image-storage'
 import { SavedImageStorage } from '@data/protocols/upload/storage/saved-image-storage'
+import { UPLOAD } from '@main/constants/upload/upload-contants'
 
 export const makeStorageTypeProxy = (): RemovedImageStorage &
   SavedImageStorage => {
@@ -23,8 +24,7 @@ export const makeStorageTypeProxy = (): RemovedImageStorage &
     AWS_DEFAULT_REGION,
     AWS_SECRET_ACCESS_KEY
   })
-  if (MODE === 'prodution') {
-    return awsTypeStorage
-  }
+  if (MODE === UPLOAD.PRODUCTION) return awsTypeStorage
+  if (MODE === UPLOAD.DEVELOPMENT) return localTypeStorage
   return localTypeStorage
 }
