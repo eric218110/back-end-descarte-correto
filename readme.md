@@ -11,8 +11,7 @@
 <img src="https://www.code-inspector.com/project/12545/status/svg">
 ---
 
-Esta API faz parte do TCC de Eric Silva.
-API bem arquiteturada, definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
+Esta WebApi faz parte do projeto desenvolvido como meu trabalho de conclusão de curso
 
 ## [FrontEnd em React Native ](https://github.com/eric218110/mobile-tcc)
 
@@ -35,7 +34,7 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 - <span style='font-size:25px; color: green;'>&#10004;</span>
 <span style='font-size:16px;'>&#10140;</span> [Listar todos os pontos de coleta](./docs/list-points.md)
 
-> ## Princípios
+> ## Princípios utilizados
 
 * Single Responsibility Principle (SRP)
 * Open Closed Principle (OCP)
@@ -96,7 +95,6 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * Coveralls
 * Validator
 * Express
-* Supertest
 * Husky
 * Lint Staged
 * Eslint
@@ -153,6 +151,15 @@ API bem arquiteturada, definida e desacoplada, utilizando TDD (programação ori
 * Find, FindOne e FindOneAndUpdate
 * Delete
 * Update
+
+> ## Deploy
+
+* AWS EC2
+* AWS S3
+* AWS Route 53
+* AWS RDS
+* PM2
+
 ---
 
 <p style="color: grey" align="center">
