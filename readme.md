@@ -11,8 +11,6 @@
 <img src="https://www.code-inspector.com/project/12545/status/svg">
 ---
 
-Esta WebApi faz parte do projeto desenvolvido como meu trabalho de conclusão de curso
-
 ## [FrontEnd em React Native ](https://github.com/eric218110/mobile-tcc)
 
 > ## Contrução
